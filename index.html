@@ -1,0 +1,963 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Atlas de servicios Azure</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: cabecera con la "gramática" de roles · pestañas · vista activa (mapa de flujo por carriles, matriz, brokers, decisión) · cajón de detalle */
+:root{
+  --bg:#EDF1F5; --surface:#FFFFFF; --surface2:#F5F7FA; --ink:#0F1826; --muted:#566476; --line:#D2DAE3; --line2:#E3E8EE;
+  --accent:#B3245C;
+  --rP:#0B8574; --rB:#6A4BD6; --rC:#C2570E; --rD:#1C68B4; --rS:#4F7A12; --rX:#5E6B7E;
+  --ok:#1E7F45; --warn:#A86A00; --goal:#6A4BD6; --off:#8592A3;
+  --shadow:0 1px 2px rgba(15,24,38,.06),0 6px 20px rgba(15,24,38,.06);
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1118; --surface:#121B26; --surface2:#17222F; --ink:#E5ECF3; --muted:#93A2B4; --line:#253447; --line2:#1D2A39;
+  --accent:#F2729F;
+  --rP:#35C6B0; --rB:#A491FF; --rC:#F5994D; --rD:#5EA9F2; --rS:#A3CF57; --rX:#98A6B9;
+  --ok:#4FCB83; --warn:#E8B04A; --goal:#A491FF; --off:#6B7A8D;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1118; --surface:#121B26; --surface2:#17222F; --ink:#E5ECF3; --muted:#93A2B4; --line:#253447; --line2:#1D2A39;
+  --accent:#F2729F;
+  --rP:#35C6B0; --rB:#A491FF; --rC:#F5994D; --rD:#5EA9F2; --rS:#A3CF57; --rX:#98A6B9;
+  --ok:#4FCB83; --warn:#E8B04A; --goal:#A491FF; --off:#6B7A8D;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+.wrap{max-width:1280px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+code,.mono{font-family:var(--f-mono);font-size:.88em}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- header ---------- */
+header.top{padding-block:36px 20px;display:grid;gap:22px}
+.title-row{display:flex;flex-wrap:wrap;gap:12px 32px;align-items:end;justify-content:space-between}
+h1{font-size:clamp(34px,5.4vw,60px);font-weight:800;font-stretch:72%;line-height:.95;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{max-width:62ch;color:var(--muted);margin:0;font-size:15.5px}
+.grammar{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow)}
+.gr-step{flex:1 1 140px;min-width:0;display:grid;gap:4px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--rc) 9%,var(--surface))}
+.gr-step b{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-stretch:85%;font-size:17px;font-weight:700}
+.gr-step span{color:var(--muted);font-size:12.5px;line-height:1.35}
+.gr-arrow{display:flex;align-items:center;color:var(--muted);font-family:var(--f-mono)}
+.gr-x{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:8px 12px;border-top:1px dashed var(--line);margin-top:4px;color:var(--muted);font-size:13px}
+.gr-x b{color:var(--ink);font-weight:600}
+
+.g{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;font-family:var(--f-mono);font-size:11.5px;font-weight:600;
+  background:var(--rc);color:var(--surface);flex:none;line-height:1}
+[data-r="P"]{--rc:var(--rP)} [data-r="B"]{--rc:var(--rB)} [data-r="C"]{--rc:var(--rC)}
+[data-r="D"]{--rc:var(--rD)} [data-r="S"]{--rc:var(--rS)} [data-r="X"]{--rc:var(--rX)}
+
+/* ---------- tabs ---------- */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding-block:10px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.tabbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tab{border:1px solid transparent;background:transparent;padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:500;color:var(--muted);display:flex;gap:8px;align-items:center}
+.tab:hover{color:var(--ink);background:var(--surface)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.tab small{font-family:var(--f-mono);font-size:11px;opacity:.7}
+.spark-toggle{margin-left:auto;display:flex;gap:4px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.spark-toggle span{font-size:12px;color:var(--muted);padding:0 6px 0 8px}
+.spark-toggle button{border:0;background:transparent;border-radius:999px;padding:5px 10px;font-size:12.5px;cursor:pointer;color:var(--muted)}
+.spark-toggle button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+
+/* ---------- MAP ---------- */
+.map{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;align-items:start}
+.arch-list{display:grid;gap:2px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)}
+.arch-btn{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;text-align:left;border:0;background:transparent;padding:9px 10px;border-radius:9px;cursor:pointer}
+.arch-btn .num{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.arch-btn .nm{font-weight:500;line-height:1.25}
+.arch-btn:hover{background:var(--surface)}
+.arch-btn[aria-current="true"]{background:var(--surface);box-shadow:var(--shadow)}
+.arch-btn[aria-current="true"] .nm{font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--sc)}
+[data-sp="usa"]{--sc:var(--ok)} [data-sp="parcial"]{--sc:var(--warn)} [data-sp="objetivo"]{--sc:var(--goal)} [data-sp="no"]{--sc:var(--off)}
+
+.arch-head{display:grid;gap:10px;margin-bottom:22px}
+.arch-head h2{font-size:clamp(28px,3.6vw,42px);font-weight:800;font-stretch:78%;line-height:1}
+.arch-when{font-size:17px;max-width:68ch;margin:0}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 8px;font-size:12.5px;background:var(--surface)}
+
+.flow{display:grid;align-items:stretch}
+.lane{min-width:0;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--rc);border-radius:10px;padding:12px 10px 10px;display:flex;flex-direction:column;gap:8px}
+.lane-h{display:flex;gap:8px;align-items:center;padding:0 2px 4px}
+.lane-h h3{font-size:15px;font-weight:700;font-stretch:88%;line-height:1.15}
+.lane-h small{display:block;font-family:var(--f-body);font-weight:400;font-stretch:100%;font-size:11.5px;color:var(--muted)}
+.chip{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;align-items:start;text-align:left;width:100%;border:1px solid var(--line2);
+  background:color-mix(in srgb,var(--rc) 7%,var(--surface));border-radius:8px;padding:7px 8px;cursor:pointer;transition:border-color .15s,transform .15s,opacity .2s}
+.chip:hover{border-color:var(--rc);transform:translateY(-1px)}
+.chip .g{grid-row:span 2;width:18px;height:18px;font-size:10.5px;margin-top:1px}
+.chip .cn{font-weight:600;font-size:13.5px;line-height:1.25;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.chip .cnote{font-size:12px;color:var(--muted);line-height:1.3}
+.chip .dot{width:7px;height:7px}
+.dim .chip.off,.dim .bk-item.off{opacity:.28}
+.arrow{position:relative;min-height:24px}
+.arrow::before{content:"";position:absolute;left:4px;right:8px;top:50%;border-top:1.5px dashed var(--muted);opacity:.6}
+.arrow::after{content:"";position:absolute;right:3px;top:calc(50% - 5px);border:5px solid transparent;border-left:7px solid var(--muted)}
+.pkt{position:absolute;top:calc(50% - 3.5px);left:4px;width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pkt 2.4s linear infinite}
+@keyframes pkt{0%{left:2px;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% - 12px);opacity:0}}
+.cross{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 12px;border:1px dashed var(--line);border-radius:10px;background:var(--surface2)}
+.cross .lbl{display:flex;gap:8px;align-items:center;font-weight:600;font-size:13px;margin-right:6px}
+.cross .chip{width:auto;grid-template-columns:auto auto;padding:5px 9px}
+.cross .chip .g{grid-row:auto}
+.cross .chip .cnote{display:none}
+
+.notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 32px;margin-top:30px}
+.note h4{margin:0 0 8px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;padding-top:10px;border-top:1px solid var(--line)}
+.note ul{margin:0;padding-left:18px;display:grid;gap:5px}
+.note li::marker{color:var(--muted)}
+.note.bad li::marker{content:"✕  ";color:var(--accent)}
+.note.spark p{margin:0}
+.phrase{grid-column:1/-1;margin:0;padding:16px 20px;border-left:3px solid var(--accent);background:var(--surface);border-radius:0 10px 10px 0;font-size:16px}
+.phrase span{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+
+/* ---------- MATRIX ---------- */
+.mx-tools{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-bottom:14px}
+.mx-tools input,.mx-tools select{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 10px;color:var(--ink);font:inherit;font-size:14px}
+.mx-tools input{min-width:0;flex:1 1 200px;max-width:280px}
+.rolefilter{display:flex;flex-wrap:wrap;gap:4px}
+.rolefilter button{display:flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px 3px 4px;cursor:pointer;font-size:12.5px}
+.rolefilter button[aria-pressed="true"]{border-color:var(--rc);box-shadow:inset 0 0 0 1px var(--rc)}
+.mx-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table.mx{border-collapse:separate;border-spacing:0;width:100%;min-width:900px;font-size:13.5px}
+.mx th,.mx td{border-bottom:1px solid var(--line2);padding:6px 6px;text-align:center}
+.mx thead th{position:sticky;top:0;background:var(--surface);z-index:2;vertical-align:bottom;font-weight:600;font-size:12px;padding-top:12px}
+.mx thead th button{border:0;background:transparent;cursor:pointer;font-weight:600;font-size:12px;line-height:1.2;padding:4px;border-radius:6px}
+.mx thead th button:hover{color:var(--accent)}
+.mx th.svc,.mx td.svc{position:sticky;left:0;background:var(--surface);text-align:left;z-index:1;min-width:210px;border-right:1px solid var(--line2)}
+.mx thead th.svc{z-index:3}
+.mx td.svc button{border:0;background:transparent;cursor:pointer;text-align:left;display:flex;gap:8px;align-items:center;padding:2px 0;font-weight:500}
+.mx td.svc button:hover{color:var(--accent)}
+.mx td.svc small{display:block;color:var(--muted);font-size:11px;font-weight:400}
+.mx tr.cat td{background:var(--surface2);text-align:left;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 10px;position:static}
+.mx tr.cat td:first-child{position:sticky;left:0}
+.cell{display:inline-flex;gap:2px;justify-content:center}
+.cell .g{width:19px;height:19px;font-size:10.5px}
+.mx .hl{background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.mx tbody tr:not(.cat):hover td{background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.mx .cnt{font-family:var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.mx-legend{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--muted);font-size:12.5px;margin-top:12px}
+.mx-legend span{display:flex;gap:6px;align-items:center}
+
+/* ---------- BROKERS ---------- */
+.bk-pick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+.bk-pick button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;cursor:pointer;font-weight:500;font-size:13.5px;display:flex;gap:7px;align-items:center}
+.bk-pick button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.hub{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,1.15fr) 40px minmax(0,1fr);align-items:center}
+.hub-side{display:grid;gap:6px;min-width:0}
+.hub-side h3{font-size:14px;font-stretch:88%;font-weight:700;display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.bk-item{display:grid;grid-template-columns:1fr;gap:1px;text-align:left;border:1px solid var(--line2);background:var(--surface);border-radius:8px;padding:7px 10px;cursor:pointer;transition:border-color .15s,opacity .2s}
+.bk-item:hover{border-color:var(--rc)}
+.bk-item b{font-size:13.5px;font-weight:600;display:flex;gap:6px;align-items:center}
+.bk-item span{font-size:12px;color:var(--muted);line-height:1.3}
+.hub .arrow{align-self:stretch}
+.core{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--rB);border-radius:12px;padding:16px;box-shadow:var(--shadow);min-width:0}
+.core h3{font-size:24px;font-weight:800;font-stretch:80%;line-height:1.05}
+.core .sub{color:var(--muted);font-size:13px;margin:4px 0 12px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:13.5px}
+.kv dt{color:var(--muted);font-size:12.5px}
+.kv dd{margin:0;font-weight:500}
+.core .use{margin-top:14px;display:grid;gap:8px;font-size:13.5px}
+.core .use p{margin:0}
+.core .use b{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:block;color:var(--muted);font-weight:500}
+.cmp-h{margin:40px 0 12px;font-size:22px;font-weight:800;font-stretch:82%}
+.cmp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table.cmp{border-collapse:collapse;width:100%;min-width:1000px;font-size:13px}
+.cmp th,.cmp td{padding:8px 10px;border-bottom:1px solid var(--line2);text-align:left;vertical-align:top}
+.cmp thead th{font-weight:600;font-size:12.5px;background:var(--surface2)}
+.cmp thead th button{border:0;background:transparent;font-weight:600;cursor:pointer;padding:0;text-align:left}
+.cmp tbody th{color:var(--muted);font-weight:500;white-space:nowrap;position:sticky;left:0;background:var(--surface)}
+.cmp .cur{background:color-mix(in srgb,var(--rB) 9%,var(--surface))}
+
+/* ---------- DECIDE ---------- */
+.decide{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;align-items:start}
+.trail{display:grid;gap:10px}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.qcard.past{background:transparent;padding:10px 16px;border-style:dashed}
+.qcard h3{font-size:19px;font-stretch:88%;font-weight:700;margin-bottom:10px}
+.qcard.past h3{font-size:14px;color:var(--muted);font-weight:600;margin-bottom:2px}
+.qcard.past p{margin:0;font-weight:500}
+.opts{display:grid;gap:6px}
+.opt{border:1px solid var(--line);background:var(--surface2);border-radius:9px;padding:10px 12px;text-align:left;cursor:pointer;font-weight:500}
+.opt:hover{border-color:var(--accent);background:var(--surface)}
+.reset{border:0;background:transparent;color:var(--accent);cursor:pointer;font-weight:600;padding:4px 0;justify-self:start}
+.result{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);display:grid;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)}
+.result h3{font-size:30px;font-weight:800;font-stretch:76%;line-height:1}
+.result p{margin:0}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.chain .chip{width:auto;grid-template-columns:auto auto;padding:6px 10px}
+.chain .chip .g{grid-row:auto}
+.chain .chip .cnote{display:none}
+.chain i{color:var(--muted);font-style:normal;font-family:var(--f-mono)}
+.result .avoid{border-left:3px solid var(--accent);padding-left:12px;color:var(--muted)}
+.result .actions{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--line);background:var(--surface2);border-radius:8px;padding:7px 12px;cursor:pointer;font-weight:500;font-size:13.5px}
+.btn:hover{border-color:var(--accent)}
+.empty{color:var(--muted)}
+
+/* ---------- DRAWER ---------- */
+.scrim{position:fixed;inset:0;background:rgba(8,12,18,.35);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);z-index:50;background:var(--surface);border-left:1px solid var(--line);
+  box-shadow:-10px 0 40px rgba(0,0,0,.15);transform:translateX(105%);transition:transform .25s ease;overflow-y:auto;
+  padding:calc(env(safe-area-inset-top,0px) + 20px) max(22px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 30px) 22px;display:grid;gap:16px;align-content:start}
+.drawer.on{transform:none}
+.dr-close{justify-self:end;border:1px solid var(--line);background:var(--surface2);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:13px}
+.drawer h2{font-size:30px;font-weight:800;font-stretch:78%;line-height:1}
+.drawer .cat{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.drawer p{margin:0}
+.dsec{display:grid;gap:6px}
+.dsec h4{margin:0;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;display:flex;gap:8px;align-items:center}
+.dsec.tip{background:color-mix(in srgb,var(--accent) 7%,var(--surface));border-radius:10px;padding:12px 14px}
+.in-archs{display:grid;gap:4px}
+.in-archs button{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line2);background:var(--surface2);border-radius:8px;padding:6px 10px;cursor:pointer;text-align:left;font-size:13.5px}
+.in-archs button:hover{border-color:var(--accent)}
+.in-archs .cell{gap:3px}
+
+footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+@media (max-width: 980px){
+  .map{grid-template-columns:1fr}
+  .arch-list{position:static;display:flex;flex-wrap:wrap;gap:4px}
+  .arch-btn{grid-template-columns:auto auto auto;padding:6px 10px;border:1px solid var(--line);background:var(--surface)}
+  .decide{grid-template-columns:1fr}
+  .result{position:static}
+}
+@media (max-width: 860px){
+  .flow{grid-template-columns:1fr !important}
+  .flow .arrow{min-height:26px}
+  .flow .arrow::before{left:50%;right:auto;top:2px;bottom:8px;border-top:0;border-left:1.5px dashed var(--muted)}
+  .flow .arrow::after{left:calc(50% - 5px);right:auto;top:auto;bottom:0;border:5px solid transparent;border-top:7px solid var(--muted)}
+  .flow .pkt{left:calc(50% - 3px);animation-name:pktv}
+  .hub{grid-template-columns:1fr}
+  .hub .arrow{min-height:26px}
+  .hub .arrow::before{left:50%;right:auto;top:2px;bottom:8px;border-top:0;border-left:1.5px dashed var(--muted)}
+  .hub .arrow::after{left:calc(50% - 5px);right:auto;top:auto;bottom:0;border:5px solid transparent;border-top:7px solid var(--muted)}
+  .hub .pkt{left:calc(50% - 3px);animation-name:pktv}
+  .notes{grid-template-columns:1fr}
+  .spark-toggle{margin-left:0}
+}
+@keyframes pktv{0%{top:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:calc(100% - 12px);opacity:0}}
+@media (prefers-reduced-motion: reduce){.pkt{animation:none;display:none}.chip,.drawer,.scrim{transition:none}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="title-row">
+      <div>
+        <div class="eyebrow">Examen backend .NET + Azure · aterrizado en SPARK</div>
+        <h1>Atlas de servicios <em>Azure</em></h1>
+      </div>
+      <p class="lede">Toda arquitectura en Azure se lee como una frase: alguien <b>produce</b>, algo <b>transporta</b>, alguien <b>consume</b>, algo <b>guarda</b> el estado y algo lo <b>entrega</b> a una persona. Identidad, red y observabilidad envuelven todo. Un mismo servicio cambia de papel según la arquitectura.</p>
+    </div>
+    <div class="grammar" id="grammar"></div>
+  </header>
+
+  <nav class="tabs" aria-label="Vistas">
+    <div class="tabbar" role="tablist">
+      <button class="tab" role="tab" data-v="mapa" id="tab-mapa">Arquitecturas <small>10</small></button>
+      <button class="tab" role="tab" data-v="matriz" id="tab-matriz">Matriz de roles <small>servicio × arquitectura</small></button>
+      <button class="tab" role="tab" data-v="brokers" id="tab-brokers">Productores y consumidores <small>por broker</small></button>
+      <button class="tab" role="tab" data-v="decidir" id="tab-decidir">¿Qué uso?</button>
+      <div class="spark-toggle" role="group" aria-label="Resaltar SPARK">
+        <span>Resaltar SPARK</span>
+        <button data-sk="off" aria-pressed="true">No</button>
+        <button data-sk="hoy" aria-pressed="false">Hoy</button>
+        <button data-sk="obj" aria-pressed="false">+ Objetivo AKS</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="v-mapa" class="view"></section>
+    <section id="v-matriz" class="view" hidden></section>
+    <section id="v-brokers" class="view" hidden></section>
+    <section id="v-decidir" class="view" hidden></section>
+  </main>
+
+  <footer>
+    <span>Fuente: <code>preparacion-examen-backend-azure.md</code>, <code>teoria-examen-backend-azure.md</code> y <code>azure-messaging-architecture/README.md</code> del workspace teamventi.</span>
+    <span>Límites y cifras: referencias de Azure a octubre de 2026; verifica el tier antes de citarlos.</span>
+  </footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Detalle del servicio"></aside>
+
+<script>
+/* ===================== DATOS ===================== */
+const ROLES = {
+  P:{n:'Produce',     d:'Emite eventos, mensajes, requests o cambios de datos'},
+  B:{n:'Transporta',  d:'Broker, gateway o canal: recibe, retiene y entrega'},
+  C:{n:'Consume',     d:'Cómputo que reacciona y procesa'},
+  D:{n:'Guarda',      d:'Estado, event store, cache o modelo de lectura'},
+  S:{n:'Entrega',     d:'Llega a personas: UI, dashboards, push'},
+  X:{n:'Transversal', d:'Identidad, red, secretos, observabilidad, CI/CD'}
+};
+const SP = {usa:'SPARK lo usa hoy', parcial:'SPARK: parcial', objetivo:'SPARK: arquitectura objetivo', no:'No está en SPARK'};
+
+const S = {
+  // Mensajería
+  eventgrid:{n:'Event Grid',cat:'Mensajería',sp:'usa',d:'Enrutador push de eventos discretos (pub/sub) con filtros por tipo y subject.',
+    p:'Entrega a handlers: webhook, Functions, Logic Apps, Service Bus, Storage Queue, Event Hubs, Hybrid Connections.',
+    c:'Eventos de sistema de servicios Azure (Storage, ACS, Key Vault, ACR…), custom topics propios y partner topics.',
+    k:'At-least-once · sin orden · reintentos con backoff hasta 24 h · dead-letter a Blob · 1 MB por evento · CloudEvents 1.0.',
+    net:'Azure.Messaging.EventGrid → EventGridPublisherClient', rbac:'EventGrid Data Sender',
+    tip:'Es un router, no una cola: no guarda mensajes para que los pidas. Si el consumidor necesita su propio ritmo u orden, pon Service Bus como handler.'},
+  egns:{n:'Event Grid namespaces',cat:'Mensajería',sp:'no',d:'Broker MQTT gestionado (v3.1.1 y v5) y namespace topics con entrega pull o push.',
+    p:'Push a Event Hubs o webhooks; pull con receive / acknowledge / release / reject.',
+    c:'Dispositivos y apps por MQTT; publicación HTTP en CloudEvents.',
+    k:'Pull con lock y reintentos, MQTT QoS 0 y 1, topics jerárquicos, autenticación por certificado o Entra ID.',
+    tip:'La entrega pull le da semántica de cola a Event Grid: el consumidor jala a su ritmo y confirma.'},
+  servicebus:{n:'Service Bus',cat:'Mensajería',sp:'objetivo',d:'Broker empresarial: colas (punto a punto) y topics con suscripciones filtradas.',
+    p:'Entrega a consumidores pull (ServiceBusProcessor), Functions, Logic Apps; avisa a Event Grid cuando hay mensajes sin listener (Premium).',
+    c:'Mensajes de tu API, de Event Grid (como handler), IoT Hub, Stream Analytics y Logic Apps.',
+    k:'Peek-lock · FIFO con sessions · duplicate detection · DLQ · transacciones · mensajes programados · 256 KB Standard / 100 MB Premium.',
+    net:'Azure.Messaging.ServiceBus → ServiceBusSender / ServiceBusProcessor', rbac:'Azure Service Bus Data Sender / Data Receiver',
+    tip:'SessionId = CallConnectionId: una sola instancia procesa en orden los eventos de esa llamada. Reemplaza al TaskQueuer en memoria.'},
+  eventhubs:{n:'Event Hubs',cat:'Mensajería',sp:'parcial',d:'Log distribuido y particionado para ingesta masiva, compatible con Kafka.',
+    p:'Lo leen consumer groups independientes (EventProcessorClient, Functions, Stream Analytics, Fabric, Databricks); Capture escribe a Blob/ADLS.',
+    c:'Apps (SDK o Kafka), change notifications de Graph, IoT Hub, diagnostic settings de Azure Monitor, APIM.',
+    k:'Orden por partición · retención 1–7 días Standard y hasta 90 en Premium/Dedicated · replay por offset · 1 MB por evento.',
+    net:'Azure.Messaging.EventHubs + .Processor', rbac:'Azure Event Hubs Data Sender / Data Receiver',
+    tip:'El broker no borra al leer: cada lector lleva su posición (checkpoint). Por eso no hay DLQ ni lock por mensaje.'},
+  storagequeue:{n:'Storage Queue',cat:'Mensajería',sp:'no',d:'Cola simple y barata dentro de una Storage Account.',
+    p:'La leen Functions (QueueTrigger), WebJobs, Logic Apps y workers escalados con KEDA.',
+    c:'QueueClient de tu app, Event Grid (como handler), bindings de salida de Functions.',
+    k:'64 KB · sin orden · visibility timeout · TTL de 7 días por defecto · poison queue la crea Functions tras 5 intentos.',
+    net:'Azure.Storage.Queues', rbac:'Storage Queue Data Message Sender / Processor',
+    tip:'Si necesitas DLQ real, orden, duplicados o más de 64 KB, sube a Service Bus.'},
+  iothub:{n:'IoT Hub',cat:'Mensajería',sp:'no',d:'Gateway bidireccional para millones de dispositivos, cada uno con identidad propia.',
+    p:'Ruteo al endpoint integrado (compatible con Event Hubs), Event Hubs, Service Bus, Blob y Cosmos DB; eventos de ciclo de vida a Event Grid.',
+    c:'Telemetría device-to-cloud por MQTT, AMQP o HTTPS.',
+    k:'Device twins, direct methods, mensajes cloud-to-device, X.509 por dispositivo, 256 KB por mensaje.',
+    tip:'IoT Hub = Event Hubs + gestión de dispositivos. Sin gestión de dispositivos, basta Event Grid MQTT.'},
+  // Tiempo real
+  signalr:{n:'SignalR Service',cat:'Tiempo real',sp:'usa',d:'Push en tiempo real (WebSockets) a navegadores y apps, gestionado.',
+    p:'Mensajes a clientes, usuarios y grupos; eventos de conexión a Event Grid; upstream a Functions en modo serverless.',
+    c:'Mensajes del backend: IHubContext, REST API o binding de salida de Functions.',
+    k:'At-most-once al cliente · sin persistencia · el cliente se resincroniza al reconectar.',
+    net:'Microsoft.Azure.SignalR', tip:'Elimina el backplane: N réplicas de la API comparten las conexiones a través del servicio. En SPARK: hub /callshub.'},
+  webpubsub:{n:'Web PubSub',cat:'Tiempo real',sp:'no',d:'WebSockets nativos y pub/sub para cualquier cliente, sin protocolo SignalR.',
+    p:'Mensajes a conexiones, grupos y usuarios.', c:'Backend por SDK/REST; eventos de clientes vía event handlers.',
+    k:'At-most-once · grupos · subprotocolos JSON y binarios.', tip:'Úsalo cuando el cliente no es .NET/JS con SignalR (IoT ligero, juegos, otros lenguajes).'},
+  notifhubs:{n:'Notification Hubs',cat:'Tiempo real',sp:'no',d:'Push móvil a escala sobre APNs, FCM y WNS.',
+    p:'Notificaciones del sistema a dispositivos.', c:'Backend con plantillas y tags por usuario o tenant.',
+    k:'Best effort: el sistema operativo decide cuándo mostrar.', tip:'Sirve para avisar, no para entregar datos críticos.'},
+  // Cómputo
+  aks:{n:'AKS',cat:'Cómputo',sp:'objetivo',d:'Kubernetes administrado para microservicios en contenedores.',
+    p:'Lo que publique tu código: Service Bus, Event Grid, Event Hubs, gRPC.',
+    c:'Webhooks por ingress, workers de colas y streams, gRPC interno.',
+    k:'HPA, KEDA, PodDisruptionBudget, zonas de disponibilidad, Workload Identity, health probes.',
+    tip:'Escalar a N pods exige estado externo: un SemaphoreSlim static solo protege un proceso.'},
+  aca:{n:'Container Apps',cat:'Cómputo',sp:'no',d:'Contenedores serverless sobre Kubernetes, con KEDA y Dapr integrados.',
+    p:'Igual que AKS; además Jobs disparados por eventos.', c:'HTTP, colas y streams; escala a cero por reglas KEDA.',
+    k:'Sin operar el clúster · revisiones y split de tráfico · Dapr y KEDA nativos.',
+    tip:'Es la respuesta al "punto medio" entre App Service y AKS.'},
+  appservice:{n:'App Service',cat:'Cómputo',sp:'usa',d:'PaaS para web apps y APIs; WebJobs para tareas en segundo plano.',
+    p:'Requests salientes y publicación desde tu código.', c:'HTTP y webhooks; colas vía WebJobs SDK o BackgroundService.',
+    k:'Deployment slots, autoescalado, VNet integration, Managed Identity.',
+    tip:'Escalar out funciona igual que en AKS: cualquier IMemoryCache o BackgroundService se duplica por instancia.'},
+  functions:{n:'Azure Functions',cat:'Cómputo',sp:'usa',d:'Cómputo por evento con triggers y bindings.',
+    p:'Bindings de salida: Service Bus, Event Hubs, Event Grid, Storage, Cosmos DB, SignalR, SQL.',
+    c:'Triggers: HTTP, Timer, Event Grid, Service Bus, Event Hubs, Queue, Blob, Cosmos DB change feed, SQL, Redis.',
+    k:'Flex Consumption, escalado por evento, cold start, isolated worker en .NET.',
+    tip:'Es productor y consumidor a la vez: consume de un trigger y produce por un binding. En SPARK: EventGridAzureFunction.'},
+  durable:{n:'Durable Functions',cat:'Cómputo',sp:'no',d:'Orquestaciones con estado escritas como código (event sourcing interno).',
+    p:'Llama actividades, sub-orquestaciones y timers durables.', c:'Eventos externos (WaitForExternalEvent) y resultados de actividades.',
+    k:'Replay determinista; estado en Storage, MSSQL o Durable Task Scheduler.',
+    tip:'Chaining, fan-out/fan-in, monitor, human interaction. Una saga es un orquestador con compensaciones en el catch.'},
+  logicapps:{n:'Logic Apps',cat:'Integración',sp:'no',d:'Workflows low-code con cientos de conectores.',
+    p:'Acciones hacia cualquier conector (SaaS, Service Bus, SQL…).', c:'Triggers de Service Bus, Event Grid, HTTP, SaaS.',
+    k:'Standard (single-tenant, en VNet) o Consumption.', tip:'Buena orquestación cuando el flujo es integración entre sistemas y no lógica de dominio.'},
+  keda:{n:'KEDA',cat:'Cómputo',sp:'objetivo',d:'Autoescalado por eventos para Kubernetes (add-on de AKS, nativo en Container Apps).',
+    c:'Métricas de Service Bus (longitud), Event Hubs (lag), Storage Queue, Redis, Prometheus.',
+    k:'Escala a cero y desde cero.', tip:'HPA escala por CPU; KEDA escala por el trabajo pendiente. Para workers, KEDA.'},
+  dapr:{n:'Dapr',cat:'Integración',sp:'no',d:'Runtime sidecar: pub/sub, state, bindings, actores y workflows con componentes intercambiables.',
+    p:'Publica a Service Bus, Event Hubs o Redis a través de una sola API.', c:'Suscripciones declarativas.',
+    k:'Componentes en YAML · disponible en Container Apps y como extensión de AKS.', tip:'Cambias de broker sin tocar código: solo el componente.'},
+  // Entrada
+  apim:{n:'API Management',cat:'Entrada',sp:'no',d:'Gateway de APIs: seguridad, cuotas, versiones y transformación.',
+    p:'Llamadas al backend; política log-to-eventhub.', c:'HTTP de clientes externos (REST, GraphQL, WebSocket).',
+    k:'Validación JWT, rate limit, caché, productos y suscripciones.', tip:'Rate limit y validación de tokens en el borde, antes de tu API.'},
+  frontdoor:{n:'Front Door',cat:'Entrada',sp:'no',d:'Entrada global: CDN, balanceo L7 por anycast y WAF.',k:'Multi-región, failover, reglas de caché.',
+    tip:'Global y en el borde; Application Gateway es regional y dentro de tu VNet.'},
+  appgw:{n:'Application Gateway',cat:'Entrada',sp:'objetivo',d:'Balanceador L7 regional con WAF, dentro de la VNet; ingress de AKS.',
+    k:'TLS, WAF, rutas por path, AGIC / Application Gateway for Containers.', tip:'En el diseño objetivo: rutas /api y /events hacia AKS.'},
+  // Datos
+  sql:{n:'Azure SQL',cat:'Datos',sp:'usa',d:'SQL Server como PaaS con HA, réplicas y backups administrados.',
+    p:'Tabla Outbox, Change Tracking (trigger SQL de Functions), CDC hacia Debezium o Event Hubs.',
+    c:'Escrituras de comandos y proyecciones de lectura.',
+    k:'ACID local · zone redundancy · failover groups · réplica ApplicationIntent=ReadOnly.',
+    net:'EF Core + "Authentication=Active Directory Default"', rbac:'Usuario contenido de Entra ID',
+    tip:'Lock entre pods sin infraestructura extra: sp_getapplock o UPDATE … WHERE ReservedBy IS NULL y revisar rowsAffected.'},
+  cosmos:{n:'Cosmos DB',cat:'Datos',sp:'no',d:'Base NoSQL distribuida globalmente.',
+    p:'Change feed ordenado por partition key → Functions, Change Feed Processor, Fabric mirroring.',
+    c:'Escrituras a escala; event store append-only.',
+    k:'5 niveles de consistencia · ETag para concurrencia optimista · TTL · serverless · 2 MB por ítem.',
+    tip:'El change feed es un Outbox incorporado: cada escritura se vuelve un evento.'},
+  postgres:{n:'PostgreSQL Flexible',cat:'Datos',sp:'no',d:'PostgreSQL administrado.',p:'Logical decoding hacia Debezium/Kafka.',
+    k:'Réplicas de lectura, HA por zonas, pgvector.', tip:'Alternativa a Azure SQL para un servicio con base propia (database per service).'},
+  redis:{n:'Azure Managed Redis',cat:'Datos',sp:'objetivo',d:'Cache en memoria compartida entre instancias.',
+    p:'Pub/sub efímero y Streams.', c:'Cache-aside, locks (SET NX PX), rate limit compartido, sesiones.',
+    k:'Pub/sub at-most-once · no es un broker durable.',
+    net:'IDistributedCache / HybridCache', tip:'Reemplaza al IMemoryCache por réplica. Microsoft recomienda Azure Managed Redis para despliegues nuevos.'},
+  blob:{n:'Blob Storage / ADLS',cat:'Datos',sp:'usa',d:'Almacenamiento de objetos y data lake.',
+    p:'Eventos BlobCreated / BlobDeleted a Event Grid.', c:'Capture de Event Hubs, dead-letter de Event Grid, checkpoints, claim-check.',
+    k:'Tiers hot/cool/archive · leases (sirven para leader election).',
+    rbac:'Storage Blob Data Contributor', tip:'Un lease de Blob sirve como lock de líder para un BackgroundService en N réplicas.'},
+  aisearch:{n:'AI Search',cat:'Datos',sp:'no',d:'Índice full-text y vectorial.',c:'Proyecciones desde la base (indexers) o push.',
+    k:'Modelo de lectura especializado para búsqueda.', tip:'En CQRS es otro modelo de lectura más, alimentado por eventos.'},
+  adx:{n:'Data Explorer / Eventhouse',cat:'Analítica',sp:'no',d:'Base analítica de series de tiempo con KQL.',
+    c:'Ingesta directa desde Event Hubs e IoT Hub.', k:'Consultas sobre miles de millones de filas en segundos.',
+    tip:'Es el mismo KQL que usas en Application Insights.'},
+  fabric:{n:'Fabric Real-Time Intelligence',cat:'Analítica',sp:'no',d:'Eventstream, Eventhouse y Activator para streaming en Microsoft Fabric.',
+    c:'Event Hubs, IoT Hub, CDC de bases, Kafka.', p:'Alertas y acciones con Activator.'},
+  asa:{n:'Stream Analytics',cat:'Analítica',sp:'no',d:'SQL sobre streams: ventanas, joins y agregados.',
+    c:'Event Hubs, IoT Hub, Blob.', p:'SQL, Cosmos DB, Service Bus, Event Hubs, Functions, Power BI, Blob.',
+    k:'Ventanas tumbling, hopping, sliding y session.', tip:'Consume de un broker y produce a otro: es un procesador en medio del flujo.'},
+  databricks:{n:'Databricks',cat:'Analítica',sp:'no',d:'Spark para ETL y Structured Streaming.',c:'Event Hubs por protocolo Kafka.',p:'Delta Lake.'},
+  powerbi:{n:'Power BI',cat:'Analítica',sp:'no',d:'Dashboards y reportes; tiempo real desde Stream Analytics o Fabric.'},
+  // Fuentes y clientes
+  acs:{n:'Communication Services',cat:'Fuentes',sp:'usa',d:'Voz, video, SMS, chat y Call Automation.',
+    p:'Eventos de llamada a Event Grid: IncomingCall, CallConnected, PlayCompleted, AddParticipantFailed…',
+    c:'Comandos REST (answer, play, transfer) con operationContext y Repeatability-Request-ID.',
+    tip:'Repeatability-Request-ID es idempotencia del lado del proveedor.'},
+  graph:{n:'Microsoft Graph',cat:'Fuentes',sp:'usa',d:'API de Microsoft 365: usuarios, presencia, Teams.',
+    p:'Change notifications a webhooks, Event Hubs o Event Grid (partner topic).', c:'Llamadas REST con throttling (429 + Retry-After).',
+    tip:'Toda llamada a Graph pasa por IHttpClientFactory + AddStandardResilienceHandler.'},
+  devices:{n:'Dispositivos / IoT Edge',cat:'Fuentes',sp:'no',d:'Sensores, equipos y gateways de borde.',p:'Telemetría por MQTT, AMQP o HTTPS.',c:'Comandos C2D y twins.'},
+  web:{n:'Clientes (Portal, PowerPack, móvil)',cat:'Fuentes',sp:'usa',d:'Navegadores, Teams y apps.',p:'Requests HTTP y comandos.',c:'Push de SignalR, Web PubSub o Notification Hubs.'},
+  code:{n:'Tu servicio .NET',cat:'Fuentes',sp:'usa',d:'Productor o consumidor propio; corre en App Service, AKS, Container Apps o Functions.',
+    p:'EventGridPublisherClient, ServiceBusSender, EventHubProducerClient, IHubContext.',
+    c:'ServiceBusProcessor, EventProcessorClient, webhook de Event Grid.',
+    tip:'Que tu código sea productor no lo hace dueño del consumidor: publica hechos, no órdenes a un servicio concreto.'},
+  // Transversal
+  entra:{n:'Entra ID',cat:'Identidad',sp:'usa',d:'Identidad de usuarios y aplicaciones; tokens OAuth 2.0 / OIDC.',
+    k:'Autentica webhooks de Event Grid, clientes de SignalR y APIs.', tip:'Autenticación: quién eres. Autorización (RBAC): qué puedes hacer.'},
+  mi:{n:'Managed / Workload Identity',cat:'Identidad',sp:'objetivo',d:'Identidad sin secretos para recursos y pods de AKS (federación OIDC).',
+    net:'new DefaultAzureCredential()', k:'System-assigned (vive con el recurso) o user-assigned (reutilizable).',
+    tip:'Hoy SPARK usa AccessKey y connection strings: 0 usos de DefaultAzureCredential.'},
+  kv:{n:'Key Vault',cat:'Identidad',sp:'parcial',d:'Secretos, llaves y certificados.',p:'Eventos a Event Grid: SecretNearExpiry, CertificateNewVersionCreated.',
+    rbac:'Key Vault Secrets User', tip:'Rotación automática: Key Vault emite el evento, una Function rota el secreto.'},
+  appconfig:{n:'App Configuration',cat:'Identidad',sp:'no',d:'Configuración centralizada y feature flags.',p:'KeyValueModified a Event Grid para refresco push.',
+    tip:'Feature flags por tenant sin redeploy.'},
+  vnet:{n:'VNet + NSG',cat:'Red',sp:'objetivo',d:'Red privada con subnets, NSG y Network Policies en AKS.',tip:'Subnets separadas para AKS, Private Endpoints y App Gateway.'},
+  pe:{n:'Private Endpoint + DNS',cat:'Red',sp:'objetivo',d:'IP privada en tu VNet para un PaaS; necesita la zona privatelink.*.',
+    tip:'Falla casi siempre por DNS: sin la Private DNS Zone enlazada, el pod resuelve la IP pública.'},
+  appi:{n:'App Insights / Monitor',cat:'Observabilidad',sp:'usa',d:'Logs, métricas, trazas distribuidas (OpenTelemetry) y alertas.',
+    p:'Diagnostic settings hacia Event Hubs; alertas hacia action groups (webhook, Function, Logic App).',
+    c:'Telemetría de todos los servicios.', tip:'Propaga traceparent dentro del evento para ver el árbol Garbage → Event Grid → API → SQL.'},
+  acr:{n:'Container Registry',cat:'DevOps',sp:'objetivo',d:'Registro privado de imágenes.',p:'ImagePushed a Event Grid.',
+    tip:'az aks update --attach-acr: el kubelet obtiene AcrPull sin imagePullSecrets.'},
+  devops:{n:'Azure DevOps',cat:'DevOps',sp:'usa',d:'Repos, Pipelines YAML y aprobaciones por ambiente.',
+    tip:'SPARK ya tiene dev → qa → alpha → beta → prd con aprobación manual.'}
+};
+const CATS = ['Mensajería','Tiempo real','Cómputo','Integración','Entrada','Datos','Analítica','Fuentes','Identidad','Red','Observabilidad','DevOps'];
+
+/* Arquitecturas: carriles (r = rol) + transversales */
+const A = [
+ {id:'eda',short:'Event-driven',n:'Event-driven reactivo',sp:'usa',
+  when:'Algo pasó y varios interesados reaccionan, sin que el productor sepa quiénes son.',
+  lanes:[
+   {r:'P',t:'Fuentes de eventos',s:'system y custom topics',i:[['acs','eventos de cada llamada'],['blob','BlobCreated'],['kv','SecretNearExpiry'],['acr','ImagePushed'],['appconfig','KeyValueModified'],['code','custom topic · CloudEvents']]},
+   {r:'B',t:'Enrutador',s:'push + filtros',i:[['eventgrid','suscripciones por tipo y subject']]},
+   {r:'C',t:'Handlers',s:'quien reacciona',i:[['functions','EventGridTrigger'],['appservice','webhook con handshake'],['aks','webhook vía ingress'],['logicapps','integraciones'],['servicebus','buffer durable y ordenado'],['storagequeue','buffer barato']]},
+   {r:'D',t:'Estado',s:'',i:[['sql','máquina de estados'],['cosmos','estado por entidad'],['blob','dead-letter de Event Grid']]}],
+  x:['mi','entra','appi'],
+  g:['At-least-once: el mismo evento puede llegar dos veces','Sin orden garantizado','Reintentos con backoff hasta 24 h; luego dead-letter a Blob','Eventos de hasta 1 MB'],
+  pt:['Idempotent consumer (Inbox): dedupe por event.Id en la misma transacción','Ordenar por eventTime, no por llegada','Claim-check: evento delgado y payload en Blob','Event Grid → Service Bus para nivelar carga'],
+  anti:['Webhook que responde 200 antes de procesar: Event Grid no reintenta','Usar eventos para comandos que exigen orden','Payloads gordos dentro del evento'],
+  spark:'Es la columna vertebral: ACS → Event Grid → EventsController y EventGridAzureFunction. CallGarbageManager publica DisconnectCall al custom topic.',
+  ph:'Event Grid garantiza al menos una entrega, no exactamente una, ni orden. Cada handler es idempotente y el orden lo resuelvo con el eventTime.'},
+ {id:'msg',short:'Colas',n:'Mensajería y colas',sp:'objetivo',
+  when:'Hay una orden concreta ("haz esto") que no se puede perder y que un consumidor procesa a su ritmo.',
+  lanes:[
+   {r:'P',t:'Emisores',s:'quien encola',i:[['code','webhook valida y encola · 202'],['functions','binding de salida'],['eventgrid','suscripción con handler Service Bus'],['logicapps','acción Send message']]},
+   {r:'B',t:'Colas',s:'retienen y entregan',i:[['servicebus','sessions por CallConnectionId'],['storagequeue','trabajo simple sin orden']]},
+   {r:'C',t:'Workers',s:'competing consumers',i:[['aks','call-worker'],['keda','escala por longitud de cola'],['aca','escala a cero'],['functions','ServiceBusTrigger'],['appservice','BackgroundService / WebJobs']]},
+   {r:'D',t:'Estado',s:'',i:[['sql','Inbox + Outbox + saga'],['redis','locks y cache compartido']]}],
+  x:['mi','pe','appi'],
+  g:['Peek-lock: el mensaje se bloquea mientras lo procesas','FIFO por sesión','Duplicate detection por MessageId','DLQ tras MaxDeliveryCount','Mensajes programados y transacciones'],
+  pt:['Load leveling: la cola absorbe picos','Competing consumers','Sesiones = afinidad por entidad sin estado en memoria','Outbox para publicar + Inbox para consumir','Scheduled message como timeout de un paso'],
+  anti:['Procesar más allá del lock (lock lost → duplicado)','Reintentar operaciones no idempotentes','Mandar comandos por Event Grid esperando orden'],
+  spark:'No existe hoy. El diseño objetivo pone Service Bus con sesiones entre el webhook /events y un call-worker con KEDA, en lugar del TaskQueuer en memoria.',
+  ph:'Un webhook delgado valida, encola y responde. El trabajo pesado va a un consumidor con reintentos y DLQ, y uso sesiones para ordenar por llamada.'},
+ {id:'stream',short:'Streaming',n:'Event streaming y telemetría',sp:'parcial',
+  when:'Llegan miles o millones de eventos por segundo y varios lectores los procesan en paralelo, con la opción de releer.',
+  lanes:[
+   {r:'P',t:'Productores',s:'alto volumen',i:[['graph','change notifications de presencia'],['iothub','telemetría ruteada'],['code','EventHubProducerClient / Kafka'],['appi','diagnostic settings'],['apim','log-to-eventhub']]},
+   {r:'B',t:'Log particionado',s:'',i:[['eventhubs','particiones + consumer groups']]},
+   {r:'C',t:'Procesadores',s:'un consumer group cada uno',i:[['aks','EventProcessorClient'],['functions','EventHubTrigger por lotes'],['asa','ventanas y agregados'],['fabric','Eventstream'],['databricks','Structured Streaming']]},
+   {r:'D',t:'Almacenes',s:'hot · warm · cold',i:[['blob','Capture y checkpoints'],['adx','series de tiempo (KQL)'],['cosmos','estado actual'],['sql','agregados']]},
+   {r:'S',t:'Salida',s:'',i:[['powerbi','dashboards en vivo'],['signalr','presencia en el Portal']]}],
+  x:['mi','pe','appi'],
+  g:['Orden solo dentro de una partición','At-least-once: el checkpoint marca hasta dónde leíste','Retención 1–7 días (Standard) y hasta 90 (Premium/Dedicated)','Replay desde cualquier offset'],
+  pt:['Partition key = entidad (userId, deviceId)','Checkpoint después de procesar, por lote','Capture a ADLS: arquitectura Kappa','Un consumer group por lector independiente'],
+  anti:['Usarlo como cola de trabajo: no hay DLQ ni lock por mensaje','Partition key mala que crea particiones calientes','Checkpoint por cada evento'],
+  spark:'Tres hubs configurados (SuperHandlerPresences, Presences, CallsCatcher). Graph envía presencias a Event Hubs y SPARK.Presences las consume.',
+  ph:'Event Hubs es un log, no una cola: cada lector lleva su posición. Lo uso para presencias por volumen y replay; para trabajo por mensaje, Service Bus.'},
+ {id:'micro',short:'Microservicios',n:'Microservicios cloud-native en AKS',sp:'objetivo',
+  when:'Varios equipos y dominios que despliegan y escalan por separado, cada uno dueño de sus datos.',
+  lanes:[
+   {r:'P',t:'Clientes',s:'',i:[['web','Portal, PowerPack'],['acs','eventos externos']]},
+   {r:'B',t:'Entrada',s:'L7 + seguridad',i:[['frontdoor','global y CDN'],['appgw','WAF + ingress'],['apim','cuotas, JWT, versiones']]},
+   {r:'C',t:'Servicios',s:'REST externo · gRPC interno',i:[['aks','spark-api, call-worker, routing-svc'],['keda','workers por cola'],['dapr','sidecar opcional'],['aca','alternativa sin clúster']]},
+   {r:'B',t:'Bus interno',s:'asíncrono entre servicios',i:[['servicebus','comandos'],['eventgrid','hechos de integración'],['redis','avisos efímeros']]},
+   {r:'D',t:'Datos por servicio',s:'database per service',i:[['sql','llamadas y workflow'],['cosmos','servicio con modelo flexible'],['postgres','otro servicio'],['redis','cache y locks'],['blob','audios']]}],
+  x:['mi','kv','appconfig','vnet','pe','appi','acr','devops'],
+  g:['Consistencia eventual entre servicios','ACID solo dentro de un servicio','Cada servicio escala y despliega solo'],
+  pt:['Database per service','API Gateway / BFF','REST hacia afuera, gRPC entre servicios (balanceo L7)','Health probes live/ready + PDB + zonas','Strangler fig para migrar desde el monolito'],
+  anti:['Base compartida entre servicios: monolito distribuido','Cadenas de llamadas síncronas','Estado en memoria: static SemaphoreSlim, IMemoryCache, BackgroundService duplicado'],
+  spark:'Es la sección 3 del documento: "SPARK en AKS" con App Gateway + WAF, Workload Identity, Private Endpoints, KEDA y routing-svc por gRPC.',
+  ph:'Antes de escalar horizontalmente busco todo lo static, Singleton con estado o IMemoryCache, y lo saco a SQL, Redis o sesiones de Service Bus.'},
+ {id:'serverless',short:'Serverless',n:'Serverless',sp:'parcial',
+  when:'Cargas irregulares o por evento donde pagar por ejecución y escalar a cero importa más que el control fino.',
+  lanes:[
+   {r:'P',t:'Disparadores',s:'',i:[['web','HTTP'],['blob','archivo subido'],['cosmos','change feed'],['sql','Change Tracking'],['acs','eventos']]},
+   {r:'B',t:'Pegamento',s:'',i:[['eventgrid','eventos de recursos'],['servicebus','trabajo confiable'],['storagequeue','trabajo barato'],['eventhubs','lotes de telemetría'],['apim','HTTP con políticas']]},
+   {r:'C',t:'Funciones',s:'',i:[['functions','Flex Consumption'],['durable','flujos largos con estado'],['logicapps','integración'],['aca','contenedor que escala a cero']]},
+   {r:'D',t:'Estado',s:'',i:[['cosmos','serverless'],['sql','tier serverless'],['blob','archivos']]},
+   {r:'S',t:'Salida',s:'',i:[['signalr','binding de salida']]}],
+  x:['mi','kv','appi'],
+  g:['Escala por evento y a cero','Cold start en planes de consumo','Timeout por ejecución según el plan','Triggers con reintentos propios (poison queue, DLQ)'],
+  pt:['Trigger → función → binding de salida','Durable para estado largo, fan-out/fan-in y timers','Event Grid como pegamento entre recursos'],
+  anti:['Funciones encadenadas por HTTP','Procesos largos sin Durable','Crear HttpClient o clientes de SDK por invocación'],
+  spark:'EventGridAzureFunction (isolated worker) con Clean Architecture: Domain, Application, Infrastructure y el host.',
+  ph:'Una Function es productor y consumidor a la vez: el trigger la alimenta y el binding de salida publica.'},
+ {id:'cqrs',short:'CQRS / ES',n:'CQRS + Event Sourcing',sp:'parcial',
+  when:'Lectura y escritura tienen formas y cargas distintas, o necesitas auditar cada cambio como un hecho.',
+  lanes:[
+   {r:'P',t:'Comandos',s:'',i:[['web','Portal'],['apim','API de comandos']]},
+   {r:'C',t:'Escritura',s:'valida y decide',i:[['aks','command handlers'],['functions','handler ligero']]},
+   {r:'D',t:'Event store',s:'append-only',i:[['cosmos','partition key = aggregateId'],['sql','tabla de eventos + Outbox']]},
+   {r:'C',t:'Proyectores',s:'leen el feed',i:[['functions','CosmosDBTrigger / SQL trigger'],['aks','Change Feed Processor'],['servicebus','publica a otros contextos'],['eventgrid','notifica integración']]},
+   {r:'D',t:'Modelos de lectura',s:'reconstruibles',i:[['sql','réplica ReadOnly para reportes'],['cosmos','vistas desnormalizadas'],['aisearch','búsqueda'],['redis','lecturas calientes']]}],
+  x:['mi','appi'],
+  g:['La lectura es eventualmente consistente','Orden por partición lógica (aggregateId)','Proyecciones reconstruibles con replay'],
+  pt:['Concurrencia optimista: ETag o RowVersion','Snapshots para agregados largos','Outbox para publicar a otros contextos','CQRS no exige event sourcing ni MediatR'],
+  anti:['Event Hubs como event store: la retención es limitada','CQRS en todo el sistema','Validar comandos contra el modelo de lectura'],
+  spark:'Semilla: CallEventsManager (comandos) frente a CallQueriesManager (vacío); reportes con AsNoTracking y AsSplitQuery. Evolución: réplica ReadOnly para reportes.',
+  ph:'CQRS es separar modelos de lectura y escritura, no una librería. Event sourcing es guardar el estado como eventos; son independientes.'},
+ {id:'saga',short:'Saga',n:'Saga y workflows distribuidos',sp:'usa',
+  when:'Una operación de negocio cruza varios pasos o servicios y no puede haber una transacción ACID global.',
+  lanes:[
+   {r:'P',t:'Disparador',s:'',i:[['acs','IncomingCall'],['web','comando del usuario']]},
+   {r:'C',t:'Orquestador',s:'decide el siguiente paso',i:[['durable','orquestación como código'],['aks','state machine (MassTransit)'],['logicapps','integración entre sistemas']]},
+   {r:'B',t:'Pasos y timeouts',s:'',i:[['servicebus','comandos + mensaje programado'],['eventgrid','coreografía por eventos']]},
+   {r:'C',t:'Participantes',s:'transacciones locales',i:[['functions','actividad'],['aks','servicio'],['acs','acción externa (transfer, play)']]},
+   {r:'D',t:'Estado de la saga',s:'',i:[['sql','WorkflowContext'],['cosmos','estado por instancia'],['blob','historial de Durable']]}],
+  x:['mi','appi'],
+  g:['Sin 2PC: consistencia eventual con compensaciones','Cada paso es local e idempotente','Timeouts explícitos'],
+  pt:['Orquestación (un cerebro) frente a coreografía (cada quien reacciona)','Compensating transaction','Semantic lock: reservar antes de confirmar','Barrendero de sagas atascadas'],
+  anti:['2PC o DTC en la nube','Compensaciones no idempotentes','Coreografía sin tracing: nadie ve el flujo completo'],
+  spark:'WorkflowManager es el orquestador; WorkflowContext es el estado; OnTransferFailedAction y CancelInvitationAction son compensaciones; CallGarbageManager es el barrendero.',
+  ph:'Transferir a un agente es una saga: reservo, invito y espero. Si falla o vence el timer, compenso: libero, cancelo y regreso la llamada a la cola.'},
+ {id:'realtime',short:'Tiempo real',n:'Tiempo real hacia clientes',sp:'usa',
+  when:'Una persona necesita ver el cambio en segundos sin refrescar: tableros, estados, chats.',
+  lanes:[
+   {r:'P',t:'Origen del cambio',s:'',i:[['acs','evento de llamada'],['eventgrid','hecho de integración']]},
+   {r:'C',t:'Backend',s:'traduce a aviso',i:[['code','IHubContext'],['functions','binding SignalR']]},
+   {r:'B',t:'Canal push',s:'',i:[['signalr','grupos por tenant'],['webpubsub','WebSockets nativos'],['notifhubs','push móvil'],['egns','MQTT']]},
+   {r:'S',t:'Pantallas',s:'',i:[['web','Portal, PowerPack, Teams']]},
+   {r:'D',t:'Fuente de verdad',s:'para resincronizar',i:[['sql','estado actual'],['redis','presencia caliente']]}],
+  x:['entra','appi'],
+  g:['At-most-once hacia el cliente','Sin persistencia','Al reconectar, el cliente relee por API'],
+  pt:['Notificar y releer: aviso ligero + GET','Grupos por tenant o cola','Modo serverless con Functions','El servicio gestionado sustituye al backplane'],
+  anti:['Usar SignalR como fuente de verdad','Grupos amplios con datos sensibles','Polling cada segundo'],
+  spark:'Hub /callshub y avisos como ConfigurationChanged hacia el Portal y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.',
+  ph:'La consistencia eventual se nota aquí: el Portal ve "agente conectado" milisegundos después. La UI se diseña para tolerarlo.'},
+ {id:'iot',short:'IoT',n:'IoT y edge',sp:'no',
+  when:'Hay dispositivos físicos que envían datos y reciben comandos.',
+  lanes:[
+   {r:'P',t:'Dispositivos',s:'',i:[['devices','MQTT / AMQP / HTTPS']]},
+   {r:'B',t:'Gateway',s:'',i:[['iothub','identidad, twins, ruteo'],['egns','broker MQTT'],['eventhubs','destino del ruteo']]},
+   {r:'C',t:'Procesamiento',s:'',i:[['asa','hot path con ventanas'],['functions','reglas'],['fabric','Eventstream + Activator']]},
+   {r:'D',t:'Almacenes',s:'',i:[['adx','warm path'],['blob','cold path'],['cosmos','último estado']]},
+   {r:'S',t:'Salida',s:'',i:[['powerbi','tableros'],['webpubsub','apps en vivo']]}],
+  x:['kv','appi'],
+  g:['D2C at-least-once','MQTT QoS 0 / 1','Comandos C2D y direct methods'],
+  pt:['Hot / warm / cold path','Ruteo por propiedades del mensaje','Identidad X.509 por dispositivo','Procesar en el borde (IoT Edge)'],
+  anti:['Una SAS compartida para todos los dispositivos','Telemetría masiva por Service Bus'],
+  spark:'No aplica. Sirve como contraste: si preguntan por MQTT, la respuesta es IoT Hub o Event Grid namespaces.',
+  ph:'IoT Hub es Event Hubs más gestión de dispositivos. Si solo necesito pub/sub MQTT, uso Event Grid namespaces.'},
+ {id:'monolith',short:'Monolito',n:'Monolito modular en PaaS',sp:'usa',
+  when:'Un equipo, un dominio que todavía se mueve y ganas en simplicidad operativa.',
+  lanes:[
+   {r:'P',t:'Clientes',s:'',i:[['web','Portal, PowerPack'],['acs','webhook de eventos']]},
+   {r:'B',t:'Entrada',s:'',i:[['frontdoor','opcional'],['appgw','WAF regional']]},
+   {r:'C',t:'Aplicación',s:'módulos por contexto',i:[['appservice','API + BackgroundService'],['functions','tareas sueltas']]},
+   {r:'B',t:'Asíncrono',s:'',i:[['storagequeue','trabajo diferido'],['eventgrid','eventos de integración']]},
+   {r:'D',t:'Datos',s:'',i:[['sql','una base, esquemas por módulo'],['redis','cache'],['blob','archivos']]}],
+  x:['kv','mi','appi','devops'],
+  g:['ACID local dentro del proceso','Eventos de dominio in-process','Un despliegue, varios módulos'],
+  pt:['Módulos por bounded context','Eventos de dominio in-process (MediatR o propio)','Deployment slots para cero downtime','Escalar out con el estado fuera del proceso'],
+  anti:['Módulos que comparten tablas','IMemoryCache con varias instancias','BackgroundService duplicado por instancia'],
+  spark:'Así se despliega hoy: App Service (appType webApp), varios servicios y paquetes NuGet compartidos.',
+  ph:'SPARK es más un monolito modular que microservicios. Es una decisión válida mientras el estado viva fuera del proceso.'}
+];
+
+/* Brokers y fuentes de cambios: quién escribe, quién lee */
+const BK_KEYS = ['Modelo','Entrega','Orden','Retención','Tamaño máx.','Dead-letter','Replay'];
+const BK = [
+ {id:'eventgrid',as:'Hechos discretos',
+  in:[['acs','eventos de llamada (system topic)'],['blob','BlobCreated / BlobDeleted'],['kv','SecretNearExpiry, certificados'],['acr','ImagePushed'],['appconfig','KeyValueModified'],['servicebus','mensajes sin listener (Premium)'],['iothub','DeviceConnected, telemetría'],['signalr','ClientConnected / Disconnected'],['graph','partner topic'],['code','custom topic · CloudEvents']],
+  out:[['functions','EventGridTrigger'],['appservice','webhook HTTPS con handshake'],['aks','webhook vía ingress'],['logicapps','trigger de Event Grid'],['servicebus','handler: buffer con orden'],['storagequeue','handler barato'],['eventhubs','handler: hacia un stream']],
+  pr:['Push · pub/sub','At-least-once','No garantizado','Reintentos hasta 24 h','1 MB','Sí, a Blob','No'],
+  use:'Reaccionar a hechos discretos con fan-out y filtros: eventos de recursos Azure e integraciones serverless.',
+  avoid:'Comandos que exigen orden, o un consumidor que necesita controlar su ritmo.'},
+ {id:'servicebus',as:'Comandos y trabajo',
+  in:[['code','ServiceBusSender (API, webhook)'],['eventgrid','handler de una suscripción'],['functions','binding de salida'],['logicapps','acción Send message'],['iothub','endpoint de ruteo'],['asa','salida de Stream Analytics'],['dapr','componente pub/sub']],
+  out:[['aks','ServiceBusProcessor'],['keda','escala por longitud'],['aca','reglas KEDA'],['functions','ServiceBusTrigger'],['appservice','BackgroundService / WebJobs'],['logicapps','trigger de mensaje'],['eventgrid','avisa si no hay listener (Premium)']],
+  pr:['Pull · peek-lock · colas y topics','At-least-once (o at-most-once)','FIFO con sessions','Hasta que vence el TTL','256 KB Std · 100 MB Premium','Sí, nativa','No (solo peek)'],
+  use:'Comandos que no se pueden perder: orden por entidad, transacciones, duplicados y mensajes programados.',
+  avoid:'Telemetría masiva o lectores que necesitan releer la historia.'},
+ {id:'eventhubs',as:'Streams',
+  in:[['code','EventHubProducerClient / Kafka'],['graph','change notifications'],['iothub','endpoint integrado'],['appi','diagnostic settings'],['apim','política log-to-eventhub'],['eventgrid','handler de suscripción'],['asa','salida']],
+  out:[['aks','EventProcessorClient'],['functions','EventHubTrigger por lotes'],['asa','entrada de stream'],['fabric','Eventstream'],['adx','ingesta directa'],['databricks','Structured Streaming'],['blob','Capture (Avro/Parquet)']],
+  pr:['Pull · log particionado','At-least-once con checkpoints','Por partición','1–7 días Std · hasta 90 Premium','1 MB','No','Sí, por offset'],
+  use:'Ingesta de alto volumen con varios lectores independientes y replay.',
+  avoid:'Trabajo por mensaje que necesita reintento individual y DLQ.'},
+ {id:'storagequeue',as:'Trabajo simple',
+  in:[['code','QueueClient.SendMessage'],['eventgrid','handler'],['functions','binding de salida'],['logicapps','acción']],
+  out:[['functions','QueueTrigger'],['appservice','WebJobs'],['aca','KEDA azure-queue'],['aks','KEDA azure-queue']],
+  pr:['Pull · cola simple','At-least-once','No garantizado','7 días por defecto, configurable','64 KB','Poison queue (Functions)','No'],
+  use:'Trabajo en segundo plano barato y de alto volumen, sin orden.',
+  avoid:'Mensajes grandes, orden o duplicados controlados.'},
+ {id:'egns',as:'MQTT y pull',
+  in:[['devices','MQTT v3.1.1 / v5'],['code','publish HTTP (CloudEvents)']],
+  out:[['eventhubs','push a Event Hubs'],['appservice','push a webhook'],['code','pull: receive / ack / release']],
+  pr:['Push o pull · MQTT','At-least-once (pull con ack)','No garantizado','Hasta 7 días','1 MB','Sí, a Blob','No'],
+  use:'Broker MQTT gestionado, o eventos que el consumidor quiere jalar a su ritmo.',
+  avoid:'Gestión de dispositivos (twins, firmware): eso es IoT Hub.'},
+ {id:'iothub',as:'Dispositivos',
+  in:[['devices','MQTT / AMQP / HTTPS con identidad propia']],
+  out:[['eventhubs','endpoint integrado y custom'],['servicebus','ruta a cola o topic'],['blob','cold path'],['cosmos','ruta a Cosmos DB'],['eventgrid','ciclo de vida'],['asa','lee el endpoint integrado'],['functions','trigger del endpoint']],
+  pr:['Bidireccional dispositivo ↔ nube','At-least-once (D2C)','Por partición','1–7 días','256 KB','Ruta de fallback','Sí (endpoint integrado)'],
+  use:'Flotas de dispositivos con identidad, twins y comandos.',
+  avoid:'Cargas sin dispositivos: usa Event Hubs directamente.'},
+ {id:'signalr',as:'Push a pantallas',
+  in:[['code','IHubContext / REST API'],['functions','binding de salida SignalR']],
+  out:[['web','Portal, PowerPack, Teams'],['eventgrid','eventos de conexión'],['functions','upstream en modo serverless']],
+  pr:['Push WebSocket a clientes','At-most-once','Por conexión','Ninguna','Mensajes pequeños','No','No'],
+  use:'Actualizar pantallas en vivo desde N réplicas sin backplane propio.',
+  avoid:'Guardar estado: el cliente debe releer al reconectar.'},
+ {id:'cosmos',as:'Cambios de datos',
+  in:[['code','escrituras (event store append-only)'],['functions','binding de salida'],['iothub','ruta de telemetría']],
+  out:[['functions','CosmosDBTrigger'],['aks','Change Feed Processor'],['fabric','mirroring'],['databricks','conector Spark']],
+  pr:['Pull · change feed','At-least-once con leases','Por partition key','Último estado del documento','2 MB por ítem','No: la implementas','Sí, desde el inicio'],
+  use:'Proyecciones y event sourcing: cada escritura se vuelve un evento ordenado por agregado.',
+  avoid:'Depender de borrados en el modo por defecto: usa borrado lógico con TTL.'},
+ {id:'sql',as:'Outbox y CDC',
+  in:[['code','INSERT en Outbox en la misma transacción']],
+  out:[['aks','relay del Outbox (líder único)'],['functions','SQL trigger (Change Tracking)'],['eventhubs','CDC con Debezium (Kafka)'],['servicebus','destino del relay']],
+  pr:['Pull · tabla Outbox o CDC','At-least-once','Por secuencia o LSN','La que definas','Una fila','No: la implementas','Sí, mientras exista la fila'],
+  use:'Publicar de forma confiable sin dual write: un commit local y un relay.',
+  avoid:'SaveChanges y luego publicar a mano: si uno falla, quedan inconsistentes.'},
+ {id:'redis',as:'Avisos efímeros',
+  in:[['code','PUBLISH / XADD']],
+  out:[['aks','SUBSCRIBE en cada réplica'],['appservice','SUBSCRIBE'],['functions','trigger de Redis']],
+  pr:['Push en memoria · pub/sub o Streams','At-most-once (pub/sub)','Por canal','Ninguna (Streams sí)','Pequeño','No','Solo con Streams'],
+  use:'Avisar a todas las réplicas: invalidar cache, refrescar configuración.',
+  avoid:'Cualquier mensaje que no se pueda perder.'}
+];
+
+/* Árbol de decisión */
+const DT = {
+ start:{q:'¿Qué viaja entre el productor y el consumidor?',o:[['Un hecho: "algo pasó"','fact'],['Una orden: "haz esto"','cmd'],['Telemetría de dispositivos','iot'],['Un aviso para una pantalla','ui']]},
+ fact:{q:'¿Cómo es ese flujo de hechos?',o:[['Discreto: pocos por segundo y varios interesados reaccionan','R:eventgrid'],['Masivo: miles o millones por segundo, con análisis o replay','R:eventhubs'],['Son cambios de mis propios datos','data']]},
+ data:{q:'¿Dónde viven esos datos?',o:[['Cosmos DB','R:cosmos'],['Azure SQL','R:sql']]},
+ cmd:{q:'¿Qué exige ese trabajo?',o:[['Orden por entidad, DLQ, duplicados o transacciones','R:servicebus'],['Solo desacoplar, mucho volumen y barato','R:storagequeue'],['Varios pasos con compensaciones','R:durable']]},
+ iot:{q:'¿Necesitas gestionar los dispositivos (twins, comandos, identidad por equipo)?',o:[['Sí','R:iothub'],['No, solo pub/sub MQTT','R:egns']]},
+ ui:{q:'¿A dónde llega el aviso?',o:[['Navegador o Teams (Portal, PowerPack)','R:signalr'],['App móvil cerrada (push del sistema)','R:notifhubs'],['Clientes WebSocket sin protocolo SignalR','R:webpubsub'],['A las réplicas del backend (invalidar cache)','R:redis']]}
+};
+const RES = {
+ eventgrid:{why:'Push con fan-out y filtros: cada suscriptor recibe su copia y nadie hace polling. Pagas por operación.',ch:[['acs','P'],['eventgrid','B'],['functions','C'],['sql','D']],a:'eda',avoid:'Si el consumidor necesita orden o su propio ritmo, pon Service Bus como handler de la suscripción.'},
+ eventhubs:{why:'Log particionado: cada lector lleva su offset, puedes releer y escalar por particiones.',ch:[['graph','P'],['eventhubs','B'],['aks','C'],['blob','D']],a:'stream',avoid:'No es una cola de trabajo: no hay lock por mensaje ni DLQ.'},
+ cosmos:{why:'El change feed convierte cada escritura en un evento ordenado por partition key. Es un Outbox incorporado.',ch:[['code','P'],['cosmos','D'],['functions','C'],['aisearch','D']],a:'cqrs',avoid:'En el modo por defecto los borrados no aparecen en el feed: usa borrado lógico con TTL.'},
+ sql:{why:'Outbox: el evento se inserta en la misma transacción que el cambio y un relay lo publica después. Sin dual write.',ch:[['code','P'],['sql','D'],['aks','C'],['servicebus','B']],a:'msg',avoid:'Publicar al broker después de SaveChanges: si uno de los dos falla, quedan inconsistentes.'},
+ servicebus:{why:'Peek-lock, DLQ, duplicate detection y sesiones FIFO: el contrato de un comando que no se debe perder.',ch:[['code','P'],['servicebus','B'],['aks','C'],['sql','D']],a:'msg',avoid:'Sin idempotencia en el consumidor, at-least-once significa "a veces dos veces".'},
+ storagequeue:{why:'Lo más simple y barato para trabajo en segundo plano sin orden.',ch:[['code','P'],['storagequeue','B'],['functions','C'],['blob','D']],a:'serverless',avoid:'Mensajes de más de 64 KB: usa claim-check con Blob o pasa a Service Bus.'},
+ durable:{why:'Orquestación como código: el framework persiste estado, timers y reintentos; las compensaciones van en el catch.',ch:[['web','P'],['durable','C'],['servicebus','B'],['sql','D']],a:'saga',avoid:'Código no determinista en el orquestador: DateTime.Now, Guid.NewGuid o I/O directo.'},
+ iothub:{why:'Identidad por dispositivo, twins, comandos C2D y ruteo a Event Hubs, Service Bus, Blob o Cosmos DB.',ch:[['devices','P'],['iothub','B'],['asa','C'],['adx','D']],a:'iot',avoid:'Conectar todos los dispositivos con una sola SAS compartida.'},
+ egns:{why:'Broker MQTT gestionado con topics jerárquicos y ruteo a Event Hubs o webhooks.',ch:[['devices','P'],['egns','B'],['eventhubs','B'],['fabric','C']],a:'iot',avoid:'Si además necesitas twins o actualizaciones de firmware, usa IoT Hub.'},
+ signalr:{why:'El servicio mantiene las conexiones WebSocket; tus réplicas solo publican. Escala sin backplane.',ch:[['acs','P'],['eventgrid','B'],['code','C'],['signalr','B'],['web','S']],a:'realtime',avoid:'Tratarlo como fuente de verdad: al reconectar, el cliente relee por API.'},
+ notifhubs:{why:'Una llamada llega a APNs, FCM y WNS, con plantillas y tags por usuario.',ch:[['code','P'],['notifhubs','B'],['web','S']],a:'realtime',avoid:'El push del sistema no es confiable para datos críticos; úsalo como aviso.'},
+ webpubsub:{why:'WebSockets nativos y pub/sub sin depender del protocolo SignalR.',ch:[['code','P'],['webpubsub','B'],['web','S']],a:'realtime',avoid:'Si tus clientes ya son SignalR, SignalR Service es más directo.'},
+ redis:{why:'Pub/sub en memoria para avisar a todas las réplicas a la vez.',ch:[['code','P'],['redis','B'],['aks','C']],a:'micro',avoid:'El pub/sub de Redis es at-most-once: si nadie escucha, el mensaje se pierde.'}
+};
+
+/* ===================== ESTADO Y UTILIDADES ===================== */
+const st = {view:'mapa', arch:'eda', bk:'eventgrid', sk:'off', path:['start'], mxCat:'', mxRole:'', mxQ:''};
+const $ = (s, el=document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const g = r => `<span class="g" data-r="${r}" title="${ROLES[r].n}">${r}</span>`;
+const archById = id => A.find(a => a.id === id);
+const bkById = id => BK.find(b => b.id === id);
+
+function inSpark(id){
+  const sp = S[id]?.sp;
+  if (st.sk === 'hoy') return sp === 'usa' || sp === 'parcial';
+  if (st.sk === 'obj') return sp !== 'no';
+  return true;
+}
+function chip(id, note, r){
+  const s = S[id];
+  const off = inSpark(id) ? '' : ' off';
+  return `<button class="chip${off}" data-s="${id}" data-r="${r}">${g(r)}<span class="cn">${esc(s.n)}${s.sp==='usa'?`<span class="dot" data-sp="usa" title="${SP.usa}"></span>`:''}</span><span class="cnote">${esc(note||'')}</span></button>`;
+}
+const arrow = () => `<div class="arrow" aria-hidden="true"><span class="pkt"></span></div>`;
+
+/* Roles derivados: servicio → arquitectura → set de roles */
+const MX = {};
+A.forEach(a => {
+  a.lanes.forEach(l => l.i.forEach(([id]) => { (MX[id] ??= {})[a.id] ??= new Set(); MX[id][a.id].add(l.r); }));
+  a.x.forEach(id => { (MX[id] ??= {})[a.id] ??= new Set(); MX[id][a.id].add('X'); });
+});
+const ORDER = ['P','B','C','D','S','X'];
+const rolesOf = (id, aid) => MX[id]?.[aid] ? ORDER.filter(r => MX[id][aid].has(r)) : [];
+
+/* ===================== GRAMÁTICA ===================== */
+$('#grammar').innerHTML = ['P','B','C','D','S'].map((r,i) =>
+  `${i?'<div class="gr-arrow" aria-hidden="true">→</div>':''}<div class="gr-step" data-r="${r}"><b>${g(r)} ${ROLES[r].n}</b><span>${ROLES[r].d}</span></div>`
+).join('') + `<div class="gr-x">${g('X')} <b>Transversal:</b> Entra ID · Managed/Workload Identity · Key Vault · VNet + Private Endpoint · App Insights · ACR + Azure DevOps. <span>Un servicio puede tener varios roles: Functions consume de una cola y produce hacia otra; Cosmos DB guarda y además produce su change feed.</span></div>`;
+
+/* ===================== VISTA: MAPA ===================== */
+function renderMap(){
+  const a = archById(st.arch);
+  const cols = a.lanes.map(() => 'minmax(0,1fr)').join(' 30px ');
+  $('#v-mapa').innerHTML = `
+  <div class="map">
+    <div class="arch-list" role="list">
+      ${A.map((x,i) => `<button class="arch-btn" role="listitem" data-a="${x.id}" aria-current="${x.id===a.id}"><span class="num">${String(i+1).padStart(2,'0')}</span><span class="nm">${esc(x.n)}</span><span class="dot" data-sp="${x.sp}" title="${SP[x.sp]}"></span></button>`).join('')}
+    </div>
+    <div style="min-width:0">
+      <div class="arch-head">
+        <div class="eyebrow">Arquitectura ${String(A.indexOf(a)+1).padStart(2,'0')} de ${A.length}</div>
+        <h2>${esc(a.n)}</h2>
+        <p class="arch-when">${esc(a.when)}</p>
+        <div class="badges"><span class="pill"><span class="dot" data-sp="${a.sp}"></span>${SP[a.sp]}</span>
+          <span class="pill">${a.lanes.length} carriles · ${new Set(a.lanes.flatMap(l=>l.i.map(i=>i[0])).concat(a.x)).size} servicios</span></div>
+      </div>
+      <div class="flow ${st.sk!=='off'?'dim':''}" style="grid-template-columns:${cols}">
+        ${a.lanes.map((l,i) => `${i?arrow():''}<div class="lane" data-r="${l.r}">
+          <div class="lane-h">${g(l.r)}<h3>${esc(l.t)}${l.s?`<small>${esc(l.s)}</small>`:''}</h3></div>
+          ${l.i.map(([id,n]) => chip(id,n,l.r)).join('')}
+        </div>`).join('')}
+      </div>
+      <div class="cross ${st.sk!=='off'?'dim':''}"><span class="lbl">${g('X')} Transversal</span>${a.x.map(id => chip(id,'','X')).join('')}</div>
+      <div class="notes">
+        <div class="note"><h4>Garantías</h4><ul>${a.g.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div class="note"><h4>Patrones que la hacen funcionar</h4><ul>${a.pt.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div class="note bad"><h4>Antipatrones</h4><ul>${a.anti.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div class="note spark"><h4>En SPARK</h4><p>${esc(a.spark)}</p></div>
+        <blockquote class="phrase"><span>Frase para el examen</span>“${esc(a.ph)}”</blockquote>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ===================== VISTA: MATRIZ ===================== */
+function renderMatrix(){
+  const v = $('#v-matriz');
+  if (!v.dataset.built){
+    v.innerHTML = `
+    <div class="mx-tools">
+      <input id="mx-q" type="search" placeholder="Buscar servicio…" aria-label="Buscar servicio">
+      <select id="mx-cat" aria-label="Categoría"><option value="">Todas las categorías</option>${CATS.map(c=>`<option>${c}</option>`).join('')}</select>
+      <div class="rolefilter" role="group" aria-label="Filtrar por rol">${ORDER.map(r=>`<button data-rf="${r}" data-r="${r}" aria-pressed="false">${g(r)}${ROLES[r].n}</button>`).join('')}</div>
+    </div>
+    <div class="mx-wrap"><table class="mx" id="mx"></table></div>
+    <div class="mx-legend">${ORDER.map(r=>`<span>${g(r)} ${ROLES[r].d}</span>`).join('')}<span><span class="dot" data-sp="usa"></span> SPARK lo usa</span></div>`;
+    v.dataset.built = '1';
+    $('#mx-q').addEventListener('input', e => { st.mxQ = e.target.value.toLowerCase(); fillMatrix(); });
+    $('#mx-cat').addEventListener('change', e => { st.mxCat = e.target.value; fillMatrix(); });
+    v.querySelectorAll('[data-rf]').forEach(b => b.addEventListener('click', () => {
+      st.mxRole = st.mxRole === b.dataset.rf ? '' : b.dataset.rf;
+      v.querySelectorAll('[data-rf]').forEach(x => x.setAttribute('aria-pressed', x.dataset.rf === st.mxRole));
+      fillMatrix();
+    }));
+  }
+  fillMatrix();
+}
+function fillMatrix(){
+  const head = `<thead><tr><th class="svc">Servicio</th>${A.map((a,i)=>`<th data-c="${i}"><button data-goarch="${a.id}" title="${esc(a.n)}">${esc(a.short)}</button></th>`).join('')}<th>Arq.</th></tr></thead>`;
+  let body = '';
+  CATS.forEach(cat => {
+    if (st.mxCat && st.mxCat !== cat) return;
+    const ids = Object.keys(S).filter(id => S[id].cat === cat)
+      .filter(id => !st.mxQ || (S[id].n + ' ' + S[id].d).toLowerCase().includes(st.mxQ))
+      .filter(id => !st.mxRole || A.some(a => rolesOf(id,a.id).includes(st.mxRole)))
+      .filter(id => inSpark(id));
+    if (!ids.length) return;
+    body += `<tr class="cat"><td>${cat}</td><td colspan="${A.length+1}"></td></tr>`;
+    ids.forEach(id => {
+      const s = S[id]; let n = 0;
+      const cells = A.map((a,i) => { const rs = rolesOf(id,a.id); if (rs.length) n++;
+        return `<td data-c="${i}"><span class="cell">${rs.map(g).join('')}</span></td>`; }).join('');
+      body += `<tr><td class="svc"><button data-s="${id}">${s.sp==='usa'?'<span class="dot" data-sp="usa"></span>':''}<span>${esc(s.n)}<small>${esc(s.d.split(/[.:;]/)[0])}</small></span></button></td>${cells}<td class="cnt">${n}</td></tr>`;
+    });
+  });
+  $('#mx').innerHTML = head + `<tbody>${body || `<tr><td class="svc empty" colspan="${A.length+2}">Ningún servicio coincide con los filtros.</td></tr>`}</tbody>`;
+}
+
+/* ===================== VISTA: BROKERS ===================== */
+function renderBrokers(){
+  const b = bkById(st.bk), s = S[b.id];
+  const item = ([id,how]) => `<button class="bk-item${inSpark(id)?'':' off'}" data-s="${id}" data-r="${S[id].cat==='Mensajería'?'B':'P'}"><b>${esc(S[id].n)}${S[id].sp==='usa'?'<span class="dot" data-sp="usa"></span>':''}</b><span>${esc(how)}</span></button>`;
+  const itemOut = ([id,how]) => item([id,how]).replace('data-r="P"','data-r="C"');
+  $('#v-brokers').innerHTML = `
+  <div class="bk-pick" role="group" aria-label="Elegir broker">${BK.map(x=>`<button data-bk="${x.id}" aria-pressed="${x.id===b.id}"><span class="dot" data-sp="${S[x.id].sp}"></span>${esc(S[x.id].n)}</button>`).join('')}</div>
+  <div class="hub ${st.sk!=='off'?'dim':''}">
+    <div class="hub-side" data-r="P"><h3>${g('P')} Quién le escribe</h3>${b.in.map(item).join('')}</div>
+    ${arrow()}
+    <div class="core">
+      <div class="eyebrow">${esc(b.as)}</div>
+      <h3>${esc(s.n)}</h3>
+      <p class="sub">${esc(s.d)}</p>
+      <dl class="kv">${BK_KEYS.map((k,i)=>`<dt>${k}</dt><dd>${esc(b.pr[i])}</dd>`).join('')}</dl>
+      <div class="use"><p><b>Úsalo para</b>${esc(b.use)}</p><p><b>Evítalo cuando</b>${esc(b.avoid)}</p>
+      <p><b>SPARK</b><span class="pill" style="margin-top:4px"><span class="dot" data-sp="${s.sp}"></span>${SP[s.sp]}</span></p></div>
+    </div>
+    ${arrow()}
+    <div class="hub-side" data-r="C"><h3>${g('C')} Quién lo lee</h3>${b.out.map(itemOut).join('')}</div>
+  </div>
+  <h2 class="cmp-h">Comparativa de transportes</h2>
+  <div class="cmp-wrap"><table class="cmp">
+    <thead><tr><th></th>${BK.map(x=>`<th class="${x.id===b.id?'cur':''}"><button data-bk="${x.id}">${esc(S[x.id].n)}</button></th>`).join('')}</tr></thead>
+    <tbody>${BK_KEYS.map((k,i)=>`<tr><th>${k}</th>${BK.map(x=>`<td class="${x.id===b.id?'cur':''}">${esc(x.pr[i])}</td>`).join('')}</tr>`).join('')}
+      <tr><th>Productores nativos</th>${BK.map(x=>`<td class="${x.id===b.id?'cur':''} mono">${x.in.length}</td>`).join('')}</tr>
+      <tr><th>Consumidores nativos</th>${BK.map(x=>`<td class="${x.id===b.id?'cur':''} mono">${x.out.length}</td>`).join('')}</tr>
+    </tbody></table></div>`;
+}
+
+/* ===================== VISTA: DECIDIR ===================== */
+function renderDecide(){
+  const path = st.path, last = path[path.length-1];
+  const isRes = last.startsWith('R:');
+  let trail = '';
+  path.forEach((node, i) => {
+    if (node.startsWith('R:')) return;
+    const q = DT[node], next = path[i+1];
+    if (next){
+      const picked = q.o.find(o => o[1] === next);
+      trail += `<div class="qcard past"><h3>${esc(q.q)}</h3><p>${esc(picked[0])}</p></div>`;
+    } else {
+      trail += `<div class="qcard"><h3>${esc(q.q)}</h3><div class="opts">${q.o.map(o=>`<button class="opt" data-go="${o[1]}">${esc(o[0])}</button>`).join('')}</div></div>`;
+    }
+  });
+  if (path.length > 1) trail += `<button class="reset" data-reset="1">← Empezar de nuevo</button>`;
+  let res = `<div class="result"><div class="eyebrow">Recomendación</div><p class="empty">Responde las preguntas de la izquierda. Al final verás el servicio, la cadena típica productor → transporte → consumidor y el error que evita.</p>
+    <div class="chain">${['P','B','C','D','S'].map((r,i)=>`${i?'<i>→</i>':''}<span class="pill">${g(r)}${ROLES[r].n}</span>`).join('')}</div></div>`;
+  if (isRes){
+    const id = last.slice(2), r = RES[id], s = S[id];
+    res = `<div class="result">
+      <div class="eyebrow">Recomendación</div>
+      <h3>${esc(s.n)}</h3>
+      <p>${esc(r.why)}</p>
+      <div><div class="eyebrow" style="margin-bottom:6px">Cadena típica</div>
+        <div class="chain">${r.ch.map(([cid,role],i)=>`${i?'<i>→</i>':''}${chip(cid,'',role)}`).join('')}</div></div>
+      <p class="avoid">${esc(r.avoid)}</p>
+      <div class="actions">
+        ${bkById(id)?`<button class="btn" data-gobk="${id}">Ver productores y consumidores</button>`:''}
+        <button class="btn" data-goarch="${r.a}">Ver arquitectura: ${esc(archById(r.a).n)}</button>
+        <button class="btn" data-s="${id}">Ficha del servicio</button>
+      </div></div>`;
+  }
+  $('#v-decidir').innerHTML = `<div class="decide"><div class="trail">${trail}</div>${res}</div>`;
+}
+
+/* ===================== CAJÓN DE DETALLE ===================== */
+let lastFocus = null;
+function openDrawer(id){
+  const s = S[id]; if (!s) return;
+  lastFocus = document.activeElement;
+  const ins = A.filter(a => rolesOf(id,a.id).length);
+  const sec = (t,v,cls='') => v ? `<div class="dsec ${cls}"><h4>${t}</h4><p>${esc(v)}</p></div>` : '';
+  const dr = $('#drawer');
+  dr.innerHTML = `
+    <button class="dr-close" id="dr-close">Cerrar ✕</button>
+    <div><div class="cat">${esc(s.cat)}</div><h2>${esc(s.n)}</h2></div>
+    <span class="pill" style="justify-self:start"><span class="dot" data-sp="${s.sp}"></span>${SP[s.sp]}</span>
+    <p>${esc(s.d)}</p>
+    ${s.p?`<div class="dsec"><h4>${g('P')} Produce / entrega</h4><p>${esc(s.p)}</p></div>`:''}
+    ${s.c?`<div class="dsec"><h4>${g('C')} Consume / recibe</h4><p>${esc(s.c)}</p></div>`:''}
+    ${sec('Claves',s.k)}
+    ${s.net?`<div class="dsec"><h4>.NET</h4><p><code>${esc(s.net)}</code></p></div>`:''}
+    ${s.rbac?`<div class="dsec"><h4>Rol RBAC (sin secretos)</h4><p><code>${esc(s.rbac)}</code></p></div>`:''}
+    ${sec('Para el examen',s.tip,'tip')}
+    <div class="dsec"><h4>Aparece en ${ins.length} de ${A.length} arquitecturas</h4>
+      <div class="in-archs">${ins.length?ins.map(a=>`<button data-goarch="${a.id}"><span>${esc(a.n)}</span><span class="cell">${rolesOf(id,a.id).map(g).join('')}</span></button>`).join(''):'<p class="empty">Solo como referencia.</p>'}</div></div>
+    ${bkById(id)?`<button class="btn" data-gobk="${id}" style="justify-self:start">Ver quién le escribe y quién lo lee →</button>`:''}`;
+  dr.classList.add('on'); dr.setAttribute('aria-hidden','false'); $('#scrim').classList.add('on');
+  $('#dr-close').focus();
+}
+function closeDrawer(){
+  const dr = $('#drawer'); if (!dr.classList.contains('on')) return;
+  dr.classList.remove('on'); dr.setAttribute('aria-hidden','true'); $('#scrim').classList.remove('on');
+  lastFocus?.focus?.();
+}
+
+/* ===================== NAVEGACIÓN ===================== */
+function show(view, push=true){
+  st.view = view;
+  document.querySelectorAll('.view').forEach(v => v.hidden = v.id !== 'v-' + view);
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.v === view));
+  ({mapa:renderMap, matriz:renderMatrix, brokers:renderBrokers, decidir:renderDecide})[view]();
+  if (push){
+    const h = view === 'mapa' ? 'mapa-' + st.arch : view === 'brokers' ? 'brokers-' + st.bk : view;
+    if (location.hash !== '#' + h) history.replaceState(null, '', '#' + h);
+  }
+}
+function fromHash(){
+  const h = location.hash.slice(1);
+  const [v, sub] = [h.split('-')[0], h.split('-').slice(1).join('-')];
+  if (v === 'mapa' && archById(sub)) st.arch = sub;
+  if (v === 'brokers' && bkById(sub)) st.bk = sub;
+  show(['mapa','matriz','brokers','decidir'].includes(v) ? v : 'mapa', false);
+}
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) { if (e.target.id === 'scrim') closeDrawer(); return; }
+  if (t.dataset.v) return show(t.dataset.v);
+  if (t.dataset.sk){
+    st.sk = t.dataset.sk;
+    document.querySelectorAll('[data-sk]').forEach(b => b.setAttribute('aria-pressed', b.dataset.sk === st.sk));
+    return show(st.view);
+  }
+  if (t.dataset.a){ st.arch = t.dataset.a; return show('mapa'); }
+  if (t.dataset.goarch){ st.arch = t.dataset.goarch; closeDrawer(); show('mapa'); return window.scrollTo({top:$('nav.tabs').offsetTop, behavior:'smooth'}); }
+  if (t.dataset.gobk){ st.bk = t.dataset.gobk; closeDrawer(); return show('brokers'); }
+  if (t.dataset.bk){ st.bk = t.dataset.bk; return show('brokers'); }
+  if (t.dataset.go){ st.path.push(t.dataset.go); return renderDecide(); }
+  if (t.dataset.reset){ st.path = ['start']; return renderDecide(); }
+  if (t.id === 'dr-close') return closeDrawer();
+  if (t.dataset.s) return openDrawer(t.dataset.s);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+window.addEventListener('hashchange', fromHash);
+
+/* Resalta la columna de la matriz al pasar el mouse */
+document.addEventListener('mouseover', e => {
+  const td = e.target.closest('.mx [data-c]');
+  document.querySelectorAll('.mx .hl').forEach(x => x.classList.remove('hl'));
+  if (td) document.querySelectorAll(`.mx [data-c="${td.dataset.c}"]`).forEach(x => x.classList.add('hl'));
+});
+
+fromHash();
+</script>
+
+</body></html>
