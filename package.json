@@ -2,12 +2,17 @@
   "name": "quicktheorynet",
   "version": "1.0.0",
   "private": true,
-  "description": "Repositorio para aprender Quick theory en .NET",
+  "description": "Atlas de servicios Azure: toda arquitectura se lee como una frase",
   "scripts": {
     "start": "live-server --port=8080 --open=index.html --ignore=node_modules,.git",
-    "dev": "npm start"
+    "dev": "npm start",
+    "atlas": "node tools/generar-atlas.mjs",
+    "verificar": "node tools/verificar-enlaces.mjs"
   },
   "devDependencies": {
     "live-server": "^1.2.2"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

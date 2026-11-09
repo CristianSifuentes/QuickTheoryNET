@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 460" width="1600" height="460" font-family="Segoe UI, Inter, 'Helvetica Neue', Arial, sans-serif" role="img" aria-labelledby="t">
+<title id="t">Atlas de servicios Azure · Toda arquitectura se lee como una frase</title>
+<defs>
+<linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#030712"/><stop offset="0.55" stop-color="#0A1424"/><stop offset="1" stop-color="#101C33"/></linearGradient>
+<radialGradient id="haloA" cx="0.88" cy="0.08" r="0.7"><stop offset="0" stop-color="#A78BFA" stop-opacity="0.22"/><stop offset="1" stop-color="#A78BFA" stop-opacity="0"/></radialGradient>
+<radialGradient id="haloB" cx="0.06" cy="0.96" r="0.6"><stop offset="0" stop-color="#2DD4BF" stop-opacity="0.18"/><stop offset="1" stop-color="#2DD4BF" stop-opacity="0"/></radialGradient>
+<pattern id="rejilla" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#FFFFFF" stroke-opacity="0.035"/></pattern>
+<linearGradient id="trazo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2DD4BF"/><stop offset="0.25" stop-color="#A78BFA"/><stop offset="0.5" stop-color="#FB923C"/><stop offset="0.75" stop-color="#60A5FA"/><stop offset="1" stop-color="#A3E635"/></linearGradient>
+<marker id="flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#CBD5E1"/></marker>
+</defs><rect width="1600" height="460" fill="url(#fondo)"/><rect width="1600" height="460" fill="url(#rejilla)"/><rect width="1600" height="460" fill="url(#haloA)"/><rect width="1600" height="460" fill="url(#haloB)"/>
+<g transform="translate(76,58)">
+  <rect x="0" y="0" width="108" height="108" rx="22" fill="#0A1424" stroke="url(#trazo)" stroke-width="3"/>
+  <g font-family="'IBM Plex Mono', 'JetBrains Mono', Consolas, monospace" font-size="21" font-weight="800" text-anchor="middle">
+    <text x="30" y="44" fill="#2DD4BF">P</text><text x="54" y="44" fill="#A78BFA">B</text><text x="78" y="44" fill="#FB923C">C</text>
+    <text x="42" y="76" fill="#60A5FA">D</text><text x="66" y="76" fill="#A3E635">S</text>
+  </g>
+  <rect x="10" y="88" width="88" height="6" rx="3" fill="#94A3B8" fill-opacity="0.7"/>
+</g>
+<text x="214" y="96" font-size="17" font-weight="600" letter-spacing="3" fill="#94A3B8">QUICKTHEORYNET · ATLAS</text>
+<text x="212" y="152" font-size="64" font-weight="800" fill="#F8FAFC">Atlas de servicios <tspan fill="#A78BFA">Azure</tspan></text>
+<text x="214" y="194" font-size="24" fill="#CBD5E1">Toda arquitectura se lee como una frase · 45 servicios · 10 arquitecturas · 10 brokers · noviembre 2026</text>
+<rect x="104" y="240" width="1392" height="196" rx="30" fill="none" stroke="#94A3B8" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="7 7"/>
+<rect x="90" y="226" width="1420" height="224" rx="38" fill="none" stroke="#94A3B8" stroke-opacity="0.32" stroke-width="2" stroke-dasharray="3 7"/>
+<rect x="118" y="254" width="1364" height="168" rx="22" fill="none" stroke="#94A3B8" stroke-opacity="0.8" stroke-width="2"/>
+<rect x="1088" y="230" width="400" height="22" fill="#0E1A2F"/>
+<text x="1476" y="246" font-size="13" fill="#CBD5E1" text-anchor="end" letter-spacing="2">IDENTIDAD · RED · OBSERVABILIDAD ENVUELVEN TODO</text>
+<line x1="286" y1="330" x2="474" y2="330" stroke="#CBD5E1" stroke-opacity="0.75" stroke-width="2.5" marker-end="url(#flecha)"/><line x1="566" y1="330" x2="754" y2="330" stroke="#CBD5E1" stroke-opacity="0.75" stroke-width="2.5" marker-end="url(#flecha)"/><line x1="846" y1="330" x2="1034" y2="330" stroke="#CBD5E1" stroke-opacity="0.75" stroke-width="2.5" marker-end="url(#flecha)"/><line x1="1126" y1="330" x2="1314" y2="330" stroke="#CBD5E1" stroke-opacity="0.75" stroke-width="2.5" marker-end="url(#flecha)"/><g transform="translate(240,330)">
+<circle r="40" fill="#042F2E" stroke="#2DD4BF" stroke-width="3"/>
+<text y="13" font-size="38" font-weight="800" fill="#2DD4BF" text-anchor="middle" font-family="'IBM Plex Mono', 'JetBrains Mono', Consolas, monospace">P</text>
+<text y="-56" font-size="22" font-weight="700" fill="#F8FAFC" text-anchor="middle">Alguien produce</text>
+<text y="72" font-size="14.5" fill="#94A3B8" text-anchor="middle">ACS · Graph · tu API</text></g><g transform="translate(520,330)">
+<circle r="40" fill="#1E1B4B" stroke="#A78BFA" stroke-width="3"/>
+<text y="13" font-size="38" font-weight="800" fill="#A78BFA" text-anchor="middle" font-family="'IBM Plex Mono', 'JetBrains Mono', Consolas, monospace">B</text>
+<text y="-56" font-size="22" font-weight="700" fill="#F8FAFC" text-anchor="middle">Algo transporta</text>
+<text y="72" font-size="14.5" fill="#94A3B8" text-anchor="middle">Event Grid · Service Bus · Event Hubs</text></g><g transform="translate(800,330)">
+<circle r="40" fill="#3B1D0A" stroke="#FB923C" stroke-width="3"/>
+<text y="13" font-size="38" font-weight="800" fill="#FB923C" text-anchor="middle" font-family="'IBM Plex Mono', 'JetBrains Mono', Consolas, monospace">C</text>
+<text y="-56" font-size="22" font-weight="700" fill="#F8FAFC" text-anchor="middle">Alguien consume</text>
+<text y="72" font-size="14.5" fill="#94A3B8" text-anchor="middle">Functions · AKS · Container Apps</text></g><g transform="translate(1080,330)">
+<circle r="40" fill="#0C2744" stroke="#60A5FA" stroke-width="3"/>
+<text y="13" font-size="38" font-weight="800" fill="#60A5FA" text-anchor="middle" font-family="'IBM Plex Mono', 'JetBrains Mono', Consolas, monospace">D</text>
+<text y="-56" font-size="22" font-weight="700" fill="#F8FAFC" text-anchor="middle">Algo guarda</text>
+<text y="72" font-size="14.5" fill="#94A3B8" text-anchor="middle">Azure SQL · Cosmos DB · Redis</text></g><g transform="translate(1360,330)">
+<circle r="40" fill="#1A2E05" stroke="#A3E635" stroke-width="3"/>
+<text y="13" font-size="38" font-weight="800" fill="#A3E635" text-anchor="middle" font-family="'IBM Plex Mono', 'JetBrains Mono', Consolas, monospace">S</text>
+<text y="-56" font-size="22" font-weight="700" fill="#F8FAFC" text-anchor="middle">Algo entrega</text>
+<text y="72" font-size="14.5" fill="#94A3B8" text-anchor="middle">SignalR · Power BI · Notification Hubs</text></g>
+</svg>
