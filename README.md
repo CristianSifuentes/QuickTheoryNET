@@ -121,7 +121,7 @@ flowchart LR
     P["Ⓟ Produce<br/><small>ACS · Graph · tu API · Blob</small>"]:::P --> B{{"Ⓑ Transporta<br/><small>Event Grid · Service Bus · Event Hubs</small>"}}:::B
     B --> C["Ⓒ Consume<br/><small>Functions · AKS · Container Apps</small>"]:::C
     C <--> D[("Ⓓ Guarda<br/><small>Azure SQL · Cosmos DB · Redis</small>")]:::D
-    C --> S2{{"Ⓑ canal push<br/><small>SignalR</small>"}}:::B --> S["Ⓢ Entrega<br/><small>Portal · Power BI · móvil</small>"]:::S
+    C --> S2{{"Ⓑ canal push<br/><small>SignalR</small>"}}:::B --> S["Ⓢ Entrega<br/><small>LandingPage · Power BI · móvil</small>"]:::S
     C -.->|"ley del encadenamiento:<br/>el Ⓒ de una frase es el Ⓟ de la siguiente"| B
     subgraph X["Ⓧ Identidad · Red · Observabilidad: en cada flecha"]
         direction LR
@@ -176,7 +176,7 @@ Los cambios de papel no son aleatorios. Hay **nueve conversiones**, cada una con
 | Ⓒ ↔ Ⓟ | El agente encadena | *Trigger* + *binding* de salida | Functions, Logic Apps, ACS, tu servicio .NET |
 | Ⓑ ↔ Ⓢ | El canal es la salida | *Push* como transporte o como última milla | SignalR, Web PubSub |
 | Ⓑ ↔ Ⓓ | La memoria avisa | Pub/sub efímero sobre la cache | Azure Managed Redis |
-| Ⓟ ↔ Ⓢ | El cliente pregunta y recibe | La misma pantalla envía comandos y recibe *push* | Portal, PowerPack, móvil |
+| Ⓟ ↔ Ⓢ | El cliente pregunta y recibe | La misma pantalla envía comandos y recibe *push* | LandingPage, PowerPack, móvil |
 | Ⓧ ↔ Ⓟ | La envoltura habla | `SecretNearExpiry`, `KeyValueModified`, `ImagePushed`, *diagnostic settings* | Key Vault, App Configuration, ACR, Monitor |
 | Ⓒ ↔ Ⓓ | El motor también sirve | Procesa y después guarda lo que otros leen | Synapse Analytics, Azure Machine Learning |
 
@@ -207,7 +207,7 @@ Las trece arquitecturas del atlas, escritas con la misma gramática. Lo que camb
 | 5 | [**Serverless**](docs/11-trece-arquitecturas-como-frases.md#5-serverless) | Ⓟ HTTP, *Blob*, *Cosmos change feed*, *SQL Change Tracking* → Ⓑ Event Grid, Service Bus → Ⓒ **Functions**, Durable → Ⓓ Cosmos DB, SQL → Ⓢ SignalR | 🟡 |
 | 6 | [**CQRS + Event Sourcing**](docs/11-trece-arquitecturas-como-frases.md#6-cqrs--event-sourcing) | Ⓟ comandos → Ⓒ escritura → Ⓓ **event store** → Ⓒ proyectores → Ⓑ integración → Ⓓ modelos de lectura | 🟡 |
 | 7 | [**Saga y workflows**](docs/11-trece-arquitecturas-como-frases.md#7-saga-y-workflows-distribuidos) | Ⓟ ACS → Ⓒ **orquestador** → Ⓑ comandos y *timeouts* → Ⓒ participantes (*ACS como participante*) → Ⓓ estado de la saga | 🟢 |
-| 8 | [**Tiempo real**](docs/11-trece-arquitecturas-como-frases.md#8-tiempo-real-hacia-clientes) | Ⓟ ACS, *Event Grid como origen* → Ⓒ backend → Ⓑ **SignalR**, Web PubSub → Ⓢ Portal → Ⓓ SQL para resincronizar | 🟢 |
+| 8 | [**Tiempo real**](docs/11-trece-arquitecturas-como-frases.md#8-tiempo-real-hacia-clientes) | Ⓟ ACS, *Event Grid como origen* → Ⓒ backend → Ⓑ **SignalR**, Web PubSub → Ⓢ LandingPage → Ⓓ SQL para resincronizar | 🟢 |
 | 9 | [**IoT y edge**](docs/11-trece-arquitecturas-como-frases.md#9-iot-y-edge) | Ⓟ dispositivos → Ⓑ **IoT Hub**, Event Grid MQTT → Ⓒ Stream Analytics, Functions → Ⓓ Data Explorer, Blob → Ⓢ Power BI | · |
 | 10 | [**Monolito modular**](docs/11-trece-arquitecturas-como-frases.md#10-monolito-modular-en-paas) | Ⓟ clientes, ACS → Ⓑ App Gateway → Ⓒ **App Service** → Ⓑ Storage Queue, Event Grid → Ⓓ una base, esquemas por módulo | 🟢 |
 | 11 | [**Big Data y analítica**](docs/11-trece-arquitecturas-como-frases.md#11-big-data-y-analítica-en-la-nube) | Ⓟ SQL, Cosmos DB, sistemas locales → Ⓑ Data Factory, Event Hubs → Ⓓ **ADLS** (medallion) → Ⓒ Databricks, *Synapse* → Ⓓ *Synapse*, Data Explorer → Ⓢ Power BI | · |

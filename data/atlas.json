@@ -559,7 +559,7 @@
       "primario": "P"
     },
     "web": {
-      "n": "Clientes (Portal, PowerPack, móvil)",
+      "n": "Clientes (LandingPage, PowerPack, móvil)",
       "cat": "Fuentes",
       "sp": "usa",
       "d": "Navegadores, Teams y apps.",
@@ -1903,7 +1903,7 @@
             ],
             [
               "signalr",
-              "presencia en el Portal"
+              "presencia en el LandingPage"
             ]
           ]
         }
@@ -1947,7 +1947,7 @@
           "i": [
             [
               "web",
-              "Portal, PowerPack"
+              "LandingPage, PowerPack"
             ],
             [
               "acs",
@@ -2262,7 +2262,7 @@
           "i": [
             [
               "web",
-              "Portal"
+              "LandingPage"
             ],
             [
               "apim",
@@ -2562,7 +2562,7 @@
           "i": [
             [
               "web",
-              "Portal, PowerPack, Teams"
+              "LandingPage, PowerPack, Teams"
             ]
           ]
         },
@@ -2602,8 +2602,8 @@
         "Grupos amplios con datos sensibles",
         "Polling cada segundo"
       ],
-      "tracer": "Hub /callshub y avisos como ConfigurationChanged hacia el Portal y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.",
-      "ph": "La consistencia eventual se nota aquí: el Portal ve \"agente conectado\" milisegundos después. La UI se diseña para tolerarlo."
+      "tracer": "Hub /callshub y avisos como ConfigurationChanged hacia el LandingPage y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.",
+      "ph": "La consistencia eventual se nota aquí: el LandingPage ve \"agente conectado\" milisegundos después. La UI se diseña para tolerarlo."
     },
     {
       "id": "iot",
@@ -2732,7 +2732,7 @@
           "i": [
             [
               "web",
-              "Portal, PowerPack"
+              "LandingPage, PowerPack"
             ],
             [
               "acs",
@@ -3611,7 +3611,7 @@
       "out": [
         [
           "web",
-          "Portal, PowerPack, Teams"
+          "LandingPage, PowerPack, Teams"
         ],
         [
           "eventgrid",
@@ -3842,7 +3842,7 @@
       "q": "¿A dónde llega el aviso?",
       "o": [
         [
-          "Navegador o Teams (Portal, PowerPack)",
+          "Navegador o Teams (LandingPage, PowerPack)",
           "R:signalr"
         ],
         [

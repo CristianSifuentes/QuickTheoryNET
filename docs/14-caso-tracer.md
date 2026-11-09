@@ -1,6 +1,6 @@
 # 14 · Caso práctico: TRACER, leído como frase
 
-> TRACER es el sistema de referencia del atlas: una plataforma de gestión de llamadas sobre Azure Communication Services, con un Portal y PowerPack para
+> TRACER es el sistema de referencia del atlas: una plataforma de gestión de llamadas sobre Azure Communication Services, con un LandingPage y PowerPack para
 > supervisores y agentes. La vista interactiva lo resalta con el selector **Resaltar TRACER** (*No · Hoy · + Objetivo AKS*). Este capítulo hace lo mismo
 > con la gramática: analiza **lo que TRACER dice hoy**, **lo que dirá** en su arquitectura objetivo y **qué frases faltan**.
 
@@ -24,7 +24,7 @@
 
 | Estado | Servicios | # |
 |---|---|:-:|
-| 🟢 **Lo usa hoy** | Event Grid · SignalR Service · App Service · Azure Functions · Azure SQL · Blob Storage · Communication Services · Microsoft Graph · Clientes (Portal, PowerPack) · servicios .NET propios · Entra ID · Application Insights · Azure DevOps | 13 |
+| 🟢 **Lo usa hoy** | Event Grid · SignalR Service · App Service · Azure Functions · Azure SQL · Blob Storage · Communication Services · Microsoft Graph · Clientes (LandingPage, PowerPack) · servicios .NET propios · Entra ID · Application Insights · Azure DevOps | 13 |
 | 🟡 **Parcial** | Event Hubs · Key Vault | 2 |
 | 🔷 **Arquitectura objetivo** | Service Bus · AKS · KEDA · Application Gateway · Azure Managed Redis · Managed / Workload Identity · VNet + NSG · Private Endpoint + DNS · Container Registry | 9 |
 | · **No está en TRACER** | Los 29 restantes (Cosmos DB, Durable Functions, IoT Hub, Data Explorer, Azure OpenAI, Azure Arc…) | 29 |
@@ -37,7 +37,7 @@ Leídos por papel, los 15 servicios en uso (🟢 y 🟡) cuentan una historia cl
 | Ⓑ | Event Grid, Event Hubs 🟡, SignalR | **Service Bus**, Application Gateway |
 | Ⓒ | App Service, Functions | **AKS**, **KEDA** |
 | Ⓓ | Azure SQL, Blob Storage | **Azure Managed Redis** |
-| Ⓢ | SignalR → Portal y PowerPack | — |
+| Ⓢ | SignalR → LandingPage y PowerPack | — |
 | Ⓧ | Entra ID, App Insights, Azure DevOps, Key Vault 🟡 | **Workload Identity**, **VNet**, **Private Endpoints**, Container Registry |
 
 > [!IMPORTANT]
@@ -52,7 +52,7 @@ Leídos por papel, los 15 servicios en uso (🟢 y 🟡) cuentan una historia cl
 |---|:-:|---|
 | [Event-driven reactivo](11-trece-arquitecturas-como-frases.md#1-event-driven-reactivo) | 🟢 | **Es la columna vertebral:** ACS → Event Grid → `EventsController` y `EventGridAzureFunction`. `CallGarbageManager` publica `DisconnectCall` al *custom topic* |
 | [Saga y workflows](11-trece-arquitecturas-como-frases.md#7-saga-y-workflows-distribuidos) | 🟢 | `WorkflowManager` es el orquestador; `WorkflowContext`, el estado; `OnTransferFailedAction` y `CancelInvitationAction`, las compensaciones; `CallGarbageManager`, el barrendero |
-| [Tiempo real](11-trece-arquitecturas-como-frases.md#8-tiempo-real-hacia-clientes) | 🟢 | Hub `/callshub` y avisos como `ConfigurationChanged` hacia el Portal y PowerPack |
+| [Tiempo real](11-trece-arquitecturas-como-frases.md#8-tiempo-real-hacia-clientes) | 🟢 | Hub `/callshub` y avisos como `ConfigurationChanged` hacia el LandingPage y PowerPack |
 | [Monolito modular en PaaS](11-trece-arquitecturas-como-frases.md#10-monolito-modular-en-paas) | 🟢 | Así se despliega hoy: App Service, varios servicios y paquetes NuGet compartidos |
 | [Streaming](11-trece-arquitecturas-como-frases.md#3-event-streaming-y-telemetría) | 🟡 | Tres *hubs* (`SuperHandlerPresences`, `Presences`, `CallsCatcher`); Graph envía presencias y `TRACER.Presences` las consume |
 | [Serverless](11-trece-arquitecturas-como-frases.md#5-serverless) | 🟡 | `EventGridAzureFunction` (*isolated worker*) con Clean Architecture |
@@ -77,7 +77,7 @@ flowchart LR
     WF["Ⓒ WorkflowManager<br/>orquestador de la saga"]:::C
     SQL[("Ⓓ Azure SQL<br/>WorkflowContext")]:::D
     SR{{"Ⓑ SignalR Service<br/>/callshub"}}:::B
-    UI["Ⓢ Portal · PowerPack"]:::S
+    UI["Ⓢ LandingPage · PowerPack"]:::S
     GC["Ⓟ CallGarbageManager<br/>barrendero"]:::P
     ACS --> EG --> API & FN
     API --> WF --> SQL
@@ -122,14 +122,14 @@ Las frases que TRACER **no** dice todavía, cada una con la ley que la exige:
 flowchart LR
     ACS["Ⓟ ACS"]:::P --> EG{{"Ⓑ Event Grid"}}:::B
     EG -->|"/events (Entra ID)"| AGW{{"Ⓑ App Gateway + WAF"}}:::B
-    WEB["Ⓟ Portal · PowerPack"]:::P -->|"/api"| AGW
+    WEB["Ⓟ LandingPage · PowerPack"]:::P -->|"/api"| AGW
     AGW --> API["Ⓒ tracer-api<br/>webhook delgado: valida, encola, 202"]:::C
     API -->|"SessionId = CallConnectionId"| SB{{"Ⓑ Service Bus<br/>sesiones · DLQ"}}:::B
     SB --> WK["Ⓒ call-worker<br/>KEDA por longitud de cola"]:::C
     WK -->|"gRPC"| RT["Ⓒ routing-svc"]:::C
     WK --> SQL[("Ⓓ Azure SQL<br/>Inbox · Outbox · saga")]:::D
     WK --> RD[("Ⓓ Managed Redis<br/>locks · cache")]:::D
-    WK --> SR{{"Ⓑ SignalR"}}:::B --> UI["Ⓢ Portal · PowerPack"]:::S
+    WK --> SR{{"Ⓑ SignalR"}}:::B --> UI["Ⓢ LandingPage · PowerPack"]:::S
     X["Ⓧ Workload Identity · VNet · Private Endpoints · Key Vault · App Insights · ACR · DevOps"]:::X -.- SB
     classDef P fill:#042F2E,stroke:#2DD4BF,color:#F8FAFC,stroke-width:2px
     classDef B fill:#1E1B4B,stroke:#A78BFA,color:#F8FAFC,stroke-width:2px
@@ -181,7 +181,7 @@ Cada arquitectura del atlas trae su frase en primera persona. Estas son las trec
 | Serverless | *"Una Function es productor y consumidor a la vez: el trigger la alimenta y el binding de salida publica."* |
 | CQRS | *"CQRS es separar modelos de lectura y escritura, no una librería. Event sourcing es guardar el estado como eventos; son independientes."* |
 | Saga | *"Transferir a un agente es una saga: reservo, invito y espero. Si falla o vence el timer, compenso: libero, cancelo y regreso la llamada a la cola."* |
-| Tiempo real | *"La consistencia eventual se nota aquí: el Portal ve 'agente conectado' milisegundos después. La UI se diseña para tolerarlo."* |
+| Tiempo real | *"La consistencia eventual se nota aquí: el LandingPage ve 'agente conectado' milisegundos después. La UI se diseña para tolerarlo."* |
 | IoT | *"IoT Hub es Event Hubs más gestión de dispositivos. Si solo necesito pub/sub MQTT, uso Event Grid namespaces."* |
 | Monolito | *"TRACER es más un monolito modular que microservicios. Es una decisión válida mientras el estado viva fuera del proceso."* |
 | Big Data | *"El lago guarda, los motores consumen y Power BI entrega. En la medallion el dato crudo nunca se edita: se reprocesa."* |

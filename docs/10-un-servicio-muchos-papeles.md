@@ -77,7 +77,7 @@ flowchart LR
 | 4 | Ⓒ ↔ Ⓟ | **El agente encadena** | *Trigger* + *binding* de salida; acción *Send message*; comando REST de vuelta | Azure Functions, Logic Apps, Communication Services, tu servicio .NET |
 | 5 | Ⓑ ↔ Ⓢ | **El canal es la salida** | El servicio *push* es transporte (tiempo real) o la última milla (streaming, IoT) | SignalR Service, Web PubSub |
 | 6 | Ⓑ ↔ Ⓓ | **La memoria avisa** | Pub/sub efímero sobre el mismo almacén de cache | Azure Managed Redis |
-| 7 | Ⓟ ↔ Ⓢ | **El cliente pregunta y recibe** | La misma pantalla envía comandos y recibe *push* | Clientes (Portal, PowerPack, móvil) |
+| 7 | Ⓟ ↔ Ⓢ | **El cliente pregunta y recibe** | La misma pantalla envía comandos y recibe *push* | Clientes (LandingPage, PowerPack, móvil) |
 | 8 | Ⓧ ↔ Ⓟ | **La envoltura habla** | Eventos de sistema: `SecretNearExpiry`, `KeyValueModified`, `ImagePushed`; *diagnostic settings* a Event Hubs | Key Vault, App Configuration, Container Registry, Application Insights / Monitor |
 | 9 | Ⓒ ↔ Ⓓ | **El motor también sirve** | El mismo servicio procesa y después guarda el resultado que otros leen: *data warehouse*, registro de modelos | Synapse Analytics, Azure Machine Learning |
 
@@ -142,7 +142,7 @@ del servicio (los datos de la vista interactiva).
 | Papel | Arquitectura | Qué hace allí |
 |:-:|---|---|
 | Ⓑ | Tiempo real | **Canal push** con grupos por *tenant* |
-| Ⓢ | Streaming · Serverless | **Salida**: presencia en el Portal; *binding* de salida |
+| Ⓢ | Streaming · Serverless | **Salida**: presencia en el LandingPage; *binding* de salida |
 
 ### Communication Services · Ⓟ Ⓒ
 
@@ -228,7 +228,7 @@ La misma matriz, en texto. Cada celda es el papel (o papeles) del servicio en es
 | [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls) | ⓅⒹ | · | Ⓓ | Ⓓ | ⓅⒹ | · | Ⓓ | · | Ⓓ | Ⓓ | Ⓓ | Ⓓ | Ⓓ | **2** |
 | [Cosmos DB](15-catalogo-a-z.md#cosmos-db) | Ⓓ | · | Ⓓ | Ⓓ | ⓅⒹ | Ⓓ | Ⓓ | · | Ⓓ | · | Ⓟ | Ⓓ | · | **2** |
 | [Event Grid](15-catalogo-a-z.md#event-grid) | Ⓑ | Ⓟ | · | Ⓑ | Ⓑ | Ⓑ | Ⓑ | Ⓟ | · | Ⓑ | · | · | · | **2** |
-| [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil) | · | · | · | Ⓟ | Ⓟ | Ⓟ | Ⓟ | Ⓢ | · | Ⓟ | · | ⓅⓈ | · | **2** |
+| [Clientes (LandingPage, PowerPack, móvil)](15-catalogo-a-z.md#clientes-landingpage-powerpack-móvil) | · | · | · | Ⓟ | Ⓟ | Ⓟ | Ⓟ | Ⓢ | · | Ⓟ | · | ⓅⓈ | · | **2** |
 | [Key Vault](15-catalogo-a-z.md#key-vault) | Ⓟ | · | · | Ⓧ | Ⓧ | · | · | · | Ⓧ | Ⓧ | · | Ⓧ | Ⓧ | **2** |
 | [Communication Services](15-catalogo-a-z.md#communication-services) | Ⓟ | · | · | Ⓟ | Ⓟ | · | ⓅⒸ | Ⓟ | · | Ⓟ | · | · | · | **2** |
 | [Service Bus](15-catalogo-a-z.md#service-bus) | Ⓒ | Ⓑ | · | Ⓑ | Ⓑ | Ⓑ | Ⓑ | · | · | · | · | · | · | **2** |

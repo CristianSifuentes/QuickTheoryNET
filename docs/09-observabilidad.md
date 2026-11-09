@@ -173,7 +173,7 @@ Los SLO clásicos miden un servicio. En una arquitectura de frases, el usuario p
 | SLO | Definición | Ejemplo para TRACER |
 |---|---|---|
 | **Frescura** | Tiempo desde el hecho en el origen (`time` del CloudEvent) hasta que Ⓓ lo refleja | 99 % de los eventos de llamada reflejados en SQL en < 2 s |
-| **Entrega a la persona** | Tiempo desde el hecho hasta el aviso en Ⓢ | 95 % de los cambios visibles en el Portal en < 3 s |
+| **Entrega a la persona** | Tiempo desde el hecho hasta el aviso en Ⓢ | 95 % de los cambios visibles en el LandingPage en < 3 s |
 | **Completitud** | Mensajes que terminan en DLQ por cada millón | < 10 por millón |
 | **Disponibilidad de la entrada** | Respuestas 2xx en `/events` | 99,95 % |
 

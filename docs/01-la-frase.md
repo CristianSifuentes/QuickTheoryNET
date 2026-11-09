@@ -181,7 +181,7 @@ Tres consecuencias de esta gramática, todas visibles en las [trece arquitectura
 
 | Fenómeno lingüístico | En la arquitectura | Ejemplo |
 |---|---|---|
-| **Sujeto tácito** (se omite Ⓑ) | Una llamada síncrona HTTP: el transporte es la red y, si acaso, un *gateway* | Portal → API Management → API |
+| **Sujeto tácito** (se omite Ⓑ) | Una llamada síncrona HTTP: el transporte es la red y, si acaso, un *gateway* | LandingPage → API Management → API |
 | **Oración compuesta** (Ⓒ se vuelve Ⓟ) | Un consumidor que publica: Functions con *trigger* y *binding* de salida | Event Grid → Function → Service Bus → worker |
 | **Complemento múltiple** (varios Ⓑ seguidos) | Nivelar carga o cambiar de semántica entre tramos | Event Grid (*push*, sin orden) → Service Bus (*pull*, FIFO por sesión) |
 | **Elipsis de Ⓢ** | Frases máquina a máquina: nadie mira en tiempo real | Telemetría → Event Hubs → Capture a ADLS |
@@ -226,7 +226,7 @@ Del enunciado se derivan siete reglas que este atlas usa como criterio de diseñ
 TRACER es el caso práctico del atlas ([capítulo 14](14-caso-tracer.md)). Así se analiza, como en clase de lengua, lo que ocurre cuando entra una llamada:
 
 > *Communication Services* **emite** `IncomingCall`; *Event Grid* lo **enruta**; el *EventsController* lo **procesa** y **registra** el `WorkflowContext` en
-> *Azure SQL*; *SignalR* lo **avisa** al Portal. *Entra ID*, la *VNet* y *Application Insights* lo **envuelven**.
+> *Azure SQL*; *SignalR* lo **avisa** al LandingPage. *Entra ID*, la *VNet* y *Application Insights* lo **envuelven**.
 
 | Palabra | Papel | Función gramatical | Garantía que hereda la frase | Obligación que impone |
 |---|:-:|---|---|---|
@@ -234,7 +234,7 @@ TRACER es el caso práctico del atlas ([capítulo 14](14-caso-tracer.md)). Así 
 | Event Grid | Ⓑ | Verbo | *At-least-once*, sin orden, reintentos hasta 24 h, *dead-letter* a Blob | El consumidor debe deduplicar por `id` y ordenar por `eventTime` |
 | EventsController (App Service) | Ⓒ | Objeto | — | Responder 200 **después** de procesar; ser idempotente |
 | Azure SQL | Ⓓ | Complemento de tiempo | ACID local | Concurrencia optimista o *lock* entre réplicas |
-| SignalR Service | Ⓑ → Ⓢ | Destinatario | *At-most-once* hacia el cliente | El Portal relee el estado al reconectar |
+| SignalR Service | Ⓑ → Ⓢ | Destinatario | *At-most-once* hacia el cliente | El LandingPage relee el estado al reconectar |
 | Entra ID · VNet · App Insights | Ⓧ | Contexto | — | Cada flecha autenticada, privada y trazada |
 
 ```mermaid
@@ -245,7 +245,7 @@ sequenceDiagram
     participant API as Ⓒ EventsController
     participant SQL as Ⓓ Azure SQL
     participant SR as Ⓑ SignalR Service
-    participant UI as Ⓢ Portal
+    participant UI as Ⓢ LandingPage
     ACS->>EG: IncomingCall (CloudEvent, id, eventTime)
     EG->>API: POST /events (reintenta hasta 24 h si no hay 2xx)
     API->>SQL: ¿ya procesé este id? (Inbox)

@@ -25,7 +25,7 @@ Antes de elegir un servicio, nombra el **sustantivo**. Es la decisión que más 
 | **Hecho** (evento discreto) | "Esto pasó." No espera nada de nadie | Pretérito: `CallConnected` | ACS emite `IncomingCall` | Event Grid |
 | **Orden** (comando) | "Haz esto." Espera que alguien lo haga exactamente una vez a efectos de negocio | Imperativo: `TransferCall` | El webhook encola el trabajo de una llamada | Service Bus |
 | **Medición** (stream) | "Esto está pasando." Una serie que se analiza en conjunto | Gerundio: presencias, telemetría | Graph envía cambios de presencia | Event Hubs |
-| **Petición** (request) | "Dame esto ahora." Espera respuesta síncrona | Interrogativo: `GET /calls/42` | El Portal consulta una llamada | HTTP (con APIM o App Gateway) |
+| **Petición** (request) | "Dame esto ahora." Espera respuesta síncrona | Interrogativo: `GET /calls/42` | El LandingPage consulta una llamada | HTTP (con APIM o App Gateway) |
 
 > [!IMPORTANT]
 > Un hecho se nombra en **pasado** (`OrderPlaced`, `BlobCreated`) y una orden en **imperativo** (`PlaceOrder`, `DisconnectCall`). Si en tu sistema hay un
@@ -41,7 +41,7 @@ Pero el papel Ⓟ aparece en lugares menos obvios: **recursos de Azure que emite
 ```mermaid
 flowchart LR
     subgraph H["Personas"]
-        WEB["Portal · Teams · móvil"]:::P
+        WEB["LandingPage · Teams · móvil"]:::P
     end
     subgraph SaaS["SaaS y plataformas"]
         ACS["Communication Services"]:::P

@@ -255,7 +255,7 @@ flowchart LR
     subgraph L4["Ⓢ Salida"]
         direction LR
         L4_0["Power BI<br/><small>dashboards en vivo</small>"]:::S
-        L4_1["SignalR Service<br/><small>presencia en el Portal</small>"]:::S
+        L4_1["SignalR Service<br/><small>presencia en el LandingPage</small>"]:::S
     end
     style L4 fill:#1A2E0522,stroke:#A3E635,stroke-width:2px
     L0 ==> L1
@@ -284,7 +284,7 @@ flowchart LR
 | Ⓑ | **Log particionado** | [Event Hubs](15-catalogo-a-z.md#event-hubs): particiones + consumer groups |
 | Ⓒ | **Procesadores**<br/><sub>un consumer group cada uno</sub> | [AKS](15-catalogo-a-z.md#aks): EventProcessorClient · [Azure Functions](15-catalogo-a-z.md#azure-functions): EventHubTrigger por lotes · [Stream Analytics](15-catalogo-a-z.md#stream-analytics): ventanas y agregados · [Fabric Real-Time Intelligence](15-catalogo-a-z.md#fabric-real-time-intelligence): Eventstream · [Databricks](15-catalogo-a-z.md#databricks): Structured Streaming |
 | Ⓓ | **Almacenes**<br/><sub>hot · warm · cold</sub> | [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls): Capture y checkpoints · [Data Explorer / Eventhouse](15-catalogo-a-z.md#data-explorer--eventhouse): series de tiempo (KQL) · [Cosmos DB](15-catalogo-a-z.md#cosmos-db): estado actual · [Azure SQL](15-catalogo-a-z.md#azure-sql): agregados |
-| Ⓢ | **Salida** | [Power BI](15-catalogo-a-z.md#power-bi): dashboards en vivo · [SignalR Service](15-catalogo-a-z.md#signalr-service): presencia en el Portal |
+| Ⓢ | **Salida** | [Power BI](15-catalogo-a-z.md#power-bi): dashboards en vivo · [SignalR Service](15-catalogo-a-z.md#signalr-service): presencia en el LandingPage |
 | Ⓧ | **Envoltura** | [Managed / Workload Identity](15-catalogo-a-z.md#managed--workload-identity) · [Private Endpoint + DNS](15-catalogo-a-z.md#private-endpoint--dns) · [App Insights / Monitor](15-catalogo-a-z.md#app-insights--monitor) |
 
 **Garantías que debes conocer**
@@ -317,13 +317,13 @@ flowchart LR
 
 <p align="center"><a href="../assets/arquitecturas/04-micro.svg"><img src="../assets/arquitecturas/04-micro.svg" alt="Lámina de la arquitectura Microservicios cloud-native en AKS" width="100%"></a></p>
 
-> **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), Communication Services* **produce** · Ⓑ *Front Door, Application Gateway, API Management…* **transporta** · Ⓒ *AKS, KEDA, Dapr…* **consume** · Ⓓ *Azure SQL, Cosmos DB, PostgreSQL Flexible…* **guarda**; Ⓧ *Managed / Workload Identity, Key Vault, App Configuration, VNet + NSG, Private Endpoint + DNS, App Insights / Monitor, Container Registry, Azure DevOps* **envuelven**.
+> **La frase:** Ⓟ *Clientes (LandingPage, PowerPack, móvil), Communication Services* **produce** · Ⓑ *Front Door, Application Gateway, API Management…* **transporta** · Ⓒ *AKS, KEDA, Dapr…* **consume** · Ⓓ *Azure SQL, Cosmos DB, PostgreSQL Flexible…* **guarda**; Ⓧ *Managed / Workload Identity, Key Vault, App Configuration, VNet + NSG, Private Endpoint + DNS, App Insights / Monitor, Container Registry, Azure DevOps* **envuelven**.
 
 ```mermaid
 flowchart LR
     subgraph L0["Ⓟ Clientes"]
         direction LR
-        L0_0["Clientes (Portal, PowerPack, móvil)<br/><small>Portal, PowerPack</small>"]:::P
+        L0_0["Clientes (LandingPage, PowerPack, móvil)<br/><small>LandingPage, PowerPack</small>"]:::P
         L0_1["Communication Services<br/><small>eventos externos</small>"]:::P
     end
     style L0 fill:#042F2E22,stroke:#2DD4BF,stroke-width:2px
@@ -385,7 +385,7 @@ flowchart LR
 
 | Papel | Carril | Servicios y cómo participan |
 |:-:|---|---|
-| Ⓟ | **Clientes** | [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): Portal, PowerPack · [Communication Services](15-catalogo-a-z.md#communication-services): eventos externos |
+| Ⓟ | **Clientes** | [Clientes (LandingPage, PowerPack, móvil)](15-catalogo-a-z.md#clientes-landingpage-powerpack-móvil): LandingPage, PowerPack · [Communication Services](15-catalogo-a-z.md#communication-services): eventos externos |
 | Ⓑ | **Entrada**<br/><sub>L7 + seguridad</sub> | [Front Door](15-catalogo-a-z.md#front-door): global y CDN · [Application Gateway](15-catalogo-a-z.md#application-gateway): WAF + ingress · [API Management](15-catalogo-a-z.md#api-management): cuotas, JWT, versiones |
 | Ⓒ | **Servicios**<br/><sub>REST externo · gRPC interno</sub> | [AKS](15-catalogo-a-z.md#aks): tracer-api, call-worker, routing-svc · [KEDA](15-catalogo-a-z.md#keda): workers por cola · [Dapr](15-catalogo-a-z.md#dapr): sidecar opcional · [Container Apps](15-catalogo-a-z.md#container-apps): alternativa sin clúster |
 | Ⓑ | **Bus interno**<br/><sub>asíncrono entre servicios</sub> | [Service Bus](15-catalogo-a-z.md#service-bus): comandos · [Event Grid](15-catalogo-a-z.md#event-grid): hechos de integración · [Azure Managed Redis](15-catalogo-a-z.md#azure-managed-redis): avisos efímeros |
@@ -431,13 +431,13 @@ flowchart LR
 
 <p align="center"><a href="../assets/arquitecturas/05-serverless.svg"><img src="../assets/arquitecturas/05-serverless.svg" alt="Lámina de la arquitectura Serverless" width="100%"></a></p>
 
-> **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), Blob Storage / ADLS, Cosmos DB…* **produce** · Ⓑ *Event Grid, Service Bus, Storage Queue…* **transporta** · Ⓒ *Azure Functions, Durable Functions, Logic Apps…* **consume** · Ⓓ *Cosmos DB, Azure SQL, Blob Storage / ADLS* **guarda** · Ⓢ *SignalR Service* **entrega**; Ⓧ *Managed / Workload Identity, Key Vault, App Insights / Monitor* **envuelven**.
+> **La frase:** Ⓟ *Clientes (LandingPage, PowerPack, móvil), Blob Storage / ADLS, Cosmos DB…* **produce** · Ⓑ *Event Grid, Service Bus, Storage Queue…* **transporta** · Ⓒ *Azure Functions, Durable Functions, Logic Apps…* **consume** · Ⓓ *Cosmos DB, Azure SQL, Blob Storage / ADLS* **guarda** · Ⓢ *SignalR Service* **entrega**; Ⓧ *Managed / Workload Identity, Key Vault, App Insights / Monitor* **envuelven**.
 
 ```mermaid
 flowchart LR
     subgraph L0["Ⓟ Disparadores"]
         direction LR
-        L0_0["Clientes (Portal, PowerPack, móvil)<br/><small>HTTP</small>"]:::P
+        L0_0["Clientes (LandingPage, PowerPack, móvil)<br/><small>HTTP</small>"]:::P
         L0_1["Blob Storage / ADLS<br/><small>archivo subido</small>"]:::P
         L0_2["Cosmos DB<br/><small>change feed</small>"]:::P
         L0_3["Azure SQL<br/><small>Change Tracking</small>"]:::P
@@ -495,7 +495,7 @@ flowchart LR
 
 | Papel | Carril | Servicios y cómo participan |
 |:-:|---|---|
-| Ⓟ | **Disparadores** | [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): HTTP · [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls): archivo subido · [Cosmos DB](15-catalogo-a-z.md#cosmos-db): change feed · [Azure SQL](15-catalogo-a-z.md#azure-sql): Change Tracking · [Communication Services](15-catalogo-a-z.md#communication-services): eventos |
+| Ⓟ | **Disparadores** | [Clientes (LandingPage, PowerPack, móvil)](15-catalogo-a-z.md#clientes-landingpage-powerpack-móvil): HTTP · [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls): archivo subido · [Cosmos DB](15-catalogo-a-z.md#cosmos-db): change feed · [Azure SQL](15-catalogo-a-z.md#azure-sql): Change Tracking · [Communication Services](15-catalogo-a-z.md#communication-services): eventos |
 | Ⓑ | **Pegamento** | [Event Grid](15-catalogo-a-z.md#event-grid): eventos de recursos · [Service Bus](15-catalogo-a-z.md#service-bus): trabajo confiable · [Storage Queue](15-catalogo-a-z.md#storage-queue): trabajo barato · [Event Hubs](15-catalogo-a-z.md#event-hubs): lotes de telemetría · [API Management](15-catalogo-a-z.md#api-management): HTTP con políticas |
 | Ⓒ | **Funciones** | [Azure Functions](15-catalogo-a-z.md#azure-functions): Flex Consumption · [Durable Functions](15-catalogo-a-z.md#durable-functions): flujos largos con estado · [Logic Apps](15-catalogo-a-z.md#logic-apps): integración · [Container Apps](15-catalogo-a-z.md#container-apps): contenedor que escala a cero |
 | Ⓓ | **Estado** | [Cosmos DB](15-catalogo-a-z.md#cosmos-db): serverless · [Azure SQL](15-catalogo-a-z.md#azure-sql): tier serverless · [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls): archivos |
@@ -539,13 +539,13 @@ flowchart LR
 
 <p align="center"><a href="../assets/arquitecturas/06-cqrs.svg"><img src="../assets/arquitecturas/06-cqrs.svg" alt="Lámina de la arquitectura CQRS + Event Sourcing" width="100%"></a></p>
 
-> **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), API Management* **produce** · Ⓑ *Service Bus, Event Grid* **transporta** · Ⓒ *AKS, Azure Functions* **consume** · Ⓓ *Cosmos DB, Azure SQL, AI Search…* **guarda**; Ⓧ *Managed / Workload Identity, App Insights / Monitor* **envuelven**.
+> **La frase:** Ⓟ *Clientes (LandingPage, PowerPack, móvil), API Management* **produce** · Ⓑ *Service Bus, Event Grid* **transporta** · Ⓒ *AKS, Azure Functions* **consume** · Ⓓ *Cosmos DB, Azure SQL, AI Search…* **guarda**; Ⓧ *Managed / Workload Identity, App Insights / Monitor* **envuelven**.
 
 ```mermaid
 flowchart LR
     subgraph L0["Ⓟ Comandos"]
         direction LR
-        L0_0["Clientes (Portal, PowerPack, móvil)<br/><small>Portal</small>"]:::P
+        L0_0["Clientes (LandingPage, PowerPack, móvil)<br/><small>LandingPage</small>"]:::P
         L0_1["API Management<br/><small>API de comandos</small>"]:::P
     end
     style L0 fill:#042F2E22,stroke:#2DD4BF,stroke-width:2px
@@ -603,7 +603,7 @@ flowchart LR
 
 | Papel | Carril | Servicios y cómo participan |
 |:-:|---|---|
-| Ⓟ | **Comandos** | [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): Portal · [API Management](15-catalogo-a-z.md#api-management): API de comandos |
+| Ⓟ | **Comandos** | [Clientes (LandingPage, PowerPack, móvil)](15-catalogo-a-z.md#clientes-landingpage-powerpack-móvil): LandingPage · [API Management](15-catalogo-a-z.md#api-management): API de comandos |
 | Ⓒ | **Escritura**<br/><sub>valida y decide</sub> | [AKS](15-catalogo-a-z.md#aks): command handlers · [Azure Functions](15-catalogo-a-z.md#azure-functions): handler ligero |
 | Ⓓ | **Event store**<br/><sub>append-only</sub> | [Cosmos DB](15-catalogo-a-z.md#cosmos-db): partition key = aggregateId · [Azure SQL](15-catalogo-a-z.md#azure-sql): tabla de eventos + Outbox |
 | Ⓒ | **Proyectores**<br/><sub>leen el feed</sub> | [Azure Functions](15-catalogo-a-z.md#azure-functions): CosmosDBTrigger / SQL trigger · [AKS](15-catalogo-a-z.md#aks): Change Feed Processor |
@@ -640,14 +640,14 @@ flowchart LR
 
 <p align="center"><a href="../assets/arquitecturas/07-saga.svg"><img src="../assets/arquitecturas/07-saga.svg" alt="Lámina de la arquitectura Saga y workflows distribuidos" width="100%"></a></p>
 
-> **La frase:** Ⓟ *Communication Services, Clientes (Portal, PowerPack, móvil)* **produce** · Ⓑ *Service Bus, Event Grid* **transporta** · Ⓒ *Durable Functions, AKS, Logic Apps…* **consume** · Ⓓ *Azure SQL, Cosmos DB, Blob Storage / ADLS* **guarda**; Ⓧ *Managed / Workload Identity, App Insights / Monitor* **envuelven**.
+> **La frase:** Ⓟ *Communication Services, Clientes (LandingPage, PowerPack, móvil)* **produce** · Ⓑ *Service Bus, Event Grid* **transporta** · Ⓒ *Durable Functions, AKS, Logic Apps…* **consume** · Ⓓ *Azure SQL, Cosmos DB, Blob Storage / ADLS* **guarda**; Ⓧ *Managed / Workload Identity, App Insights / Monitor* **envuelven**.
 
 ```mermaid
 flowchart LR
     subgraph L0["Ⓟ Disparador"]
         direction LR
         L0_0["Communication Services<br/><small>IncomingCall</small>"]:::P
-        L0_1["Clientes (Portal, PowerPack, móvil)<br/><small>comando del usuario</small>"]:::P
+        L0_1["Clientes (LandingPage, PowerPack, móvil)<br/><small>comando del usuario</small>"]:::P
     end
     style L0 fill:#042F2E22,stroke:#2DD4BF,stroke-width:2px
     subgraph L1["Ⓒ Orquestador · decide el siguiente paso"]
@@ -698,7 +698,7 @@ flowchart LR
 
 | Papel | Carril | Servicios y cómo participan |
 |:-:|---|---|
-| Ⓟ | **Disparador** | [Communication Services](15-catalogo-a-z.md#communication-services): IncomingCall · [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): comando del usuario |
+| Ⓟ | **Disparador** | [Communication Services](15-catalogo-a-z.md#communication-services): IncomingCall · [Clientes (LandingPage, PowerPack, móvil)](15-catalogo-a-z.md#clientes-landingpage-powerpack-móvil): comando del usuario |
 | Ⓒ | **Orquestador**<br/><sub>decide el siguiente paso</sub> | [Durable Functions](15-catalogo-a-z.md#durable-functions): orquestación como código · [AKS](15-catalogo-a-z.md#aks): state machine (MassTransit) · [Logic Apps](15-catalogo-a-z.md#logic-apps): integración entre sistemas |
 | Ⓑ | **Pasos y timeouts** | [Service Bus](15-catalogo-a-z.md#service-bus): comandos + mensaje programado · [Event Grid](15-catalogo-a-z.md#event-grid): coreografía por eventos |
 | Ⓒ | **Participantes**<br/><sub>transacciones locales</sub> | [Azure Functions](15-catalogo-a-z.md#azure-functions): actividad · [AKS](15-catalogo-a-z.md#aks): servicio · [Communication Services](15-catalogo-a-z.md#communication-services): acción externa (transfer, play) |
@@ -734,7 +734,7 @@ flowchart LR
 
 <p align="center"><a href="../assets/arquitecturas/08-realtime.svg"><img src="../assets/arquitecturas/08-realtime.svg" alt="Lámina de la arquitectura Tiempo real hacia clientes" width="100%"></a></p>
 
-> **La frase:** Ⓟ *Communication Services, Event Grid* **produce** · Ⓑ *SignalR Service, Web PubSub, Notification Hubs…* **transporta** · Ⓒ *Tu servicio .NET, Azure Functions* **consume** · Ⓓ *Azure SQL, Azure Managed Redis* **guarda** · Ⓢ *Clientes (Portal, PowerPack, móvil)* **entrega**; Ⓧ *Entra ID, App Insights / Monitor* **envuelven**.
+> **La frase:** Ⓟ *Communication Services, Event Grid* **produce** · Ⓑ *SignalR Service, Web PubSub, Notification Hubs…* **transporta** · Ⓒ *Tu servicio .NET, Azure Functions* **consume** · Ⓓ *Azure SQL, Azure Managed Redis* **guarda** · Ⓢ *Clientes (LandingPage, PowerPack, móvil)* **entrega**; Ⓧ *Entra ID, App Insights / Monitor* **envuelven**.
 
 ```mermaid
 flowchart LR
@@ -760,7 +760,7 @@ flowchart LR
     style L2 fill:#1E1B4B22,stroke:#A78BFA,stroke-width:2px
     subgraph L3["Ⓢ Pantallas"]
         direction LR
-        L3_0["Clientes (Portal, PowerPack, móvil)<br/><small>Portal, PowerPack, Teams</small>"]:::S
+        L3_0["Clientes (LandingPage, PowerPack, móvil)<br/><small>LandingPage, PowerPack, Teams</small>"]:::S
     end
     style L3 fill:#1A2E0522,stroke:#A3E635,stroke-width:2px
     subgraph L4["Ⓓ Fuente de verdad · para resincronizar"]
@@ -793,7 +793,7 @@ flowchart LR
 | Ⓟ | **Origen del cambio** | [Communication Services](15-catalogo-a-z.md#communication-services): evento de llamada · [Event Grid](15-catalogo-a-z.md#event-grid): hecho de integración |
 | Ⓒ | **Backend**<br/><sub>traduce a aviso</sub> | [Tu servicio .NET](15-catalogo-a-z.md#tu-servicio-net): IHubContext · [Azure Functions](15-catalogo-a-z.md#azure-functions): binding SignalR |
 | Ⓑ | **Canal push** | [SignalR Service](15-catalogo-a-z.md#signalr-service): grupos por tenant · [Web PubSub](15-catalogo-a-z.md#web-pubsub): WebSockets nativos · [Notification Hubs](15-catalogo-a-z.md#notification-hubs): push móvil · [Event Grid namespaces](15-catalogo-a-z.md#event-grid-namespaces): MQTT |
-| Ⓢ | **Pantallas** | [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): Portal, PowerPack, Teams |
+| Ⓢ | **Pantallas** | [Clientes (LandingPage, PowerPack, móvil)](15-catalogo-a-z.md#clientes-landingpage-powerpack-móvil): LandingPage, PowerPack, Teams |
 | Ⓓ | **Fuente de verdad**<br/><sub>para resincronizar</sub> | [Azure SQL](15-catalogo-a-z.md#azure-sql): estado actual · [Azure Managed Redis](15-catalogo-a-z.md#azure-managed-redis): presencia caliente |
 | Ⓧ | **Envoltura** | [Entra ID](15-catalogo-a-z.md#entra-id) · [App Insights / Monitor](15-catalogo-a-z.md#app-insights--monitor) |
 
@@ -814,9 +814,9 @@ flowchart LR
 > **Antipatrones:** Usar SignalR como fuente de verdad · Grupos amplios con datos sensibles · Polling cada segundo.
 
 > [!NOTE]
-> **En TRACER** (🟢 TRACER lo usa hoy): Hub /callshub y avisos como ConfigurationChanged hacia el Portal y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.
+> **En TRACER** (🟢 TRACER lo usa hoy): Hub /callshub y avisos como ConfigurationChanged hacia el LandingPage y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.
 
-**Dilo en una frase de entrevista:** *"La consistencia eventual se nota aquí: el Portal ve "agente conectado" milisegundos después. La UI se diseña para tolerarlo."*
+**Dilo en una frase de entrevista:** *"La consistencia eventual se nota aquí: el LandingPage ve "agente conectado" milisegundos después. La UI se diseña para tolerarlo."*
 
 ---
 
@@ -919,13 +919,13 @@ flowchart LR
 
 <p align="center"><a href="../assets/arquitecturas/10-monolith.svg"><img src="../assets/arquitecturas/10-monolith.svg" alt="Lámina de la arquitectura Monolito modular en PaaS" width="100%"></a></p>
 
-> **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), Communication Services* **produce** · Ⓑ *Front Door, Application Gateway, Storage Queue…* **transporta** · Ⓒ *App Service, Azure Functions* **consume** · Ⓓ *Azure SQL, Azure Managed Redis, Blob Storage / ADLS* **guarda**; Ⓧ *Key Vault, Managed / Workload Identity, App Insights / Monitor, Azure DevOps* **envuelven**.
+> **La frase:** Ⓟ *Clientes (LandingPage, PowerPack, móvil), Communication Services* **produce** · Ⓑ *Front Door, Application Gateway, Storage Queue…* **transporta** · Ⓒ *App Service, Azure Functions* **consume** · Ⓓ *Azure SQL, Azure Managed Redis, Blob Storage / ADLS* **guarda**; Ⓧ *Key Vault, Managed / Workload Identity, App Insights / Monitor, Azure DevOps* **envuelven**.
 
 ```mermaid
 flowchart LR
     subgraph L0["Ⓟ Clientes"]
         direction LR
-        L0_0["Clientes (Portal, PowerPack, móvil)<br/><small>Portal, PowerPack</small>"]:::P
+        L0_0["Clientes (LandingPage, PowerPack, móvil)<br/><small>LandingPage, PowerPack</small>"]:::P
         L0_1["Communication Services<br/><small>webhook de eventos</small>"]:::P
     end
     style L0 fill:#042F2E22,stroke:#2DD4BF,stroke-width:2px
@@ -977,7 +977,7 @@ flowchart LR
 
 | Papel | Carril | Servicios y cómo participan |
 |:-:|---|---|
-| Ⓟ | **Clientes** | [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): Portal, PowerPack · [Communication Services](15-catalogo-a-z.md#communication-services): webhook de eventos |
+| Ⓟ | **Clientes** | [Clientes (LandingPage, PowerPack, móvil)](15-catalogo-a-z.md#clientes-landingpage-powerpack-móvil): LandingPage, PowerPack · [Communication Services](15-catalogo-a-z.md#communication-services): webhook de eventos |
 | Ⓑ | **Entrada** | [Front Door](15-catalogo-a-z.md#front-door): opcional · [Application Gateway](15-catalogo-a-z.md#application-gateway): WAF regional |
 | Ⓒ | **Aplicación**<br/><sub>módulos por contexto</sub> | [App Service](15-catalogo-a-z.md#app-service): API + BackgroundService · [Azure Functions](15-catalogo-a-z.md#azure-functions): tareas sueltas |
 | Ⓑ | **Asíncrono** | [Storage Queue](15-catalogo-a-z.md#storage-queue): trabajo diferido · [Event Grid](15-catalogo-a-z.md#event-grid): eventos de integración |
@@ -1123,13 +1123,13 @@ flowchart LR
 
 <p align="center"><a href="../assets/arquitecturas/12-ia.svg"><img src="../assets/arquitecturas/12-ia.svg" alt="Lámina de la arquitectura Inteligencia artificial y MLOps" width="100%"></a></p>
 
-> **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), Tu servicio .NET* **produce** · Ⓑ *API Management* **transporta** · Ⓒ *Azure OpenAI (Microsoft Foundry), Azure Machine Learning, Container Apps* **consume** · Ⓓ *AI Search, Blob Storage / ADLS, Cosmos DB…* **guarda** · Ⓢ *Clientes (Portal, PowerPack, móvil)* **entrega**; Ⓧ *Managed / Workload Identity, Entra ID, Key Vault, Private Endpoint + DNS, App Insights / Monitor* **envuelven**.
+> **La frase:** Ⓟ *Clientes (LandingPage, PowerPack, móvil), Tu servicio .NET* **produce** · Ⓑ *API Management* **transporta** · Ⓒ *Azure OpenAI (Microsoft Foundry), Azure Machine Learning, Container Apps* **consume** · Ⓓ *AI Search, Blob Storage / ADLS, Cosmos DB…* **guarda** · Ⓢ *Clientes (LandingPage, PowerPack, móvil)* **entrega**; Ⓧ *Managed / Workload Identity, Entra ID, Key Vault, Private Endpoint + DNS, App Insights / Monitor* **envuelven**.
 
 ```mermaid
 flowchart LR
     subgraph L0["Ⓟ Peticiones"]
         direction LR
-        L0_0["Clientes (Portal, PowerPack, móvil)<br/><small>chat, copiloto o app</small>"]:::P
+        L0_0["Clientes (LandingPage, PowerPack, móvil)<br/><small>chat, copiloto o app</small>"]:::P
         L0_1["Tu servicio .NET<br/><small>tu API arma el prompt</small>"]:::P
     end
     style L0 fill:#042F2E22,stroke:#2DD4BF,stroke-width:2px
@@ -1155,7 +1155,7 @@ flowchart LR
     style L3 fill:#0C274422,stroke:#60A5FA,stroke-width:2px
     subgraph L4["Ⓢ Respuesta"]
         direction LR
-        L4_0["Clientes (Portal, PowerPack, móvil)<br/><small>respuesta en streaming</small>"]:::S
+        L4_0["Clientes (LandingPage, PowerPack, móvil)<br/><small>respuesta en streaming</small>"]:::S
     end
     style L4 fill:#1A2E0522,stroke:#A3E635,stroke-width:2px
     L0 ==> L1
@@ -1182,11 +1182,11 @@ flowchart LR
 
 | Papel | Carril | Servicios y cómo participan |
 |:-:|---|---|
-| Ⓟ | **Peticiones** | [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): chat, copiloto o app · [Tu servicio .NET](15-catalogo-a-z.md#tu-servicio-net): tu API arma el prompt |
+| Ⓟ | **Peticiones** | [Clientes (LandingPage, PowerPack, móvil)](15-catalogo-a-z.md#clientes-landingpage-powerpack-móvil): chat, copiloto o app · [Tu servicio .NET](15-catalogo-a-z.md#tu-servicio-net): tu API arma el prompt |
 | Ⓑ | **AI gateway**<br/><sub>cuotas por consumidor</sub> | [API Management](15-catalogo-a-z.md#api-management): tokens por minuto, caché y reparto entre despliegues |
 | Ⓒ | **Inferencia** | [Azure OpenAI (Microsoft Foundry)](15-catalogo-a-z.md#azure-openai-microsoft-foundry): modelos GPT gestionados · [Azure Machine Learning](15-catalogo-a-z.md#azure-machine-learning): endpoints de modelos propios · [Container Apps](15-catalogo-a-z.md#container-apps): agentes y orquestación |
 | Ⓓ | **Conocimiento y modelos**<br/><sub>RAG y registro</sub> | [AI Search](15-catalogo-a-z.md#ai-search): índice vectorial e híbrido (RAG) · [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls): documentos y datos de entrenamiento · [Cosmos DB](15-catalogo-a-z.md#cosmos-db): historial de conversaciones · [Azure Machine Learning](15-catalogo-a-z.md#azure-machine-learning): registro de modelos (MLOps) |
-| Ⓢ | **Respuesta** | [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): respuesta en streaming |
+| Ⓢ | **Respuesta** | [Clientes (LandingPage, PowerPack, móvil)](15-catalogo-a-z.md#clientes-landingpage-powerpack-móvil): respuesta en streaming |
 | Ⓧ | **Envoltura** | [Managed / Workload Identity](15-catalogo-a-z.md#managed--workload-identity) · [Entra ID](15-catalogo-a-z.md#entra-id) · [Key Vault](15-catalogo-a-z.md#key-vault) · [Private Endpoint + DNS](15-catalogo-a-z.md#private-endpoint--dns) · [App Insights / Monitor](15-catalogo-a-z.md#app-insights--monitor) |
 
 **Garantías que debes conocer**

@@ -180,7 +180,7 @@ La frase de una llamada en TRACER ([01 § 8](01-la-frase.md#8-análisis-gramatic
 | Event Grid → Service Bus | El *system topic* | **Entrega con identidad administrada** | Azure Service Bus Data Sender sobre la cola |
 | API → Azure SQL | La API | Managed Identity (`Authentication=Active Directory Default`) | Usuario contenido con roles mínimos |
 | API → SignalR Service | La API | Managed Identity | SignalR App Server |
-| Portal → SignalR Service | El usuario | *Token* de acceso emitido por tu API tras validar a Entra ID | Grupos asignados por *claims* |
+| LandingPage → SignalR Service | El usuario | *Token* de acceso emitido por tu API tras validar a Entra ID | Grupos asignados por *claims* |
 | Pod → Service Bus | El *call-worker* | Workload Identity | Azure Service Bus Data Receiver |
 | Pipeline → Azure | Azure DevOps | Federación OIDC (*workload identity federation*) | Rol de despliegue acotado al grupo de recursos |
 

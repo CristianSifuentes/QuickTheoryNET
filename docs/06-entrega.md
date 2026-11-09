@@ -57,7 +57,7 @@ sequenceDiagram
     participant W as Ⓒ call-worker
     participant SQL as Ⓓ Azure SQL
     participant SR as Ⓑ SignalR Service
-    participant UI as Ⓢ Portal
+    participant UI as Ⓢ LandingPage
     participant API as Ⓒ API (GET)
     W->>SQL: COMMIT llamada 42 → Transferida (versión 7)
     W->>SR: CallChanged { id: 42, version: 7 } → grupo tenant-acme
@@ -91,9 +91,9 @@ flowchart LR
         R3["réplica 3"]:::C
     end
     R1 & R2 & R3 -->|"IHubContext"| SR{{"Ⓑ Azure SignalR Service<br/>mantiene las conexiones"}}:::B
-    SR --> U1["Ⓢ Portal · tenant A"]:::S
+    SR --> U1["Ⓢ LandingPage · tenant A"]:::S
     SR --> U2["Ⓢ PowerPack · tenant A"]:::S
-    SR --> U3["Ⓢ Portal · tenant B"]:::S
+    SR --> U3["Ⓢ LandingPage · tenant B"]:::S
     classDef B fill:#1E1B4B,stroke:#A78BFA,color:#F8FAFC,stroke-width:2px
     classDef C fill:#3B1D0A,stroke:#FB923C,color:#F8FAFC,stroke-width:2px
     classDef S fill:#1A2E05,stroke:#A3E635,color:#F8FAFC,stroke-width:2px
@@ -171,7 +171,7 @@ La consistencia eventual no se arregla en el *backend*: se **diseña** en la int
 | Dos supervisores actúan a la vez | El segundo recibe un 409/412 con el estado nuevo y decide de nuevo |
 
 > [!TIP]
-> **Frase de entrevista:** *"La consistencia eventual se nota aquí: el Portal ve 'agente conectado' milisegundos después. La UI se diseña para tolerarlo:
+> **Frase de entrevista:** *"La consistencia eventual se nota aquí: el LandingPage ve 'agente conectado' milisegundos después. La UI se diseña para tolerarlo:
 > estados intermedios, versión en cada aviso y relectura al reconectar."*
 
 ---

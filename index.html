@@ -449,7 +449,7 @@ const S = {
     p:'Change notifications a webhooks, Event Hubs o Event Grid (partner topic).', c:'Llamadas REST con throttling (429 + Retry-After).',
     tip:'Toda llamada a Graph pasa por IHttpClientFactory + AddStandardResilienceHandler.'},
   devices:{n:'Dispositivos / IoT Edge',cat:'Fuentes',sp:'no',d:'Sensores, equipos y gateways de borde.',p:'Telemetría por MQTT, AMQP o HTTPS.',c:'Comandos C2D y twins.'},
-  web:{n:'Clientes (Portal, PowerPack, móvil)',cat:'Fuentes',sp:'usa',d:'Navegadores, Teams y apps.',p:'Requests HTTP y comandos.',c:'Push de SignalR, Web PubSub o Notification Hubs.'},
+  web:{n:'Clientes (LandingPage, PowerPack, móvil)',cat:'Fuentes',sp:'usa',d:'Navegadores, Teams y apps.',p:'Requests HTTP y comandos.',c:'Push de SignalR, Web PubSub o Notification Hubs.'},
   code:{n:'Tu servicio .NET',cat:'Fuentes',sp:'usa',d:'Productor o consumidor propio; corre en App Service, AKS, Container Apps o Functions.',
     p:'EventGridPublisherClient, ServiceBusSender, EventHubProducerClient, IHubContext.',
     c:'ServiceBusProcessor, EventProcessorClient, webhook de Event Grid.',
@@ -541,7 +541,7 @@ const A = [
    {r:'B',t:'Log particionado',s:'',i:[['eventhubs','particiones + consumer groups']]},
    {r:'C',t:'Procesadores',s:'un consumer group cada uno',i:[['aks','EventProcessorClient'],['functions','EventHubTrigger por lotes'],['asa','ventanas y agregados'],['fabric','Eventstream'],['databricks','Structured Streaming']]},
    {r:'D',t:'Almacenes',s:'hot · warm · cold',i:[['blob','Capture y checkpoints'],['adx','series de tiempo (KQL)'],['cosmos','estado actual'],['sql','agregados']]},
-   {r:'S',t:'Salida',s:'',i:[['powerbi','dashboards en vivo'],['signalr','presencia en el Portal']]}],
+   {r:'S',t:'Salida',s:'',i:[['powerbi','dashboards en vivo'],['signalr','presencia en el LandingPage']]}],
   x:['mi','pe','appi'],
   g:['Orden solo dentro de una partición','At-least-once: el checkpoint marca hasta dónde leíste','Retención 1–7 días (Standard) y hasta 90 (Premium/Dedicated)','Replay desde cualquier offset'],
   pt:['Partition key = entidad (userId, deviceId)','Checkpoint después de procesar, por lote','Capture a ADLS: arquitectura Kappa','Un consumer group por lector independiente'],
@@ -551,7 +551,7 @@ const A = [
  {id:'micro',short:'Microservicios',n:'Microservicios cloud-native en AKS',sp:'objetivo',
   when:'Varios equipos y dominios que despliegan y escalan por separado, cada uno dueño de sus datos.',
   lanes:[
-   {r:'P',t:'Clientes',s:'',i:[['web','Portal, PowerPack'],['acs','eventos externos']]},
+   {r:'P',t:'Clientes',s:'',i:[['web','LandingPage, PowerPack'],['acs','eventos externos']]},
    {r:'B',t:'Entrada',s:'L7 + seguridad',i:[['frontdoor','global y CDN'],['appgw','WAF + ingress'],['apim','cuotas, JWT, versiones']]},
    {r:'C',t:'Servicios',s:'REST externo · gRPC interno',i:[['aks','tracer-api, call-worker, routing-svc'],['keda','workers por cola'],['dapr','sidecar opcional'],['aca','alternativa sin clúster']]},
    {r:'B',t:'Bus interno',s:'asíncrono entre servicios',i:[['servicebus','comandos'],['eventgrid','hechos de integración'],['redis','avisos efímeros']]},
@@ -585,7 +585,7 @@ const A = [
  {id:'cqrs',short:'CQRS / ES',n:'CQRS + Event Sourcing',sp:'parcial',
   when:'Lectura y escritura tienen formas y cargas distintas, o necesitas auditar cada cambio como un hecho.',
   lanes:[
-   {r:'P',t:'Comandos',s:'',i:[['web','Portal'],['apim','API de comandos']]},
+   {r:'P',t:'Comandos',s:'',i:[['web','LandingPage'],['apim','API de comandos']]},
    {r:'C',t:'Escritura',s:'valida y decide',i:[['aks','command handlers'],['functions','handler ligero']]},
    {r:'D',t:'Event store',s:'append-only',i:[['cosmos','partition key = aggregateId'],['sql','tabla de eventos + Outbox']]},
    {r:'C',t:'Proyectores',s:'leen el feed',i:[['functions','CosmosDBTrigger / SQL trigger'],['aks','Change Feed Processor']]},
@@ -617,14 +617,14 @@ const A = [
    {r:'P',t:'Origen del cambio',s:'',i:[['acs','evento de llamada'],['eventgrid','hecho de integración']]},
    {r:'C',t:'Backend',s:'traduce a aviso',i:[['code','IHubContext'],['functions','binding SignalR']]},
    {r:'B',t:'Canal push',s:'',i:[['signalr','grupos por tenant'],['webpubsub','WebSockets nativos'],['notifhubs','push móvil'],['egns','MQTT']]},
-   {r:'S',t:'Pantallas',s:'',i:[['web','Portal, PowerPack, Teams']]},
+   {r:'S',t:'Pantallas',s:'',i:[['web','LandingPage, PowerPack, Teams']]},
    {r:'D',t:'Fuente de verdad',s:'para resincronizar',i:[['sql','estado actual'],['redis','presencia caliente']]}],
   x:['entra','appi'],
   g:['At-most-once hacia el cliente','Sin persistencia','Al reconectar, el cliente relee por API'],
   pt:['Notificar y releer: aviso ligero + GET','Grupos por tenant o cola','Modo serverless con Functions','El servicio gestionado sustituye al backplane'],
   anti:['Usar SignalR como fuente de verdad','Grupos amplios con datos sensibles','Polling cada segundo'],
-  tracer:'Hub /callshub y avisos como ConfigurationChanged hacia el Portal y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.',
-  ph:'La consistencia eventual se nota aquí: el Portal ve "agente conectado" milisegundos después. La UI se diseña para tolerarlo.'},
+  tracer:'Hub /callshub y avisos como ConfigurationChanged hacia el LandingPage y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.',
+  ph:'La consistencia eventual se nota aquí: el LandingPage ve "agente conectado" milisegundos después. La UI se diseña para tolerarlo.'},
  {id:'iot',short:'IoT',n:'IoT y edge',sp:'no',
   when:'Hay dispositivos físicos que envían datos y reciben comandos.',
   lanes:[
@@ -642,7 +642,7 @@ const A = [
  {id:'monolith',short:'Monolito',n:'Monolito modular en PaaS',sp:'usa',
   when:'Un equipo, un dominio que todavía se mueve y ganas en simplicidad operativa.',
   lanes:[
-   {r:'P',t:'Clientes',s:'',i:[['web','Portal, PowerPack'],['acs','webhook de eventos']]},
+   {r:'P',t:'Clientes',s:'',i:[['web','LandingPage, PowerPack'],['acs','webhook de eventos']]},
    {r:'B',t:'Entrada',s:'',i:[['frontdoor','opcional'],['appgw','WAF regional']]},
    {r:'C',t:'Aplicación',s:'módulos por contexto',i:[['appservice','API + BackgroundService'],['functions','tareas sueltas']]},
    {r:'B',t:'Asíncrono',s:'',i:[['storagequeue','trabajo diferido'],['eventgrid','eventos de integración']]},
@@ -754,7 +754,7 @@ const BK = [
   avoid:'Cargas sin dispositivos: usa Event Hubs directamente.'},
  {id:'signalr',as:'Push a pantallas',
   in:[['code','IHubContext / REST API'],['functions','binding de salida SignalR']],
-  out:[['web','Portal, PowerPack, Teams'],['eventgrid','eventos de conexión'],['functions','upstream en modo serverless']],
+  out:[['web','LandingPage, PowerPack, Teams'],['eventgrid','eventos de conexión'],['functions','upstream en modo serverless']],
   pr:['Push WebSocket a clientes','At-most-once','Por conexión','Ninguna','Mensajes pequeños','No','No'],
   use:'Actualizar pantallas en vivo desde N réplicas sin backplane propio.',
   avoid:'Guardar estado: el cliente debe releer al reconectar.'},
@@ -785,7 +785,7 @@ const DT = {
  data:{q:'¿Dónde viven esos datos?',o:[['Cosmos DB','R:cosmos'],['Azure SQL','R:sql']]},
  cmd:{q:'¿Qué exige ese trabajo?',o:[['Orden por entidad, DLQ, duplicados o transacciones','R:servicebus'],['Solo desacoplar, mucho volumen y barato','R:storagequeue'],['Varios pasos con compensaciones','R:durable']]},
  iot:{q:'¿Necesitas gestionar los dispositivos (twins, comandos, identidad por equipo)?',o:[['Sí','R:iothub'],['No, solo pub/sub MQTT','R:egns']]},
- ui:{q:'¿A dónde llega el aviso?',o:[['Navegador o Teams (Portal, PowerPack)','R:signalr'],['App móvil cerrada (push del sistema)','R:notifhubs'],['Clientes WebSocket sin protocolo SignalR','R:webpubsub'],['A las réplicas del backend (invalidar cache)','R:redis']]}
+ ui:{q:'¿A dónde llega el aviso?',o:[['Navegador o Teams (LandingPage, PowerPack)','R:signalr'],['App móvil cerrada (push del sistema)','R:notifhubs'],['Clientes WebSocket sin protocolo SignalR','R:webpubsub'],['A las réplicas del backend (invalidar cache)','R:redis']]}
 };
 const RES = {
  eventgrid:{why:'Push con fan-out y filtros: cada suscriptor recibe su copia y nadie hace polling. Pagas por operación.',ch:[['acs','P'],['eventgrid','B'],['functions','C'],['sql','D']],a:'eda',avoid:'Si el consumidor necesita orden o su propio ritmo, pon Service Bus como handler de la suscripción.'},
