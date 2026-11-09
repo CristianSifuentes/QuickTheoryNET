@@ -365,6 +365,7 @@ function arquitecturasMd() {
   A.forEach((a, i) => {
     s += `\n## ${i + 1}. ${a.n}\n\n`;
     s += `**Cuándo:** ${a.when}\n\n`;
+    s += `<p align="center"><a href="../${rutaLamina(a, i)}"><img src="../${rutaLamina(a, i)}" alt="Lámina de la arquitectura ${a.n}" width="100%"></a></p>\n\n`;
     // La frase
     const porRol = r => a.lanes.filter(l => l.r === r).flatMap(l => l.i.map(([id]) => nombre(id)));
     const partes = ORDEN_ROL.slice(0, 5).map(r => [r, [...new Set(porRol(r))]]).filter(([, v]) => v.length);
@@ -499,6 +500,236 @@ function catalogoMd() {
   return s;
 }
 
+
+/* ================================================= LÁMINAS POR ARQUITECTURA */
+// Envoltura: a qué anillo pertenece cada servicio transversal
+const ANILLO = { entra: 'I', mi: 'I', kv: 'I', appconfig: 'I', arc: 'I', vnet: 'R', pe: 'R', expressroute: 'R', appi: 'O', acr: 'O', devops: 'O' };
+const ANILLOS = [
+  ['I', 'IDENTIDAD', '¿quién puede?', 'stroke-dasharray="2 7"', 0.55],
+  ['R', 'RED', '¿por dónde?', 'stroke-dasharray="10 6"', 0.7],
+  ['O', 'OBSERVABILIDAD', '¿qué pasó?', '', 0.9],
+];
+const POLI = '#F472B6';
+const ancho = (t, fs, k = 0.53) => String(t).length * fs * k;
+function envolver(texto, maxPx, fs, k = 0.53) {
+  const max = Math.max(8, Math.floor(maxPx / (fs * k)));
+  const palabras = String(texto).split(/\s+/), lineas = [];
+  let l = '';
+  for (const w of palabras) {
+    if (!l) l = w;
+    else if ((l + ' ' + w).length <= max) l += ' ' + w;
+    else { lineas.push(l); l = w; }
+  }
+  if (l) lineas.push(l);
+  return lineas;
+}
+const tspans = (lineas, x, dy) => lineas.map((l, i) => `<tspan x="${x}" dy="${i ? dy : 0}">${esc(l)}</tspan>`).join('');
+const rutaLamina = (a, i) => `assets/arquitecturas/${String(i + 1).padStart(2, '0')}-${a.id}.svg`;
+
+function laminaArquitectura(a, idx) {
+  const W = 1800, M = 56;
+  const num = String(idx + 1).padStart(2, '0');
+  let svg = '';
+
+  // ---------- Cabecera
+  let y = 74;
+  svg += `<text x="${M}" y="${y}" font-size="15" font-weight="600" letter-spacing="3" fill="#94A3B8">LÁMINA A·${num} · ARQUITECTURA ${num} DE ${A.length}</text>`;
+  y += 58;
+  svg += `<text x="${M}" y="${y}" font-size="50" font-weight="800" fill="#F8FAFC">${esc(a.n)}</text>`;
+  const cuando = envolver(a.when, 1060, 20);
+  y += 40;
+  svg += `<text x="${M}" y="${y}" font-size="20" fill="#CBD5E1">${tspans(cuando, M, 27)}</text>`;
+  y += (cuando.length - 1) * 27;
+
+  // Leyenda a la derecha
+  const lx = W - M - 470;
+  svg += `<g transform="translate(${lx},48)"><rect width="470" height="132" rx="16" fill="#0B1527" stroke="#1E293B"/>`;
+  ORDEN_ROL.forEach((r, i) => {
+    const gx = 18 + (i % 3) * 150, gy = 22 + Math.floor(i / 3) * 34;
+    svg += `<rect x="${gx}" y="${gy}" width="24" height="24" rx="6" fill="${FONDO[r]}" stroke="${COLOR[r]}" stroke-width="1.5"/><text x="${gx + 12}" y="${gy + 17}" font-size="13" font-weight="800" fill="${COLOR[r]}" text-anchor="middle" font-family="${MONO}">${r}</text><text x="${gx + 32}" y="${gy + 17}" font-size="14" fill="#CBD5E1">${r === 'X' ? 'Envuelve' : ROLES[r].n}</text>`;
+  });
+  svg += `<rect x="18" y="94" width="24" height="18" rx="5" fill="none" stroke="${POLI}" stroke-width="1.6" stroke-dasharray="4 3"/><text x="50" y="108" font-size="13.5" fill="#CBD5E1">cambia de papel</text>`;
+  svg += `<circle cx="250" cy="103" r="6" fill="${COLOR_SP[a.sp]}"/><text x="262" y="108" font-size="13.5" fill="#CBD5E1">${esc(SP[a.sp])}</text></g>`;
+
+  // ---------- La frase
+  y += 72;
+  const partes = [];
+  ORDEN_ROL.slice(0, 5).forEach(r => {
+    const ns = [...new Set(a.lanes.filter(l => l.r === r).flatMap(l => l.i.map(([id]) => nombre(id))))];
+    if (ns.length) partes.push([r, ns]);
+  });
+  const trozos = [];
+  partes.forEach(([r, ns], i) => {
+    trozos.push([`${CIRC[r]} `, COLOR[r], 700]);
+    trozos.push([ns.slice(0, 3).join(', ') + (ns.length > 3 ? '…' : '') + ' ', '#E2E8F0', 400]);
+    trozos.push([VERBO[r], COLOR[r], 800]);
+    trozos.push([i < partes.length - 1 ? '  →  ' : '', '#64748B', 400]);
+  });
+  trozos.push(['   ·   ' + CIRC.X + ' ', COLOR.X, 700], [a.x.map(nombre).join(', ') + ' ', '#CBD5E1', 400], ['envuelven', COLOR.X, 800]);
+  svg += `<text x="${M}" y="${y - 32}" font-size="12.5" font-weight="700" letter-spacing="2.5" fill="#64748B">LA FRASE</text>`;
+  // Partir en líneas por estimación y dejar que el navegador coloque cada palabra (espaciado exacto)
+  const fs = 18, maxW = W - 2 * M, lineas = [[]];
+  let usado = 0;
+  for (const [t, c, w] of trozos) {
+    for (const pal of t.split(/(?<= )/)) {
+      if (!pal) continue;
+      const wpx = ancho(pal, fs, w >= 700 ? 0.57 : 0.51);
+      if (usado + wpx > maxW && pal.trim()) { lineas.push([]); usado = 0; }
+      lineas[lineas.length - 1].push([pal, c, w]); usado += wpx;
+    }
+  }
+  let lineaY = y;
+  lineas.forEach((ln, k) => {
+    lineaY = y + k * 28;
+    svg += `<text x="${M}" y="${lineaY}" font-size="${fs}" xml:space="preserve">${ln.map(([pal, c, w]) => `<tspan fill="${c}" font-weight="${w}">${esc(pal)}</tspan>`).join('')}</text>`;
+  });
+  y = lineaY + 44;
+
+  // ---------- Escenario: anillos + carriles
+  const yS = y, D = 30;                         // separación entre anillos
+  const n = a.lanes.length, gap = 52;
+  const x0 = M + 3 * D + 26, x1 = W - M - 3 * D - 26;
+  const laneW = (x1 - x0 - (n - 1) * gap) / n;
+  const laneTop = yS + 2 * D + 54;
+
+  // Medir tarjetas
+  const enEsta = {};                             // servicio → papeles en ESTA arquitectura
+  a.lanes.forEach(l => l.i.forEach(([id]) => (enEsta[id] ??= []).push([l.r, l.t])));
+  const medidas = a.lanes.map(l => {
+    const cab = envolver(l.t, laneW - 64, 17, 0.56), sub = l.s ? envolver(l.s, laneW - 64, 12.5) : [];
+    const hCab = 24 + cab.length * 21 + sub.length * 16 + 14;
+    const tarjetas = l.i.map(([id, how]) => {
+      const tw = laneW - 24;
+      const nom = envolver(nombre(id), tw - 52, 15, 0.56);
+      const desc = how ? envolver(how, tw - 24, 12.5) : [];
+      const aqui = enEsta[id].filter(([r, t]) => !(r === l.r && t === l.t));
+      const fuera = Object.entries(MATRIZ[id] || {}).filter(([aid]) => aid !== a.id)
+        .flatMap(([aid, set]) => [...set].filter(r => r !== l.r && r !== 'X').map(r => [r, arqPorId(aid).short]));
+      const agrup = {};
+      fuera.forEach(([r, sh]) => (agrup[r] ??= []).push(sh));
+      const txtFuera = Object.entries(agrup).map(([r, shs]) => `${CIRC[r]} ${shs.slice(0, 2).join(', ')}${shs.length > 2 ? ` +${shs.length - 2}` : ''}`).join(' · ');
+      const distinto = aqui.filter(([r]) => r !== l.r), igual = aqui.filter(([r]) => r === l.r);
+      const lAqui = distinto.flatMap(([r, t]) => envolver(`↔ aquí también ${CIRC[r]} (${t})`, tw - 24, 11.5, 0.56));
+      const lIgual = igual.flatMap(([, t]) => envolver(`↳ también en «${t}»`, tw - 24, 11.5, 0.53));
+      const lFuera = txtFuera ? envolver(`en otras: ${txtFuera}`, tw - 24, 11.5) : [];
+      const extra = lAqui.length + lIgual.length + lFuera.length;
+      const h = 14 + nom.length * 19 + desc.length * 16 + (extra ? 8 + extra * 15 : 0) + 12;
+      return { id, nom, desc, lAqui, lIgual, lFuera, h };
+    });
+    const h = hCab + tarjetas.reduce((k, t) => k + t.h + 10, 0) + 6;
+    return { cab, sub, hCab, tarjetas, h };
+  });
+  const lanesH = Math.max(...medidas.map(m => m.h));
+  const lanesBottom = laneTop + lanesH;
+
+  // X por anillo
+  const porAnillo = { I: [], R: [], O: [] };
+  a.x.forEach(id => porAnillo[ANILLO[id] ?? 'O'].push(nombre(id)));
+  const yE = lanesBottom + 2 * D + 36;          // borde inferior del anillo exterior
+  ANILLOS.forEach(([k, nom, q, dash, op], i) => {
+    const d = i * D;
+    const rx = M + d, ry = yS + d, rw = W - 2 * M - 2 * d, rh = yE - yS - 2 * d;
+    svg += `<rect x="${rx}" y="${ry}" width="${rw}" height="${rh}" rx="${34 - i * 6}" fill="${i === 2 ? '#0B1527' : 'none'}" fill-opacity="0.55" stroke="${COLOR.X}" stroke-opacity="${op}" stroke-width="2" ${dash}/>`;
+    const svcs = porAnillo[k].length ? porAnillo[k].join(' · ') : 'no se declara en esta arquitectura: pregunta abierta';
+    const etiqueta = `${nom}  ${q}  ${svcs}`;
+    const tx = rx + 34 + i * 18, tw = ancho(etiqueta, 13.5, 0.55) + 28;
+    svg += `<rect x="${tx - 12}" y="${ry - 12}" width="${tw}" height="24" rx="7" fill="#0A1222" stroke="${COLOR.X}" stroke-opacity="${op * 0.6}"/>`;
+    svg += `<text x="${tx}" y="${ry + 5}" font-size="13.5"><tspan font-weight="800" fill="#E2E8F0" letter-spacing="2">${nom}</tspan><tspan fill="#94A3B8">  ${q}  </tspan><tspan fill="${porAnillo[k].length ? '#F8FAFC' : '#F59E0B'}" font-weight="${porAnillo[k].length ? 600 : 400}" font-style="${porAnillo[k].length ? 'normal' : 'italic'}">${esc(svcs)}</tspan></text>`;
+  });
+
+  // Carriles
+  medidas.forEach((m, li) => {
+    const l = a.lanes[li], r = l.r, lx2 = x0 + li * (laneW + gap);
+    svg += `<rect x="${lx2}" y="${laneTop}" width="${laneW}" height="${lanesH}" rx="16" fill="${FONDO[r]}" fill-opacity="0.32" stroke="${COLOR[r]}" stroke-opacity="0.55"/>`;
+    svg += `<rect x="${lx2}" y="${laneTop}" width="${laneW}" height="5" rx="2.5" fill="${COLOR[r]}"/>`;
+    svg += `<circle cx="${lx2 + 26}" cy="${laneTop + 32}" r="15" fill="${FONDO[r]}" stroke="${COLOR[r]}" stroke-width="2"/><text x="${lx2 + 26}" y="${laneTop + 38}" font-size="16" font-weight="800" fill="${COLOR[r]}" text-anchor="middle" font-family="${MONO}">${r}</text>`;
+    svg += `<text x="${lx2 + 50}" y="${laneTop + 30}" font-size="17" font-weight="800" fill="#F8FAFC">${tspans(m.cab, lx2 + 50, 21)}</text>`;
+    if (m.sub.length) svg += `<text x="${lx2 + 50}" y="${laneTop + 30 + m.cab.length * 21}" font-size="12.5" fill="#94A3B8">${tspans(m.sub, lx2 + 50, 16)}</text>`;
+    let cy = laneTop + m.hCab;
+    m.tarjetas.forEach(t => {
+      const tx = lx2 + 12, tw = laneW - 24;
+      svg += `<rect x="${tx}" y="${cy}" width="${tw}" height="${t.h}" rx="11" fill="#0A1222" fill-opacity="0.92" stroke="${t.lAqui.length ? POLI : COLOR[r]}" stroke-opacity="${t.lAqui.length ? 1 : 0.7}" stroke-width="${t.lAqui.length ? 2 : 1.2}" ${t.lAqui.length ? 'stroke-dasharray="6 4"' : ''}/>`;
+      svg += `<rect x="${tx + 12}" y="${cy + 13}" width="22" height="22" rx="6" fill="${FONDO[r]}" stroke="${COLOR[r]}"/><text x="${tx + 23}" y="${cy + 29}" font-size="12.5" font-weight="800" fill="${COLOR[r]}" text-anchor="middle" font-family="${MONO}">${r}</text>`;
+      let ty = cy + 29;
+      svg += `<text x="${tx + 42}" y="${ty}" font-size="15" font-weight="700" fill="#F8FAFC">${tspans(t.nom, tx + 42, 19)}</text>`;
+      ty += (t.nom.length - 1) * 19 + 19;
+      if (t.desc.length) { svg += `<text x="${tx + 12}" y="${ty}" font-size="12.5" fill="#CBD5E1">${tspans(t.desc, tx + 12, 16)}</text>`; ty += t.desc.length * 16; }
+      const extras = [...t.lAqui.map(x => [x, POLI, 700]), ...t.lIgual.map(x => [x, '#94A3B8', 400]), ...t.lFuera.map(x => [x, '#F9A8D4', 400])];
+      if (extras.length) {
+        ty += 4;
+        svg += `<line x1="${tx + 12}" y1="${ty - 8}" x2="${tx + tw - 12}" y2="${ty - 8}" stroke="${t.lAqui.length || t.lFuera.length ? POLI : '#334155'}" stroke-opacity="0.35"/>`;
+        extras.forEach(([ln, c, w], k) => { svg += `<text x="${tx + 12}" y="${ty + 6 + k * 15}" font-size="11.5" fill="${c}" font-weight="${w}">${esc(ln)}</text>`; });
+      }
+      cy += t.h + 10;
+    });
+    // Flecha hacia el siguiente carril
+    if (li < n - 1) {
+      const ax = lx2 + laneW + 6, bx = lx2 + laneW + gap - 6, ay = laneTop + 32;
+      svg += `<line x1="${ax}" y1="${ay}" x2="${bx}" y2="${ay}" stroke="#CBD5E1" stroke-width="2.5" marker-end="url(#flecha)"/>`;
+      svg += `<line class="flujo" x1="${ax}" y1="${ay}" x2="${bx - 6}" y2="${ay}" stroke="${COLOR[a.lanes[li + 1].r]}" stroke-width="2.5"/>`;
+    }
+  });
+
+  // ---------- Paneles inferiores
+  let yP = yE + 54;
+  const cols = [
+    ['GARANTÍAS', a.g, '#60A5FA', '•'],
+    ['PATRONES QUE LA HACEN FUNCIONAR', a.pt, '#34D399', '•'],
+    ['ANTIPATRONES', a.anti, '#F87171', '✕'],
+  ];
+  const pw = (W - 2 * M - 3 * 26) / 4;
+  let hMax = 0;
+  const paneles = cols.map(([t, items, c, b], i) => {
+    const px = M + i * (pw + 26);
+    let out = `<text x="${px}" y="${yP}" font-size="12.5" font-weight="700" letter-spacing="2.5" fill="${c}">${t}</text>`;
+    let py = yP + 30;
+    items.forEach(it => {
+      const ls = envolver(it, pw - 22, 14);
+      out += `<text x="${px}" y="${py}" font-size="14" fill="${c}">${b}</text><text x="${px + 18}" y="${py}" font-size="14" fill="#E2E8F0">${tspans(ls, px + 18, 19)}</text>`;
+      py += ls.length * 19 + 8;
+    });
+    hMax = Math.max(hMax, py - yP);
+    return out;
+  });
+  // Cuarto panel: equivalentes en otras nubes o TRACER
+  const px4 = M + 3 * (pw + 26);
+  let p4 = '';
+  if (a.cmp) {
+    p4 += `<text x="${px4}" y="${yP}" font-size="12.5" font-weight="700" letter-spacing="2.5" fill="#FACC15">EQUIVALENTES EN OTRAS NUBES</text>`;
+    let py = yP + 30;
+    a.cmp.forEach(([pv, svc]) => {
+      const ls = envolver(svc, pw - 8, 13.5);
+      p4 += `<text x="${px4}" y="${py}" font-size="13.5" font-weight="800" fill="${pv === 'Azure' ? '#60A5FA' : '#F8FAFC'}">${esc(pv)}</text><text x="${px4}" y="${py + 19}" font-size="13.5" fill="#CBD5E1">${tspans(ls, px4, 18)}</text>`;
+      py += 19 + ls.length * 18 + 10;
+    });
+    hMax = Math.max(hMax, py - yP);
+  } else {
+    p4 += `<text x="${px4}" y="${yP}" font-size="12.5" font-weight="700" letter-spacing="2.5" fill="#FACC15">EN TRACER</text>`;
+    const ls = envolver(a.tracer, pw - 8, 14);
+    p4 += `<text x="${px4}" y="${yP + 30}" font-size="14" fill="#E2E8F0">${tspans(ls, px4, 19)}</text>`;
+    hMax = Math.max(hMax, 30 + ls.length * 19);
+  }
+  svg += paneles.join('') + p4;
+  yP += hMax + 24;
+
+  // Frase de entrevista
+  const cita = envolver(`“${a.ph}”`, W - 2 * M - 70, 19, 0.5);
+  const hc = 46 + cita.length * 27;
+  svg += `<rect x="${M}" y="${yP}" width="${W - 2 * M}" height="${hc}" rx="14" fill="#0B1527" stroke="#1E293B"/><rect x="${M}" y="${yP}" width="5" height="${hc}" rx="2.5" fill="${POLI}"/>`;
+  svg += `<text x="${M + 30}" y="${yP + 28}" font-size="12" font-weight="700" letter-spacing="2.5" fill="${POLI}">DILO EN UNA FRASE</text>`;
+  svg += `<text x="${M + 30}" y="${yP + 56}" font-size="19" font-style="italic" fill="#F8FAFC">${tspans(cita, M + 30, 27)}</text>`;
+  yP += hc + 40;
+  svg += `<text x="${M}" y="${yP}" font-size="13" fill="#64748B">Atlas de servicios Azure · generado desde index.html por tools/generar-atlas.mjs · ${EDICION}</text>`;
+  const H = yP + 36;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="${FUENTE}" role="img" aria-labelledby="t">
+<title id="t">${esc(a.n)}: quién produce, qué transporta, quién consume, dónde se guarda el estado, cómo llega a una persona y qué la envuelve</title>
+<style>.flujo{stroke-dasharray:4 14;animation:fluir 1.1s linear infinite}@keyframes fluir{to{stroke-dashoffset:-18}}@media (prefers-reduced-motion:reduce){.flujo{animation:none}}</style>
+${defsComunes()}${fondo(W, H)}
+${svg}
+</svg>`;
+}
+
 /* ============================================================== EJECUCIÓN */
 console.log('Atlas de servicios Azure · generando a partir de index.html');
 escribir('data/atlas.json', JSON.stringify({
@@ -515,6 +746,7 @@ escribir('docs/11-trece-arquitecturas-como-frases.md', arquitecturasMd());
 escribir('docs/12-brokers-quien-escribe-quien-lee.md', brokersMd());
 escribir('docs/13-guia-de-decision.md', decisionMd());
 escribir('docs/15-catalogo-a-z.md', catalogoMd());
+A.forEach((a, i) => escribir(rutaLamina(a, i), laminaArquitectura(a, i)));
 
 const cap10 = path.join(RAIZ, 'docs/10-un-servicio-muchos-papeles.md');
 if (fs.existsSync(cap10)) {

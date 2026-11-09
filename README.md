@@ -38,7 +38,7 @@ tiene su capítulo, su lámina y, cuando se puede contar, su cifra.
 - [Los seis papeles](#los-seis-papeles)
 - [Las tres envolturas](#las-tres-envolturas)
 - [La prueba: un mismo servicio cambia de papel](#la-prueba-un-mismo-servicio-cambia-de-papel)
-- [Trece arquitecturas, trece frases](#trece-arquitecturas-trece-frases)
+- [Trece arquitecturas, trece frases](#trece-arquitecturas-trece-frases) · [las trece láminas](#las-trece-láminas)
 - [Azure frente a AWS y Google Cloud](#azure-frente-a-aws-y-google-cloud)
 - [Las siete leyes de la frase](#las-siete-leyes-de-la-frase)
 - [Leer cualquier diagrama en ocho preguntas](#leer-cualquier-diagrama-en-ocho-preguntas)
@@ -216,6 +216,36 @@ Las trece arquitecturas del atlas, escritas con la misma gramática. Lo que camb
 
 En *cursiva*, los servicios que en esa frase cumplen un papel distinto del habitual. Cada arquitectura completa (diagrama, garantías, patrones,
 antipatrones, su lectura en TRACER y una frase de entrevista) está en [11 · Trece arquitecturas leídas como frases](docs/11-trece-arquitecturas-como-frases.md).
+
+### Las trece láminas
+
+Una lámina por arquitectura, generada desde los mismos datos: la frase completa, los carriles por papel, los tres anillos de la envoltura con los servicios reales de esa arquitectura (o el aviso de que falta uno), los servicios que **cambian de papel** (borde rosa: dentro de la misma frase; texto rosa: en otras arquitecturas), garantías, patrones, antipatrones y equivalentes en otras nubes. Haz clic en una para verla a tamaño completo.
+
+<table>
+<tr>
+<td align="center" width="33%"><a href="assets/arquitecturas/01-eda.svg"><img src="assets/arquitecturas/01-eda.svg" alt="Lámina 01: Event-driven reactivo" width="100%"></a><br><sub><b>01</b> · Event-driven reactivo</sub></td>
+<td align="center" width="33%"><a href="assets/arquitecturas/02-msg.svg"><img src="assets/arquitecturas/02-msg.svg" alt="Lámina 02: Mensajería y colas" width="100%"></a><br><sub><b>02</b> · Mensajería y colas</sub></td>
+<td align="center" width="33%"><a href="assets/arquitecturas/03-stream.svg"><img src="assets/arquitecturas/03-stream.svg" alt="Lámina 03: Event streaming y telemetría" width="100%"></a><br><sub><b>03</b> · Event streaming y telemetría</sub></td>
+</tr>
+<tr>
+<td align="center" width="33%"><a href="assets/arquitecturas/04-micro.svg"><img src="assets/arquitecturas/04-micro.svg" alt="Lámina 04: Microservicios cloud-native en AKS" width="100%"></a><br><sub><b>04</b> · Microservicios cloud-native en AKS</sub></td>
+<td align="center" width="33%"><a href="assets/arquitecturas/05-serverless.svg"><img src="assets/arquitecturas/05-serverless.svg" alt="Lámina 05: Serverless" width="100%"></a><br><sub><b>05</b> · Serverless</sub></td>
+<td align="center" width="33%"><a href="assets/arquitecturas/06-cqrs.svg"><img src="assets/arquitecturas/06-cqrs.svg" alt="Lámina 06: CQRS + Event Sourcing" width="100%"></a><br><sub><b>06</b> · CQRS + Event Sourcing</sub></td>
+</tr>
+<tr>
+<td align="center" width="33%"><a href="assets/arquitecturas/07-saga.svg"><img src="assets/arquitecturas/07-saga.svg" alt="Lámina 07: Saga y workflows distribuidos" width="100%"></a><br><sub><b>07</b> · Saga y workflows distribuidos</sub></td>
+<td align="center" width="33%"><a href="assets/arquitecturas/08-realtime.svg"><img src="assets/arquitecturas/08-realtime.svg" alt="Lámina 08: Tiempo real hacia clientes" width="100%"></a><br><sub><b>08</b> · Tiempo real hacia clientes</sub></td>
+<td align="center" width="33%"><a href="assets/arquitecturas/09-iot.svg"><img src="assets/arquitecturas/09-iot.svg" alt="Lámina 09: IoT y edge" width="100%"></a><br><sub><b>09</b> · IoT y edge</sub></td>
+</tr>
+<tr>
+<td align="center" width="33%"><a href="assets/arquitecturas/10-monolith.svg"><img src="assets/arquitecturas/10-monolith.svg" alt="Lámina 10: Monolito modular en PaaS" width="100%"></a><br><sub><b>10</b> · Monolito modular en PaaS</sub></td>
+<td align="center" width="33%"><a href="assets/arquitecturas/11-bigdata.svg"><img src="assets/arquitecturas/11-bigdata.svg" alt="Lámina 11: Big Data y analítica en la nube" width="100%"></a><br><sub><b>11</b> · Big Data y analítica en la nube</sub></td>
+<td align="center" width="33%"><a href="assets/arquitecturas/12-ia.svg"><img src="assets/arquitecturas/12-ia.svg" alt="Lámina 12: Inteligencia artificial y MLOps" width="100%"></a><br><sub><b>12</b> · Inteligencia artificial y MLOps</sub></td>
+</tr>
+<tr>
+<td align="center" width="33%"><a href="assets/arquitecturas/13-hybrid.svg"><img src="assets/arquitecturas/13-hybrid.svg" alt="Lámina 13: Híbrida y multinube" width="100%"></a><br><sub><b>13</b> · Híbrida y multinube</sub></td>
+</tr>
+</table>
 
 ---
 
@@ -438,7 +468,7 @@ Análisis completo, arquitectura objetivo y hoja de ruta por papel en [14 · Cas
 | Servicio presente en todas las arquitecturas | **1**: Application Insights / Monitor (y en una de ellas, también Ⓟ) |
 | Servicios en TRACER | **24 de 53** (13 hoy · 2 parcial · 9 objetivo) |
 | Capítulos | **16** (4 generados desde los datos) |
-| Láminas SVG | **4** (portada, anatomía, tabla periódica, matriz) |
+| Láminas SVG | **17**: 4 generales (portada, anatomía, tabla periódica, matriz) y 13, una por arquitectura |
 | Diagramas Mermaid | **51** |
 
 ---
@@ -459,6 +489,7 @@ Análisis completo, arquitectura objetivo y hoja de ruta por papel en [14 · Cas
 │   ├── 15-catalogo-a-z.md                 ← ⚙️
 │   └── 16-referencia-rapida-y-glosario.md
 ├── assets/                                ← láminas SVG ⚙️: banner, anatomía, tabla periódica, matriz
+│   └── arquitecturas/                     ← ⚙️ 13 láminas, una por arquitectura
 ├── data/atlas.json                        ← ⚙️ datos + matriz de papeles, para otras herramientas
 ├── tools/
 │   ├── generar-atlas.mjs                  ← index.html → láminas, JSON y capítulos (Node 18+, sin dependencias)

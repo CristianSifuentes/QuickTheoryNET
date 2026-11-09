@@ -30,6 +30,8 @@ Este capítulo se genera desde los datos de [`index.html`](../index.html), la mi
 
 **Cuándo:** Algo pasó y varios interesados reaccionan, sin que el productor sepa quiénes son.
 
+<p align="center"><a href="../assets/arquitecturas/01-eda.svg"><img src="../assets/arquitecturas/01-eda.svg" alt="Lámina de la arquitectura Event-driven reactivo" width="100%"></a></p>
+
 > **La frase:** Ⓟ *Communication Services, Blob Storage / ADLS, Key Vault…* **produce** · Ⓑ *Event Grid* **transporta** · Ⓒ *Azure Functions, App Service, AKS…* **consume** · Ⓓ *Azure SQL, Cosmos DB, Blob Storage / ADLS* **guarda**; Ⓧ *Managed / Workload Identity, Entra ID, App Insights / Monitor* **envuelven**.
 
 ```mermaid
@@ -121,6 +123,8 @@ flowchart LR
 
 **Cuándo:** Hay una orden concreta ("haz esto") que no se puede perder y que un consumidor procesa a su ritmo.
 
+<p align="center"><a href="../assets/arquitecturas/02-msg.svg"><img src="../assets/arquitecturas/02-msg.svg" alt="Lámina de la arquitectura Mensajería y colas" width="100%"></a></p>
+
 > **La frase:** Ⓟ *Tu servicio .NET, Azure Functions, Event Grid…* **produce** · Ⓑ *Service Bus, Storage Queue* **transporta** · Ⓒ *AKS, KEDA, Container Apps…* **consume** · Ⓓ *Azure SQL, Azure Managed Redis* **guarda**; Ⓧ *Managed / Workload Identity, Private Endpoint + DNS, App Insights / Monitor* **envuelven**.
 
 ```mermaid
@@ -210,6 +214,8 @@ flowchart LR
 ## 3. Event streaming y telemetría
 
 **Cuándo:** Llegan miles o millones de eventos por segundo y varios lectores los procesan en paralelo, con la opción de releer.
+
+<p align="center"><a href="../assets/arquitecturas/03-stream.svg"><img src="../assets/arquitecturas/03-stream.svg" alt="Lámina de la arquitectura Event streaming y telemetría" width="100%"></a></p>
 
 > **La frase:** Ⓟ *Microsoft Graph, IoT Hub, Tu servicio .NET…* **produce** · Ⓑ *Event Hubs* **transporta** · Ⓒ *AKS, Azure Functions, Stream Analytics…* **consume** · Ⓓ *Blob Storage / ADLS, Data Explorer / Eventhouse, Cosmos DB…* **guarda** · Ⓢ *Power BI, SignalR Service* **entrega**; Ⓧ *Managed / Workload Identity, Private Endpoint + DNS, App Insights / Monitor* **envuelven**.
 
@@ -308,6 +314,8 @@ flowchart LR
 ## 4. Microservicios cloud-native en AKS
 
 **Cuándo:** Varios equipos y dominios que despliegan y escalan por separado, cada uno dueño de sus datos.
+
+<p align="center"><a href="../assets/arquitecturas/04-micro.svg"><img src="../assets/arquitecturas/04-micro.svg" alt="Lámina de la arquitectura Microservicios cloud-native en AKS" width="100%"></a></p>
 
 > **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), Communication Services* **produce** · Ⓑ *Front Door, Application Gateway, API Management…* **transporta** · Ⓒ *AKS, KEDA, Dapr…* **consume** · Ⓓ *Azure SQL, Cosmos DB, PostgreSQL Flexible…* **guarda**; Ⓧ *Managed / Workload Identity, Key Vault, App Configuration, VNet + NSG, Private Endpoint + DNS, App Insights / Monitor, Container Registry, Azure DevOps* **envuelven**.
 
@@ -421,6 +429,8 @@ flowchart LR
 
 **Cuándo:** Cargas irregulares o por evento donde pagar por ejecución y escalar a cero importa más que el control fino.
 
+<p align="center"><a href="../assets/arquitecturas/05-serverless.svg"><img src="../assets/arquitecturas/05-serverless.svg" alt="Lámina de la arquitectura Serverless" width="100%"></a></p>
+
 > **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), Blob Storage / ADLS, Cosmos DB…* **produce** · Ⓑ *Event Grid, Service Bus, Storage Queue…* **transporta** · Ⓒ *Azure Functions, Durable Functions, Logic Apps…* **consume** · Ⓓ *Cosmos DB, Azure SQL, Blob Storage / ADLS* **guarda** · Ⓢ *SignalR Service* **entrega**; Ⓧ *Managed / Workload Identity, Key Vault, App Insights / Monitor* **envuelven**.
 
 ```mermaid
@@ -527,6 +537,8 @@ flowchart LR
 
 **Cuándo:** Lectura y escritura tienen formas y cargas distintas, o necesitas auditar cada cambio como un hecho.
 
+<p align="center"><a href="../assets/arquitecturas/06-cqrs.svg"><img src="../assets/arquitecturas/06-cqrs.svg" alt="Lámina de la arquitectura CQRS + Event Sourcing" width="100%"></a></p>
+
 > **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), API Management* **produce** · Ⓑ *Service Bus, Event Grid* **transporta** · Ⓒ *AKS, Azure Functions* **consume** · Ⓓ *Cosmos DB, Azure SQL, AI Search…* **guarda**; Ⓧ *Managed / Workload Identity, App Insights / Monitor* **envuelven**.
 
 ```mermaid
@@ -626,6 +638,8 @@ flowchart LR
 
 **Cuándo:** Una operación de negocio cruza varios pasos o servicios y no puede haber una transacción ACID global.
 
+<p align="center"><a href="../assets/arquitecturas/07-saga.svg"><img src="../assets/arquitecturas/07-saga.svg" alt="Lámina de la arquitectura Saga y workflows distribuidos" width="100%"></a></p>
+
 > **La frase:** Ⓟ *Communication Services, Clientes (Portal, PowerPack, móvil)* **produce** · Ⓑ *Service Bus, Event Grid* **transporta** · Ⓒ *Durable Functions, AKS, Logic Apps…* **consume** · Ⓓ *Azure SQL, Cosmos DB, Blob Storage / ADLS* **guarda**; Ⓧ *Managed / Workload Identity, App Insights / Monitor* **envuelven**.
 
 ```mermaid
@@ -718,6 +732,8 @@ flowchart LR
 
 **Cuándo:** Una persona necesita ver el cambio en segundos sin refrescar: tableros, estados, chats.
 
+<p align="center"><a href="../assets/arquitecturas/08-realtime.svg"><img src="../assets/arquitecturas/08-realtime.svg" alt="Lámina de la arquitectura Tiempo real hacia clientes" width="100%"></a></p>
+
 > **La frase:** Ⓟ *Communication Services, Event Grid* **produce** · Ⓑ *SignalR Service, Web PubSub, Notification Hubs…* **transporta** · Ⓒ *Tu servicio .NET, Azure Functions* **consume** · Ⓓ *Azure SQL, Azure Managed Redis* **guarda** · Ⓢ *Clientes (Portal, PowerPack, móvil)* **entrega**; Ⓧ *Entra ID, App Insights / Monitor* **envuelven**.
 
 ```mermaid
@@ -807,6 +823,8 @@ flowchart LR
 ## 9. IoT y edge
 
 **Cuándo:** Hay dispositivos físicos que envían datos y reciben comandos.
+
+<p align="center"><a href="../assets/arquitecturas/09-iot.svg"><img src="../assets/arquitecturas/09-iot.svg" alt="Lámina de la arquitectura IoT y edge" width="100%"></a></p>
 
 > **La frase:** Ⓟ *Dispositivos / IoT Edge* **produce** · Ⓑ *IoT Hub, Event Grid namespaces, Event Hubs* **transporta** · Ⓒ *Stream Analytics, Azure Functions, Fabric Real-Time Intelligence* **consume** · Ⓓ *Data Explorer / Eventhouse, Blob Storage / ADLS, Cosmos DB* **guarda** · Ⓢ *Power BI, Web PubSub* **entrega**; Ⓧ *Key Vault, App Insights / Monitor* **envuelven**.
 
@@ -899,6 +917,8 @@ flowchart LR
 
 **Cuándo:** Un equipo, un dominio que todavía se mueve y ganas en simplicidad operativa.
 
+<p align="center"><a href="../assets/arquitecturas/10-monolith.svg"><img src="../assets/arquitecturas/10-monolith.svg" alt="Lámina de la arquitectura Monolito modular en PaaS" width="100%"></a></p>
+
 > **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), Communication Services* **produce** · Ⓑ *Front Door, Application Gateway, Storage Queue…* **transporta** · Ⓒ *App Service, Azure Functions* **consume** · Ⓓ *Azure SQL, Azure Managed Redis, Blob Storage / ADLS* **guarda**; Ⓧ *Key Vault, Managed / Workload Identity, App Insights / Monitor, Azure DevOps* **envuelven**.
 
 ```mermaid
@@ -990,6 +1010,8 @@ flowchart LR
 ## 11. Big Data y analítica en la nube
 
 **Cuándo:** Hay que ingerir, transformar y consultar grandes volúmenes de datos de muchas fuentes para analítica e inteligencia de negocio.
+
+<p align="center"><a href="../assets/arquitecturas/11-bigdata.svg"><img src="../assets/arquitecturas/11-bigdata.svg" alt="Lámina de la arquitectura Big Data y analítica en la nube" width="100%"></a></p>
 
 > **La frase:** Ⓟ *Azure SQL, Cosmos DB, Centro de datos local / otra nube…* **produce** · Ⓑ *Data Factory, Event Hubs* **transporta** · Ⓒ *Databricks, Synapse Analytics, Fabric Real-Time Intelligence* **consume** · Ⓓ *Blob Storage / ADLS, Synapse Analytics, Data Explorer / Eventhouse* **guarda** · Ⓢ *Power BI* **entrega**; Ⓧ *Managed / Workload Identity, Entra ID, Private Endpoint + DNS, App Insights / Monitor* **envuelven**.
 
@@ -1099,6 +1121,8 @@ flowchart LR
 
 **Cuándo:** Hay que entrenar, desplegar y operar modelos de machine learning, o construir aplicaciones de IA generativa sobre modelos fundacionales.
 
+<p align="center"><a href="../assets/arquitecturas/12-ia.svg"><img src="../assets/arquitecturas/12-ia.svg" alt="Lámina de la arquitectura Inteligencia artificial y MLOps" width="100%"></a></p>
+
 > **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), Tu servicio .NET* **produce** · Ⓑ *API Management* **transporta** · Ⓒ *Azure OpenAI (Microsoft Foundry), Azure Machine Learning, Container Apps* **consume** · Ⓓ *AI Search, Blob Storage / ADLS, Cosmos DB…* **guarda** · Ⓢ *Clientes (Portal, PowerPack, móvil)* **entrega**; Ⓧ *Managed / Workload Identity, Entra ID, Key Vault, Private Endpoint + DNS, App Insights / Monitor* **envuelven**.
 
 ```mermaid
@@ -1199,6 +1223,8 @@ flowchart LR
 ## 13. Híbrida y multinube
 
 **Cuándo:** Parte de las cargas o de los datos debe quedarse en tu centro de datos o en otra nube, por latencia, regulación o inversión existente, y quieres gobernarlo todo como uno.
+
+<p align="center"><a href="../assets/arquitecturas/13-hybrid.svg"><img src="../assets/arquitecturas/13-hybrid.svg" alt="Lámina de la arquitectura Híbrida y multinube" width="100%"></a></p>
 
 > **La frase:** Ⓟ *Centro de datos local / otra nube, Azure Local* **produce** · Ⓑ *ExpressRoute / VPN Gateway* **transporta** · Ⓒ *AKS, App Service, Azure Functions* **consume** · Ⓓ *Azure SQL, Blob Storage / ADLS* **guarda**; Ⓧ *Azure Arc, Entra ID, Key Vault, VNet + NSG, App Insights / Monitor* **envuelven**.
 
