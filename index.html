@@ -68,10 +68,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .tab:hover{color:var(--ink);background:var(--surface)}
 .tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
 .tab small{font-family:var(--f-mono);font-size:11px;opacity:.7}
-.spark-toggle{margin-left:auto;display:flex;gap:4px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
-.spark-toggle span{font-size:12px;color:var(--muted);padding:0 6px 0 8px}
-.spark-toggle button{border:0;background:transparent;border-radius:999px;padding:5px 10px;font-size:12.5px;cursor:pointer;color:var(--muted)}
-.spark-toggle button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.tracer-toggle{margin-left:auto;display:flex;gap:4px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.tracer-toggle span{font-size:12px;color:var(--muted);padding:0 6px 0 8px}
+.tracer-toggle button{border:0;background:transparent;border-radius:999px;padding:5px 10px;font-size:12.5px;cursor:pointer;color:var(--muted)}
+.tracer-toggle button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
 
 /* ---------- MAP ---------- */
 .map{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;align-items:start}
@@ -120,7 +120,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .note ul{margin:0;padding-left:18px;display:grid;gap:5px}
 .note li::marker{color:var(--muted)}
 .note.bad li::marker{content:"✕  ";color:var(--accent)}
-.note.spark p{margin:0}
+.note.tracer p{margin:0}
 .phrase{grid-column:1/-1;margin:0;padding:16px 20px;border-left:3px solid var(--accent);background:var(--surface);border-radius:0 10px 10px 0;font-size:16px}
 .phrase span{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
 
@@ -248,7 +248,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:v
   .hub .arrow::after{left:calc(50% - 5px);right:auto;top:auto;bottom:0;border:5px solid transparent;border-top:7px solid var(--muted)}
   .hub .pkt{left:calc(50% - 3px);animation-name:pktv}
   .notes{grid-template-columns:1fr}
-  .spark-toggle{margin-left:0}
+  .tracer-toggle{margin-left:0}
 }
 @keyframes pktv{0%{top:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:calc(100% - 12px);opacity:0}}
 @media (prefers-reduced-motion: reduce){.pkt{animation:none;display:none}.chip,.drawer,.scrim{transition:none}}
@@ -258,7 +258,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:v
   <header class="top">
     <div class="title-row">
       <div>
-        <div class="eyebrow">Examen backend .NET + Azure · aterrizado en SPARK</div>
+        <div class="eyebrow">Examen backend .NET + Azure · aterrizado en TRACER</div>
         <h1>Atlas de servicios <em>Azure</em></h1>
       </div>
       <p class="lede">Toda arquitectura en Azure se lee como una frase: alguien <b>produce</b>, algo <b>transporta</b>, alguien <b>consume</b>, algo <b>guarda</b> el estado y algo lo <b>entrega</b> a una persona. Identidad, red y observabilidad envuelven todo. Un mismo servicio cambia de papel según la arquitectura.</p>
@@ -272,8 +272,8 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:v
       <button class="tab" role="tab" data-v="matriz" id="tab-matriz">Matriz de roles <small>servicio × arquitectura</small></button>
       <button class="tab" role="tab" data-v="brokers" id="tab-brokers">Productores y consumidores <small>por broker</small></button>
       <button class="tab" role="tab" data-v="decidir" id="tab-decidir">¿Qué uso?</button>
-      <div class="spark-toggle" role="group" aria-label="Resaltar SPARK">
-        <span>Resaltar SPARK</span>
+      <div class="tracer-toggle" role="group" aria-label="Resaltar TRACER">
+        <span>Resaltar TRACER</span>
         <button data-sk="off" aria-pressed="true">No</button>
         <button data-sk="hoy" aria-pressed="false">Hoy</button>
         <button data-sk="obj" aria-pressed="false">+ Objetivo AKS</button>
@@ -307,7 +307,7 @@ const ROLES = {
   S:{n:'Entrega',     d:'Llega a personas: UI, dashboards, push'},
   X:{n:'Transversal', d:'Identidad, red, secretos, observabilidad, CI/CD'}
 };
-const SP = {usa:'SPARK lo usa hoy', parcial:'SPARK: parcial', objetivo:'SPARK: arquitectura objetivo', no:'No está en SPARK'};
+const SP = {usa:'TRACER lo usa hoy', parcial:'TRACER: parcial', objetivo:'TRACER: arquitectura objetivo', no:'No está en TRACER'};
 
 const S = {
   // Mensajería
@@ -350,7 +350,7 @@ const S = {
     p:'Mensajes a clientes, usuarios y grupos; eventos de conexión a Event Grid; upstream a Functions en modo serverless.',
     c:'Mensajes del backend: IHubContext, REST API o binding de salida de Functions.',
     k:'At-most-once al cliente · sin persistencia · el cliente se resincroniza al reconectar.',
-    net:'Microsoft.Azure.SignalR', tip:'Elimina el backplane: N réplicas de la API comparten las conexiones a través del servicio. En SPARK: hub /callshub.'},
+    net:'Microsoft.Azure.SignalR', tip:'Elimina el backplane: N réplicas de la API comparten las conexiones a través del servicio. En TRACER: hub /callshub.'},
   webpubsub:{n:'Web PubSub',cat:'Tiempo real',sp:'no',d:'WebSockets nativos y pub/sub para cualquier cliente, sin protocolo SignalR.',
     p:'Mensajes a conexiones, grupos y usuarios.', c:'Backend por SDK/REST; eventos de clientes vía event handlers.',
     k:'At-most-once · grupos · subprotocolos JSON y binarios.', tip:'Úsalo cuando el cliente no es .NET/JS con SignalR (IoT ligero, juegos, otros lenguajes).'},
@@ -375,7 +375,7 @@ const S = {
     p:'Bindings de salida: Service Bus, Event Hubs, Event Grid, Storage, Cosmos DB, SignalR, SQL.',
     c:'Triggers: HTTP, Timer, Event Grid, Service Bus, Event Hubs, Queue, Blob, Cosmos DB change feed, SQL, Redis.',
     k:'Flex Consumption, escalado por evento, cold start, isolated worker en .NET.',
-    tip:'Es productor y consumidor a la vez: consume de un trigger y produce por un binding. En SPARK: EventGridAzureFunction.'},
+    tip:'Es productor y consumidor a la vez: consume de un trigger y produce por un binding. En TRACER: EventGridAzureFunction.'},
   durable:{n:'Durable Functions',cat:'Cómputo',sp:'no',d:'Orquestaciones con estado escritas como código (event sourcing interno).',
     p:'Llama actividades, sub-orquestaciones y timers durables.', c:'Eventos externos (WaitForExternalEvent) y resultados de actividades.',
     k:'Replay determinista; estado en Storage, MSSQL o Durable Task Scheduler.',
@@ -450,7 +450,7 @@ const S = {
     k:'Autentica webhooks de Event Grid, clientes de SignalR y APIs.', tip:'Autenticación: quién eres. Autorización (RBAC): qué puedes hacer.'},
   mi:{n:'Managed / Workload Identity',cat:'Identidad',sp:'objetivo',d:'Identidad sin secretos para recursos y pods de AKS (federación OIDC).',
     net:'new DefaultAzureCredential()', k:'System-assigned (vive con el recurso) o user-assigned (reutilizable).',
-    tip:'Hoy SPARK usa AccessKey y connection strings: 0 usos de DefaultAzureCredential.'},
+    tip:'Hoy TRACER usa AccessKey y connection strings: 0 usos de DefaultAzureCredential.'},
   kv:{n:'Key Vault',cat:'Identidad',sp:'parcial',d:'Secretos, llaves y certificados.',p:'Eventos a Event Grid: SecretNearExpiry, CertificateNewVersionCreated.',
     rbac:'Key Vault Secrets User', tip:'Rotación automática: Key Vault emite el evento, una Function rota el secreto.'},
   appconfig:{n:'App Configuration',cat:'Identidad',sp:'no',d:'Configuración centralizada y feature flags.',p:'KeyValueModified a Event Grid para refresco push.',
@@ -464,7 +464,7 @@ const S = {
   acr:{n:'Container Registry',cat:'DevOps',sp:'objetivo',d:'Registro privado de imágenes.',p:'ImagePushed a Event Grid.',
     tip:'az aks update --attach-acr: el kubelet obtiene AcrPull sin imagePullSecrets.'},
   devops:{n:'Azure DevOps',cat:'DevOps',sp:'usa',d:'Repos, Pipelines YAML y aprobaciones por ambiente.',
-    tip:'SPARK ya tiene dev → qa → alpha → beta → prd con aprobación manual.'}
+    tip:'TRACER ya tiene dev → qa → alpha → beta → prd con aprobación manual.'}
 };
 const CATS = ['Mensajería','Tiempo real','Cómputo','Integración','Entrada','Datos','Analítica','Fuentes','Identidad','Red','Observabilidad','DevOps'];
 
@@ -481,7 +481,7 @@ const A = [
   g:['At-least-once: el mismo evento puede llegar dos veces','Sin orden garantizado','Reintentos con backoff hasta 24 h; luego dead-letter a Blob','Eventos de hasta 1 MB'],
   pt:['Idempotent consumer (Inbox): dedupe por event.Id en la misma transacción','Ordenar por eventTime, no por llegada','Claim-check: evento delgado y payload en Blob','Event Grid → Service Bus para nivelar carga'],
   anti:['Webhook que responde 200 antes de procesar: Event Grid no reintenta','Usar eventos para comandos que exigen orden','Payloads gordos dentro del evento'],
-  spark:'Es la columna vertebral: ACS → Event Grid → EventsController y EventGridAzureFunction. CallGarbageManager publica DisconnectCall al custom topic.',
+  tracer:'Es la columna vertebral: ACS → Event Grid → EventsController y EventGridAzureFunction. CallGarbageManager publica DisconnectCall al custom topic.',
   ph:'Event Grid garantiza al menos una entrega, no exactamente una, ni orden. Cada handler es idempotente y el orden lo resuelvo con el eventTime.'},
  {id:'msg',short:'Colas',n:'Mensajería y colas',sp:'objetivo',
   when:'Hay una orden concreta ("haz esto") que no se puede perder y que un consumidor procesa a su ritmo.',
@@ -494,7 +494,7 @@ const A = [
   g:['Peek-lock: el mensaje se bloquea mientras lo procesas','FIFO por sesión','Duplicate detection por MessageId','DLQ tras MaxDeliveryCount','Mensajes programados y transacciones'],
   pt:['Load leveling: la cola absorbe picos','Competing consumers','Sesiones = afinidad por entidad sin estado en memoria','Outbox para publicar + Inbox para consumir','Scheduled message como timeout de un paso'],
   anti:['Procesar más allá del lock (lock lost → duplicado)','Reintentar operaciones no idempotentes','Mandar comandos por Event Grid esperando orden'],
-  spark:'No existe hoy. El diseño objetivo pone Service Bus con sesiones entre el webhook /events y un call-worker con KEDA, en lugar del TaskQueuer en memoria.',
+  tracer:'No existe hoy. El diseño objetivo pone Service Bus con sesiones entre el webhook /events y un call-worker con KEDA, en lugar del TaskQueuer en memoria.',
   ph:'Un webhook delgado valida, encola y responde. El trabajo pesado va a un consumidor con reintentos y DLQ, y uso sesiones para ordenar por llamada.'},
  {id:'stream',short:'Streaming',n:'Event streaming y telemetría',sp:'parcial',
   when:'Llegan miles o millones de eventos por segundo y varios lectores los procesan en paralelo, con la opción de releer.',
@@ -508,21 +508,21 @@ const A = [
   g:['Orden solo dentro de una partición','At-least-once: el checkpoint marca hasta dónde leíste','Retención 1–7 días (Standard) y hasta 90 (Premium/Dedicated)','Replay desde cualquier offset'],
   pt:['Partition key = entidad (userId, deviceId)','Checkpoint después de procesar, por lote','Capture a ADLS: arquitectura Kappa','Un consumer group por lector independiente'],
   anti:['Usarlo como cola de trabajo: no hay DLQ ni lock por mensaje','Partition key mala que crea particiones calientes','Checkpoint por cada evento'],
-  spark:'Tres hubs configurados (SuperHandlerPresences, Presences, CallsCatcher). Graph envía presencias a Event Hubs y SPARK.Presences las consume.',
+  tracer:'Tres hubs configurados (SuperHandlerPresences, Presences, CallsCatcher). Graph envía presencias a Event Hubs y TRACER.Presences las consume.',
   ph:'Event Hubs es un log, no una cola: cada lector lleva su posición. Lo uso para presencias por volumen y replay; para trabajo por mensaje, Service Bus.'},
  {id:'micro',short:'Microservicios',n:'Microservicios cloud-native en AKS',sp:'objetivo',
   when:'Varios equipos y dominios que despliegan y escalan por separado, cada uno dueño de sus datos.',
   lanes:[
    {r:'P',t:'Clientes',s:'',i:[['web','Portal, PowerPack'],['acs','eventos externos']]},
    {r:'B',t:'Entrada',s:'L7 + seguridad',i:[['frontdoor','global y CDN'],['appgw','WAF + ingress'],['apim','cuotas, JWT, versiones']]},
-   {r:'C',t:'Servicios',s:'REST externo · gRPC interno',i:[['aks','spark-api, call-worker, routing-svc'],['keda','workers por cola'],['dapr','sidecar opcional'],['aca','alternativa sin clúster']]},
+   {r:'C',t:'Servicios',s:'REST externo · gRPC interno',i:[['aks','tracer-api, call-worker, routing-svc'],['keda','workers por cola'],['dapr','sidecar opcional'],['aca','alternativa sin clúster']]},
    {r:'B',t:'Bus interno',s:'asíncrono entre servicios',i:[['servicebus','comandos'],['eventgrid','hechos de integración'],['redis','avisos efímeros']]},
    {r:'D',t:'Datos por servicio',s:'database per service',i:[['sql','llamadas y workflow'],['cosmos','servicio con modelo flexible'],['postgres','otro servicio'],['redis','cache y locks'],['blob','audios']]}],
   x:['mi','kv','appconfig','vnet','pe','appi','acr','devops'],
   g:['Consistencia eventual entre servicios','ACID solo dentro de un servicio','Cada servicio escala y despliega solo'],
   pt:['Database per service','API Gateway / BFF','REST hacia afuera, gRPC entre servicios (balanceo L7)','Health probes live/ready + PDB + zonas','Strangler fig para migrar desde el monolito'],
   anti:['Base compartida entre servicios: monolito distribuido','Cadenas de llamadas síncronas','Estado en memoria: static SemaphoreSlim, IMemoryCache, BackgroundService duplicado'],
-  spark:'Es la sección 3 del documento: "SPARK en AKS" con App Gateway + WAF, Workload Identity, Private Endpoints, KEDA y routing-svc por gRPC.',
+  tracer:'Es la sección 3 del documento: "TRACER en AKS" con App Gateway + WAF, Workload Identity, Private Endpoints, KEDA y routing-svc por gRPC.',
   ph:'Antes de escalar horizontalmente busco todo lo static, Singleton con estado o IMemoryCache, y lo saco a SQL, Redis o sesiones de Service Bus.'},
  {id:'serverless',short:'Serverless',n:'Serverless',sp:'parcial',
   when:'Cargas irregulares o por evento donde pagar por ejecución y escalar a cero importa más que el control fino.',
@@ -536,7 +536,7 @@ const A = [
   g:['Escala por evento y a cero','Cold start en planes de consumo','Timeout por ejecución según el plan','Triggers con reintentos propios (poison queue, DLQ)'],
   pt:['Trigger → función → binding de salida','Durable para estado largo, fan-out/fan-in y timers','Event Grid como pegamento entre recursos'],
   anti:['Funciones encadenadas por HTTP','Procesos largos sin Durable','Crear HttpClient o clientes de SDK por invocación'],
-  spark:'EventGridAzureFunction (isolated worker) con Clean Architecture: Domain, Application, Infrastructure y el host.',
+  tracer:'EventGridAzureFunction (isolated worker) con Clean Architecture: Domain, Application, Infrastructure y el host.',
   ph:'Una Function es productor y consumidor a la vez: el trigger la alimenta y el binding de salida publica.'},
  {id:'cqrs',short:'CQRS / ES',n:'CQRS + Event Sourcing',sp:'parcial',
   when:'Lectura y escritura tienen formas y cargas distintas, o necesitas auditar cada cambio como un hecho.',
@@ -550,7 +550,7 @@ const A = [
   g:['La lectura es eventualmente consistente','Orden por partición lógica (aggregateId)','Proyecciones reconstruibles con replay'],
   pt:['Concurrencia optimista: ETag o RowVersion','Snapshots para agregados largos','Outbox para publicar a otros contextos','CQRS no exige event sourcing ni MediatR'],
   anti:['Event Hubs como event store: la retención es limitada','CQRS en todo el sistema','Validar comandos contra el modelo de lectura'],
-  spark:'Semilla: CallEventsManager (comandos) frente a CallQueriesManager (vacío); reportes con AsNoTracking y AsSplitQuery. Evolución: réplica ReadOnly para reportes.',
+  tracer:'Semilla: CallEventsManager (comandos) frente a CallQueriesManager (vacío); reportes con AsNoTracking y AsSplitQuery. Evolución: réplica ReadOnly para reportes.',
   ph:'CQRS es separar modelos de lectura y escritura, no una librería. Event sourcing es guardar el estado como eventos; son independientes.'},
  {id:'saga',short:'Saga',n:'Saga y workflows distribuidos',sp:'usa',
   when:'Una operación de negocio cruza varios pasos o servicios y no puede haber una transacción ACID global.',
@@ -564,7 +564,7 @@ const A = [
   g:['Sin 2PC: consistencia eventual con compensaciones','Cada paso es local e idempotente','Timeouts explícitos'],
   pt:['Orquestación (un cerebro) frente a coreografía (cada quien reacciona)','Compensating transaction','Semantic lock: reservar antes de confirmar','Barrendero de sagas atascadas'],
   anti:['2PC o DTC en la nube','Compensaciones no idempotentes','Coreografía sin tracing: nadie ve el flujo completo'],
-  spark:'WorkflowManager es el orquestador; WorkflowContext es el estado; OnTransferFailedAction y CancelInvitationAction son compensaciones; CallGarbageManager es el barrendero.',
+  tracer:'WorkflowManager es el orquestador; WorkflowContext es el estado; OnTransferFailedAction y CancelInvitationAction son compensaciones; CallGarbageManager es el barrendero.',
   ph:'Transferir a un agente es una saga: reservo, invito y espero. Si falla o vence el timer, compenso: libero, cancelo y regreso la llamada a la cola.'},
  {id:'realtime',short:'Tiempo real',n:'Tiempo real hacia clientes',sp:'usa',
   when:'Una persona necesita ver el cambio en segundos sin refrescar: tableros, estados, chats.',
@@ -578,7 +578,7 @@ const A = [
   g:['At-most-once hacia el cliente','Sin persistencia','Al reconectar, el cliente relee por API'],
   pt:['Notificar y releer: aviso ligero + GET','Grupos por tenant o cola','Modo serverless con Functions','El servicio gestionado sustituye al backplane'],
   anti:['Usar SignalR como fuente de verdad','Grupos amplios con datos sensibles','Polling cada segundo'],
-  spark:'Hub /callshub y avisos como ConfigurationChanged hacia el Portal y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.',
+  tracer:'Hub /callshub y avisos como ConfigurationChanged hacia el Portal y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.',
   ph:'La consistencia eventual se nota aquí: el Portal ve "agente conectado" milisegundos después. La UI se diseña para tolerarlo.'},
  {id:'iot',short:'IoT',n:'IoT y edge',sp:'no',
   when:'Hay dispositivos físicos que envían datos y reciben comandos.',
@@ -592,7 +592,7 @@ const A = [
   g:['D2C at-least-once','MQTT QoS 0 / 1','Comandos C2D y direct methods'],
   pt:['Hot / warm / cold path','Ruteo por propiedades del mensaje','Identidad X.509 por dispositivo','Procesar en el borde (IoT Edge)'],
   anti:['Una SAS compartida para todos los dispositivos','Telemetría masiva por Service Bus'],
-  spark:'No aplica. Sirve como contraste: si preguntan por MQTT, la respuesta es IoT Hub o Event Grid namespaces.',
+  tracer:'No aplica. Sirve como contraste: si preguntan por MQTT, la respuesta es IoT Hub o Event Grid namespaces.',
   ph:'IoT Hub es Event Hubs más gestión de dispositivos. Si solo necesito pub/sub MQTT, uso Event Grid namespaces.'},
  {id:'monolith',short:'Monolito',n:'Monolito modular en PaaS',sp:'usa',
   when:'Un equipo, un dominio que todavía se mueve y ganas en simplicidad operativa.',
@@ -606,8 +606,8 @@ const A = [
   g:['ACID local dentro del proceso','Eventos de dominio in-process','Un despliegue, varios módulos'],
   pt:['Módulos por bounded context','Eventos de dominio in-process (MediatR o propio)','Deployment slots para cero downtime','Escalar out con el estado fuera del proceso'],
   anti:['Módulos que comparten tablas','IMemoryCache con varias instancias','BackgroundService duplicado por instancia'],
-  spark:'Así se despliega hoy: App Service (appType webApp), varios servicios y paquetes NuGet compartidos.',
-  ph:'SPARK es más un monolito modular que microservicios. Es una decisión válida mientras el estado viva fuera del proceso.'}
+  tracer:'Así se despliega hoy: App Service (appType webApp), varios servicios y paquetes NuGet compartidos.',
+  ph:'TRACER es más un monolito modular que microservicios. Es una decisión válida mientras el estado viva fuera del proceso.'}
 ];
 
 /* Brokers y fuentes de cambios: quién escribe, quién lee */
@@ -708,7 +708,7 @@ const g = r => `<span class="g" data-r="${r}" title="${ROLES[r].n}">${r}</span>`
 const archById = id => A.find(a => a.id === id);
 const bkById = id => BK.find(b => b.id === id);
 
-function inSpark(id){
+function inTracer(id){
   const sp = S[id]?.sp;
   if (st.sk === 'hoy') return sp === 'usa' || sp === 'parcial';
   if (st.sk === 'obj') return sp !== 'no';
@@ -716,7 +716,7 @@ function inSpark(id){
 }
 function chip(id, note, r){
   const s = S[id];
-  const off = inSpark(id) ? '' : ' off';
+  const off = inTracer(id) ? '' : ' off';
   return `<button class="chip${off}" data-s="${id}" data-r="${r}">${g(r)}<span class="cn">${esc(s.n)}${s.sp==='usa'?`<span class="dot" data-sp="usa" title="${SP.usa}"></span>`:''}</span><span class="cnote">${esc(note||'')}</span></button>`;
 }
 const arrow = () => `<div class="arrow" aria-hidden="true"><span class="pkt"></span></div>`;
@@ -763,7 +763,7 @@ function renderMap(){
         <div class="note"><h4>Garantías</h4><ul>${a.g.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
         <div class="note"><h4>Patrones que la hacen funcionar</h4><ul>${a.pt.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
         <div class="note bad"><h4>Antipatrones</h4><ul>${a.anti.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
-        <div class="note spark"><h4>En SPARK</h4><p>${esc(a.spark)}</p></div>
+        <div class="note tracer"><h4>En TRACER</h4><p>${esc(a.tracer)}</p></div>
         <blockquote class="phrase"><span>Frase para el examen</span>“${esc(a.ph)}”</blockquote>
       </div>
     </div>
@@ -781,7 +781,7 @@ function renderMatrix(){
       <div class="rolefilter" role="group" aria-label="Filtrar por rol">${ORDER.map(r=>`<button data-rf="${r}" data-r="${r}" aria-pressed="false">${g(r)}${ROLES[r].n}</button>`).join('')}</div>
     </div>
     <div class="mx-wrap"><table class="mx" id="mx"></table></div>
-    <div class="mx-legend">${ORDER.map(r=>`<span>${g(r)} ${ROLES[r].d}</span>`).join('')}<span><span class="dot" data-sp="usa"></span> SPARK lo usa</span></div>`;
+    <div class="mx-legend">${ORDER.map(r=>`<span>${g(r)} ${ROLES[r].d}</span>`).join('')}<span><span class="dot" data-sp="usa"></span> TRACER lo usa</span></div>`;
     v.dataset.built = '1';
     $('#mx-q').addEventListener('input', e => { st.mxQ = e.target.value.toLowerCase(); fillMatrix(); });
     $('#mx-cat').addEventListener('change', e => { st.mxCat = e.target.value; fillMatrix(); });
@@ -801,7 +801,7 @@ function fillMatrix(){
     const ids = Object.keys(S).filter(id => S[id].cat === cat)
       .filter(id => !st.mxQ || (S[id].n + ' ' + S[id].d).toLowerCase().includes(st.mxQ))
       .filter(id => !st.mxRole || A.some(a => rolesOf(id,a.id).includes(st.mxRole)))
-      .filter(id => inSpark(id));
+      .filter(id => inTracer(id));
     if (!ids.length) return;
     body += `<tr class="cat"><td>${cat}</td><td colspan="${A.length+1}"></td></tr>`;
     ids.forEach(id => {
@@ -817,7 +817,7 @@ function fillMatrix(){
 /* ===================== VISTA: BROKERS ===================== */
 function renderBrokers(){
   const b = bkById(st.bk), s = S[b.id];
-  const item = ([id,how]) => `<button class="bk-item${inSpark(id)?'':' off'}" data-s="${id}" data-r="${S[id].cat==='Mensajería'?'B':'P'}"><b>${esc(S[id].n)}${S[id].sp==='usa'?'<span class="dot" data-sp="usa"></span>':''}</b><span>${esc(how)}</span></button>`;
+  const item = ([id,how]) => `<button class="bk-item${inTracer(id)?'':' off'}" data-s="${id}" data-r="${S[id].cat==='Mensajería'?'B':'P'}"><b>${esc(S[id].n)}${S[id].sp==='usa'?'<span class="dot" data-sp="usa"></span>':''}</b><span>${esc(how)}</span></button>`;
   const itemOut = ([id,how]) => item([id,how]).replace('data-r="P"','data-r="C"');
   $('#v-brokers').innerHTML = `
   <div class="bk-pick" role="group" aria-label="Elegir broker">${BK.map(x=>`<button data-bk="${x.id}" aria-pressed="${x.id===b.id}"><span class="dot" data-sp="${S[x.id].sp}"></span>${esc(S[x.id].n)}</button>`).join('')}</div>
@@ -830,7 +830,7 @@ function renderBrokers(){
       <p class="sub">${esc(s.d)}</p>
       <dl class="kv">${BK_KEYS.map((k,i)=>`<dt>${k}</dt><dd>${esc(b.pr[i])}</dd>`).join('')}</dl>
       <div class="use"><p><b>Úsalo para</b>${esc(b.use)}</p><p><b>Evítalo cuando</b>${esc(b.avoid)}</p>
-      <p><b>SPARK</b><span class="pill" style="margin-top:4px"><span class="dot" data-sp="${s.sp}"></span>${SP[s.sp]}</span></p></div>
+      <p><b>TRACER</b><span class="pill" style="margin-top:4px"><span class="dot" data-sp="${s.sp}"></span>${SP[s.sp]}</span></p></div>
     </div>
     ${arrow()}
     <div class="hub-side" data-r="C"><h3>${g('C')} Quién lo lee</h3>${b.out.map(itemOut).join('')}</div>
