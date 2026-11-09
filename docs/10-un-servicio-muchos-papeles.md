@@ -280,4 +280,4 @@ La misma matriz, en texto. Cada celda es el papel (o papeles) del servicio en es
 
 ---
 
-[← 09 · Observabilidad](09-observabilidad.md) · [Índice](../README.md) · [11 · Trece arquitecturas →](11-diez-arquitecturas-como-frases.md)
+[← 09 · Observabilidad](09-observabilidad.md) · [Índice](../README.md) · [11 · Trece arquitecturas →](11-trece-arquitecturas-como-frases.md)

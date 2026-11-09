@@ -50,19 +50,19 @@ Leídos por papel, los 15 servicios en uso (🟢 y 🟡) cuentan una historia cl
 
 | Arquitectura | Estado | Lo que TRACER dice |
 |---|:-:|---|
-| [Event-driven reactivo](11-diez-arquitecturas-como-frases.md#1-event-driven-reactivo) | 🟢 | **Es la columna vertebral:** ACS → Event Grid → `EventsController` y `EventGridAzureFunction`. `CallGarbageManager` publica `DisconnectCall` al *custom topic* |
-| [Saga y workflows](11-diez-arquitecturas-como-frases.md#7-saga-y-workflows-distribuidos) | 🟢 | `WorkflowManager` es el orquestador; `WorkflowContext`, el estado; `OnTransferFailedAction` y `CancelInvitationAction`, las compensaciones; `CallGarbageManager`, el barrendero |
-| [Tiempo real](11-diez-arquitecturas-como-frases.md#8-tiempo-real-hacia-clientes) | 🟢 | Hub `/callshub` y avisos como `ConfigurationChanged` hacia el Portal y PowerPack |
-| [Monolito modular en PaaS](11-diez-arquitecturas-como-frases.md#10-monolito-modular-en-paas) | 🟢 | Así se despliega hoy: App Service, varios servicios y paquetes NuGet compartidos |
-| [Streaming](11-diez-arquitecturas-como-frases.md#3-event-streaming-y-telemetría) | 🟡 | Tres *hubs* (`SuperHandlerPresences`, `Presences`, `CallsCatcher`); Graph envía presencias y `TRACER.Presences` las consume |
-| [Serverless](11-diez-arquitecturas-como-frases.md#5-serverless) | 🟡 | `EventGridAzureFunction` (*isolated worker*) con Clean Architecture |
-| [CQRS](11-diez-arquitecturas-como-frases.md#6-cqrs--event-sourcing) | 🟡 | Semilla: `CallEventsManager` (comandos) frente a `CallQueriesManager` (vacío); reportes con `AsNoTracking` y `AsSplitQuery` |
-| [Colas](11-diez-arquitecturas-como-frases.md#2-mensajería-y-colas) | 🔷 | No existe hoy; el diseño objetivo pone Service Bus con sesiones en lugar del `TaskQueuer` en memoria |
-| [Microservicios en AKS](11-diez-arquitecturas-como-frases.md#4-microservicios-cloud-native-en-aks) | 🔷 | "TRACER en AKS": App Gateway + WAF, Workload Identity, Private Endpoints, KEDA y `routing-svc` por gRPC |
-| [IoT](11-diez-arquitecturas-como-frases.md#9-iot-y-edge) | · | No aplica: sirve de contraste |
-| [Big Data](11-diez-arquitecturas-como-frases.md#11-big-data-y-analítica-en-la-nube) | · | No aplica hoy; para analítica de llamadas: CDC o *mirroring* de Azure SQL al lago y Power BI encima, sin cargar producción |
-| [IA y MLOps](11-diez-arquitecturas-como-frases.md#12-inteligencia-artificial-y-mlops) | · | No aplica hoy; caso natural: resumir y clasificar llamadas con Azure OpenAI a partir de las transcripciones de ACS, tras `CallEnded` |
-| [Híbrida](11-diez-arquitecturas-como-frases.md#13-híbrida-y-multinube) | · | No aplica: TRACER es nativo de la nube; solo si un cliente exige que audios o datos queden en sus instalaciones |
+| [Event-driven reactivo](11-trece-arquitecturas-como-frases.md#1-event-driven-reactivo) | 🟢 | **Es la columna vertebral:** ACS → Event Grid → `EventsController` y `EventGridAzureFunction`. `CallGarbageManager` publica `DisconnectCall` al *custom topic* |
+| [Saga y workflows](11-trece-arquitecturas-como-frases.md#7-saga-y-workflows-distribuidos) | 🟢 | `WorkflowManager` es el orquestador; `WorkflowContext`, el estado; `OnTransferFailedAction` y `CancelInvitationAction`, las compensaciones; `CallGarbageManager`, el barrendero |
+| [Tiempo real](11-trece-arquitecturas-como-frases.md#8-tiempo-real-hacia-clientes) | 🟢 | Hub `/callshub` y avisos como `ConfigurationChanged` hacia el Portal y PowerPack |
+| [Monolito modular en PaaS](11-trece-arquitecturas-como-frases.md#10-monolito-modular-en-paas) | 🟢 | Así se despliega hoy: App Service, varios servicios y paquetes NuGet compartidos |
+| [Streaming](11-trece-arquitecturas-como-frases.md#3-event-streaming-y-telemetría) | 🟡 | Tres *hubs* (`SuperHandlerPresences`, `Presences`, `CallsCatcher`); Graph envía presencias y `TRACER.Presences` las consume |
+| [Serverless](11-trece-arquitecturas-como-frases.md#5-serverless) | 🟡 | `EventGridAzureFunction` (*isolated worker*) con Clean Architecture |
+| [CQRS](11-trece-arquitecturas-como-frases.md#6-cqrs--event-sourcing) | 🟡 | Semilla: `CallEventsManager` (comandos) frente a `CallQueriesManager` (vacío); reportes con `AsNoTracking` y `AsSplitQuery` |
+| [Colas](11-trece-arquitecturas-como-frases.md#2-mensajería-y-colas) | 🔷 | No existe hoy; el diseño objetivo pone Service Bus con sesiones en lugar del `TaskQueuer` en memoria |
+| [Microservicios en AKS](11-trece-arquitecturas-como-frases.md#4-microservicios-cloud-native-en-aks) | 🔷 | "TRACER en AKS": App Gateway + WAF, Workload Identity, Private Endpoints, KEDA y `routing-svc` por gRPC |
+| [IoT](11-trece-arquitecturas-como-frases.md#9-iot-y-edge) | · | No aplica: sirve de contraste |
+| [Big Data](11-trece-arquitecturas-como-frases.md#11-big-data-y-analítica-en-la-nube) | · | No aplica hoy; para analítica de llamadas: CDC o *mirroring* de Azure SQL al lago y Power BI encima, sin cargar producción |
+| [IA y MLOps](11-trece-arquitecturas-como-frases.md#12-inteligencia-artificial-y-mlops) | · | No aplica hoy; caso natural: resumir y clasificar llamadas con Azure OpenAI a partir de las transcripciones de ACS, tras `CallEnded` |
+| [Híbrida](11-trece-arquitecturas-como-frases.md#13-híbrida-y-multinube) | · | No aplica: TRACER es nativo de la nube; solo si un cliente exige que audios o datos queden en sus instalaciones |
 
 ---
 

@@ -153,7 +153,7 @@ npm run atlas && npm run verificar
 | Competing consumers | Ⓒ | Escalar el procesamiento | [04](04-consume.md#1-cuatro-formas-de-consumir) |
 | Idempotent consumer (Inbox) | Ⓒ | Entregas duplicadas | [04](04-consume.md#3-idempotencia-el-consumidor-inbox) |
 | Sesiones | Ⓑ + Ⓒ | Orden por entidad sin estado local | [03](03-transporta.md#4-orden-total-por-clave-o-ninguno) |
-| Saga (orquestación / coreografía) | Ⓒ | Transacciones que cruzan servicios | [11](11-diez-arquitecturas-como-frases.md#7-saga-y-workflows-distribuidos) |
+| Saga (orquestación / coreografía) | Ⓒ | Transacciones que cruzan servicios | [11](11-trece-arquitecturas-como-frases.md#7-saga-y-workflows-distribuidos) |
 | CQRS | Ⓓ | Lecturas y escrituras con formas distintas | [05](05-guarda.md#6-modelos-de-lectura-estado-derivado-y-reconstruible) |
 | Semantic lock | Ⓓ | Reservar antes de confirmar | [05](05-guarda.md#7-coordinación-entre-réplicas-sin-infraestructura-extra) |
 | Notificar y releer | Ⓢ | Pérdidas en la última milla | [06](06-entrega.md#3-notificar-y-releer) |

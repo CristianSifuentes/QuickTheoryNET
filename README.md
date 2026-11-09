@@ -61,7 +61,7 @@ El enunciado tiene tres frases: una **tesis**, una **envoltura** y una **ley**. 
 
 | # | Pieza | Tipo | Glifo | Lo que afirma | Capítulo |
 |:-:|---|---|:-:|---|---|
-| 1 | *Toda arquitectura se lee como una frase* | Tesis | — | Hay una estructura común a todas las arquitecturas | [01](docs/01-la-frase.md) · [11](docs/11-diez-arquitecturas-como-frases.md) |
+| 1 | *Toda arquitectura se lee como una frase* | Tesis | — | Hay una estructura común a todas las arquitecturas | [01](docs/01-la-frase.md) · [11](docs/11-trece-arquitecturas-como-frases.md) |
 | 2 | *alguien **produce*** | Papel | Ⓟ | Un agente con intención origina un hecho, una orden, una medición o una petición | [02](docs/02-produce.md) |
 | 3 | *algo **transporta*** | Papel | Ⓑ | Un medio sin intención fija las garantías: orden, retención, entrega | [03](docs/03-transporta.md) |
 | 4 | *alguien **consume*** | Papel | Ⓒ | Otro agente recibe, decide y transforma; debe ser idempotente | [04](docs/04-consume.md) |
@@ -200,37 +200,37 @@ Las trece arquitecturas del atlas, escritas con la misma gramática. Lo que camb
 
 | # | Arquitectura | La frase | TRACER |
 |:-:|---|---|:-:|
-| 1 | [**Event-driven reactivo**](docs/11-diez-arquitecturas-como-frases.md#1-event-driven-reactivo) | Ⓟ ACS, Blob, Key Vault, ACR → Ⓑ **Event Grid** → Ⓒ Functions, webhooks, *Service Bus como handler* → Ⓓ SQL, Cosmos DB | 🟢 |
-| 2 | [**Mensajería y colas**](docs/11-diez-arquitecturas-como-frases.md#2-mensajería-y-colas) | Ⓟ webhook, Function, *Event Grid como emisor* → Ⓑ **Service Bus** (sesiones) → Ⓒ *workers* con KEDA → Ⓓ SQL (Inbox, Outbox), Redis | 🔷 |
-| 3 | [**Event streaming**](docs/11-diez-arquitecturas-como-frases.md#3-event-streaming-y-telemetría) | Ⓟ Graph, IoT Hub, *Monitor* → Ⓑ **Event Hubs** → Ⓒ procesadores, Stream Analytics, Fabric → Ⓓ Blob, Data Explorer → Ⓢ Power BI, SignalR | 🟡 |
-| 4 | [**Microservicios en AKS**](docs/11-diez-arquitecturas-como-frases.md#4-microservicios-cloud-native-en-aks) | Ⓟ clientes → Ⓑ Front Door, App Gateway, APIM → Ⓒ **AKS** → Ⓑ Service Bus, Event Grid, Redis → Ⓓ *database per service* | 🔷 |
-| 5 | [**Serverless**](docs/11-diez-arquitecturas-como-frases.md#5-serverless) | Ⓟ HTTP, *Blob*, *Cosmos change feed*, *SQL Change Tracking* → Ⓑ Event Grid, Service Bus → Ⓒ **Functions**, Durable → Ⓓ Cosmos DB, SQL → Ⓢ SignalR | 🟡 |
-| 6 | [**CQRS + Event Sourcing**](docs/11-diez-arquitecturas-como-frases.md#6-cqrs--event-sourcing) | Ⓟ comandos → Ⓒ escritura → Ⓓ **event store** → Ⓒ proyectores → Ⓑ integración → Ⓓ modelos de lectura | 🟡 |
-| 7 | [**Saga y workflows**](docs/11-diez-arquitecturas-como-frases.md#7-saga-y-workflows-distribuidos) | Ⓟ ACS → Ⓒ **orquestador** → Ⓑ comandos y *timeouts* → Ⓒ participantes (*ACS como participante*) → Ⓓ estado de la saga | 🟢 |
-| 8 | [**Tiempo real**](docs/11-diez-arquitecturas-como-frases.md#8-tiempo-real-hacia-clientes) | Ⓟ ACS, *Event Grid como origen* → Ⓒ backend → Ⓑ **SignalR**, Web PubSub → Ⓢ Portal → Ⓓ SQL para resincronizar | 🟢 |
-| 9 | [**IoT y edge**](docs/11-diez-arquitecturas-como-frases.md#9-iot-y-edge) | Ⓟ dispositivos → Ⓑ **IoT Hub**, Event Grid MQTT → Ⓒ Stream Analytics, Functions → Ⓓ Data Explorer, Blob → Ⓢ Power BI | · |
-| 10 | [**Monolito modular**](docs/11-diez-arquitecturas-como-frases.md#10-monolito-modular-en-paas) | Ⓟ clientes, ACS → Ⓑ App Gateway → Ⓒ **App Service** → Ⓑ Storage Queue, Event Grid → Ⓓ una base, esquemas por módulo | 🟢 |
-| 11 | [**Big Data y analítica**](docs/11-diez-arquitecturas-como-frases.md#11-big-data-y-analítica-en-la-nube) | Ⓟ SQL, Cosmos DB, sistemas locales → Ⓑ Data Factory, Event Hubs → Ⓓ **ADLS** (medallion) → Ⓒ Databricks, *Synapse* → Ⓓ *Synapse*, Data Explorer → Ⓢ Power BI | · |
-| 12 | [**IA y MLOps**](docs/11-diez-arquitecturas-como-frases.md#12-inteligencia-artificial-y-mlops) | Ⓟ app, tu API → Ⓑ *API Management como AI gateway* → Ⓒ **Azure OpenAI**, *Azure ML* → Ⓓ AI Search (RAG), *registro de modelos de Azure ML* → Ⓢ respuesta en *streaming* | · |
-| 13 | [**Híbrida y multinube**](docs/11-diez-arquitecturas-como-frases.md#13-híbrida-y-multinube) | Ⓟ centro de datos local, Azure Local → Ⓑ **ExpressRoute** / VPN → Ⓒ AKS, App Service → Ⓓ SQL, Blob; Ⓧ **Azure Arc** gobierna todo | · |
+| 1 | [**Event-driven reactivo**](docs/11-trece-arquitecturas-como-frases.md#1-event-driven-reactivo) | Ⓟ ACS, Blob, Key Vault, ACR → Ⓑ **Event Grid** → Ⓒ Functions, webhooks, *Service Bus como handler* → Ⓓ SQL, Cosmos DB | 🟢 |
+| 2 | [**Mensajería y colas**](docs/11-trece-arquitecturas-como-frases.md#2-mensajería-y-colas) | Ⓟ webhook, Function, *Event Grid como emisor* → Ⓑ **Service Bus** (sesiones) → Ⓒ *workers* con KEDA → Ⓓ SQL (Inbox, Outbox), Redis | 🔷 |
+| 3 | [**Event streaming**](docs/11-trece-arquitecturas-como-frases.md#3-event-streaming-y-telemetría) | Ⓟ Graph, IoT Hub, *Monitor* → Ⓑ **Event Hubs** → Ⓒ procesadores, Stream Analytics, Fabric → Ⓓ Blob, Data Explorer → Ⓢ Power BI, SignalR | 🟡 |
+| 4 | [**Microservicios en AKS**](docs/11-trece-arquitecturas-como-frases.md#4-microservicios-cloud-native-en-aks) | Ⓟ clientes → Ⓑ Front Door, App Gateway, APIM → Ⓒ **AKS** → Ⓑ Service Bus, Event Grid, Redis → Ⓓ *database per service* | 🔷 |
+| 5 | [**Serverless**](docs/11-trece-arquitecturas-como-frases.md#5-serverless) | Ⓟ HTTP, *Blob*, *Cosmos change feed*, *SQL Change Tracking* → Ⓑ Event Grid, Service Bus → Ⓒ **Functions**, Durable → Ⓓ Cosmos DB, SQL → Ⓢ SignalR | 🟡 |
+| 6 | [**CQRS + Event Sourcing**](docs/11-trece-arquitecturas-como-frases.md#6-cqrs--event-sourcing) | Ⓟ comandos → Ⓒ escritura → Ⓓ **event store** → Ⓒ proyectores → Ⓑ integración → Ⓓ modelos de lectura | 🟡 |
+| 7 | [**Saga y workflows**](docs/11-trece-arquitecturas-como-frases.md#7-saga-y-workflows-distribuidos) | Ⓟ ACS → Ⓒ **orquestador** → Ⓑ comandos y *timeouts* → Ⓒ participantes (*ACS como participante*) → Ⓓ estado de la saga | 🟢 |
+| 8 | [**Tiempo real**](docs/11-trece-arquitecturas-como-frases.md#8-tiempo-real-hacia-clientes) | Ⓟ ACS, *Event Grid como origen* → Ⓒ backend → Ⓑ **SignalR**, Web PubSub → Ⓢ Portal → Ⓓ SQL para resincronizar | 🟢 |
+| 9 | [**IoT y edge**](docs/11-trece-arquitecturas-como-frases.md#9-iot-y-edge) | Ⓟ dispositivos → Ⓑ **IoT Hub**, Event Grid MQTT → Ⓒ Stream Analytics, Functions → Ⓓ Data Explorer, Blob → Ⓢ Power BI | · |
+| 10 | [**Monolito modular**](docs/11-trece-arquitecturas-como-frases.md#10-monolito-modular-en-paas) | Ⓟ clientes, ACS → Ⓑ App Gateway → Ⓒ **App Service** → Ⓑ Storage Queue, Event Grid → Ⓓ una base, esquemas por módulo | 🟢 |
+| 11 | [**Big Data y analítica**](docs/11-trece-arquitecturas-como-frases.md#11-big-data-y-analítica-en-la-nube) | Ⓟ SQL, Cosmos DB, sistemas locales → Ⓑ Data Factory, Event Hubs → Ⓓ **ADLS** (medallion) → Ⓒ Databricks, *Synapse* → Ⓓ *Synapse*, Data Explorer → Ⓢ Power BI | · |
+| 12 | [**IA y MLOps**](docs/11-trece-arquitecturas-como-frases.md#12-inteligencia-artificial-y-mlops) | Ⓟ app, tu API → Ⓑ *API Management como AI gateway* → Ⓒ **Azure OpenAI**, *Azure ML* → Ⓓ AI Search (RAG), *registro de modelos de Azure ML* → Ⓢ respuesta en *streaming* | · |
+| 13 | [**Híbrida y multinube**](docs/11-trece-arquitecturas-como-frases.md#13-híbrida-y-multinube) | Ⓟ centro de datos local, Azure Local → Ⓑ **ExpressRoute** / VPN → Ⓒ AKS, App Service → Ⓓ SQL, Blob; Ⓧ **Azure Arc** gobierna todo | · |
 
 En *cursiva*, los servicios que en esa frase cumplen un papel distinto del habitual. Cada arquitectura completa (diagrama, garantías, patrones,
-antipatrones, su lectura en TRACER y una frase de entrevista) está en [11 · Trece arquitecturas leídas como frases](docs/11-diez-arquitecturas-como-frases.md).
+antipatrones, su lectura en TRACER y una frase de entrevista) está en [11 · Trece arquitecturas leídas como frases](docs/11-trece-arquitecturas-como-frases.md).
 
 ---
 
 ## Azure frente a AWS y Google Cloud
 
 Las arquitecturas del atlas se describen **solo con servicios de Azure**. Para orientarte si vienes de otra nube, cinco de ellas traen en la vista
-interactiva (y en el [capítulo 11](docs/11-diez-arquitecturas-como-frases.md)) una tabla de equivalentes. Este es el resumen:
+interactiva (y en el [capítulo 11](docs/11-trece-arquitecturas-como-frases.md)) una tabla de equivalentes. Este es el resumen:
 
 | Arquitectura | Azure | AWS | Google Cloud |
 |---|---|---|---|
-| [Microservicios y contenedores](docs/11-diez-arquitecturas-como-frases.md#4-microservicios-cloud-native-en-aks) | **AKS**, Container Apps | Amazon EKS, ECS, Fargate | GKE |
-| [Serverless](docs/11-diez-arquitecturas-como-frases.md#5-serverless) | **Azure Functions**, Logic Apps | AWS Lambda, API Gateway, DynamoDB | Cloud Run functions, Cloud Run |
-| [Big Data y analítica](docs/11-diez-arquitecturas-como-frases.md#11-big-data-y-analítica-en-la-nube) | **ADLS**, Synapse, Databricks, Power BI (y Fabric) | S3, Redshift, Glue, EMR | BigQuery, Dataflow, Pub/Sub |
-| [IA y MLOps](docs/11-diez-arquitecturas-como-frases.md#12-inteligencia-artificial-y-mlops) | **Azure OpenAI** (Microsoft Foundry), Azure ML | Amazon Bedrock, SageMaker | Vertex AI, TPU, Gemini |
-| [Híbrida y multinube](docs/11-diez-arquitecturas-como-frases.md#13-híbrida-y-multinube) | **Azure Arc**, Azure Local, ExpressRoute, Entra ID | AWS Outposts, Direct Connect | Anthos (hoy GKE Enterprise) |
+| [Microservicios y contenedores](docs/11-trece-arquitecturas-como-frases.md#4-microservicios-cloud-native-en-aks) | **AKS**, Container Apps | Amazon EKS, ECS, Fargate | GKE |
+| [Serverless](docs/11-trece-arquitecturas-como-frases.md#5-serverless) | **Azure Functions**, Logic Apps | AWS Lambda, API Gateway, DynamoDB | Cloud Run functions, Cloud Run |
+| [Big Data y analítica](docs/11-trece-arquitecturas-como-frases.md#11-big-data-y-analítica-en-la-nube) | **ADLS**, Synapse, Databricks, Power BI (y Fabric) | S3, Redshift, Glue, EMR | BigQuery, Dataflow, Pub/Sub |
+| [IA y MLOps](docs/11-trece-arquitecturas-como-frases.md#12-inteligencia-artificial-y-mlops) | **Azure OpenAI** (Microsoft Foundry), Azure ML | Amazon Bedrock, SageMaker | Vertex AI, TPU, Gemini |
+| [Híbrida y multinube](docs/11-trece-arquitecturas-como-frases.md#13-híbrida-y-multinube) | **Azure Arc**, Azure Local, ExpressRoute, Entra ID | AWS Outposts, Direct Connect | Anthos (hoy GKE Enterprise) |
 | **Enfoque general** | Adopción corporativa, gobierno de TI, identidad y entornos Microsoft | Profundidad de catálogo, madurez en cómputo general, la comunidad más grande | Datos masivos, IA, redes globales y contenedores |
 
 > [!NOTE]
@@ -323,7 +323,7 @@ Desarrollo completo, gramática formal (EBNF) y análisis de una llamada real en
 | Si eres… | Empieza por | Sigue con | Termina en |
 |---|---|---|---|
 | **Nuevo en Azure** | [01 · La frase](docs/01-la-frase.md) | [02](docs/02-produce.md) → [06](docs/06-entrega.md): los cinco papeles | [16 · Glosario](docs/16-referencia-rapida-y-glosario.md#glosario) |
-| **Quien prepara una entrevista** | [01 § 7 · Ocho preguntas](docs/01-la-frase.md#7-método-leer-cualquier-diagrama-en-ocho-preguntas) | [11 · Trece arquitecturas](docs/11-diez-arquitecturas-como-frases.md) | [14 § 7 · Trece frases](docs/14-caso-tracer.md#7-trece-frases-para-la-entrevista) |
+| **Quien prepara una entrevista** | [01 § 7 · Ocho preguntas](docs/01-la-frase.md#7-método-leer-cualquier-diagrama-en-ocho-preguntas) | [11 · Trece arquitecturas](docs/11-trece-arquitecturas-como-frases.md) | [14 § 7 · Trece frases](docs/14-caso-tracer.md#7-trece-frases-para-la-entrevista) |
 | **Arquitecto/a** | [10 · Polisemia](docs/10-un-servicio-muchos-papeles.md) | [12 · Brokers](docs/12-brokers-quien-escribe-quien-lee.md) → [13 · Decisión](docs/13-guia-de-decision.md) | [14 · TRACER](docs/14-caso-tracer.md) |
 | **Desarrollador/a .NET** | [02 · Produce](docs/02-produce.md) y [04 · Consume](docs/04-consume.md) | [05 · Guarda](docs/05-guarda.md) | [16 · Paquetes](docs/16-referencia-rapida-y-glosario.md#paquetes-net-por-papel) |
 | **Seguridad y plataforma** | [07 · Identidad](docs/07-identidad.md) | [08 · Red](docs/08-red.md) | [09 · Observabilidad](docs/09-observabilidad.md) |
@@ -361,7 +361,7 @@ flowchart LR
 | 08 | [Ⓧ **Red**](docs/08-red.md) | La red premia el *pull*, *Private Endpoint*, el DNS que todo lo rompe, borde global y regional, topología | *red* |
 | 09 | [Ⓧ **Observabilidad**](docs/09-observabilidad.md) | `traceparent` a través de cada broker, OpenTelemetry, KQL, una alerta por papel, SLO de una frase | *observabilidad* |
 | 10 | [**Un servicio, muchos papeles**](docs/10-un-servicio-muchos-papeles.md) | La demostración con datos: valencia, nueve conversiones, tablas de conjugación, la matriz completa | *cambia de papel* |
-| 11 | [Trece arquitecturas como frases](docs/11-diez-arquitecturas-como-frases.md) ⚙️ | Cada arquitectura: frase, diagrama, carriles, garantías, patrones, antipatrones, TRACER, frase de entrevista y, en cinco, equivalentes en AWS y Google Cloud | *toda arquitectura* |
+| 11 | [Trece arquitecturas como frases](docs/11-trece-arquitecturas-como-frases.md) ⚙️ | Cada arquitectura: frase, diagrama, carriles, garantías, patrones, antipatrones, TRACER, frase de entrevista y, en cinco, equivalentes en AWS y Google Cloud | *toda arquitectura* |
 | 12 | [Brokers: quién escribe, quién lee](docs/12-brokers-quien-escribe-quien-lee.md) ⚙️ | Comparativa de contratos y los diez brokers por dentro | *algo transporta* |
 | 13 | [Guía de decisión](docs/13-guia-de-decision.md) ⚙️ | El árbol "¿qué viaja?" y sus trece respuestas razonadas | — |
 | 14 | [**Caso práctico TRACER**](docs/14-caso-tracer.md) | Inventario, la frase de una llamada, los cinco silencios, la arquitectura objetivo y la hoja de ruta | Todas |
@@ -378,7 +378,7 @@ flowchart LR
 
 | Vista | Lo que muestra | Equivalente en los documentos |
 |---|---|---|
-| **Arquitecturas** | Las 13 arquitecturas como carriles de colores (un color por papel), con cajón de detalle por servicio y, en cinco de ellas, la tabla *Equivalentes en otras nubes* | [11](docs/11-diez-arquitecturas-como-frases.md) |
+| **Arquitecturas** | Las 13 arquitecturas como carriles de colores (un color por papel), con cajón de detalle por servicio y, en cinco de ellas, la tabla *Equivalentes en otras nubes* | [11](docs/11-trece-arquitecturas-como-frases.md) |
 | **Matriz de roles** | Servicio × arquitectura, filtrable por familia, papel y texto | [10 § 6](docs/10-un-servicio-muchos-papeles.md#6-la-matriz-completa) |
 | **Productores y consumidores** | Por broker: quién escribe y quién lee, con su contrato | [12](docs/12-brokers-quien-escribe-quien-lee.md) |
 | **¿Qué uso?** | El árbol de decisión paso a paso | [13](docs/13-guia-de-decision.md) |

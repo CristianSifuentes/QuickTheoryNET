@@ -27,7 +27,7 @@ línea pero la rodea) y la tercera enuncia una **ley** (los papeles no son fijos
 
 | # | Fragmento | Tipo | Glifo | Lo que afirma | Dónde se demuestra |
 |:-:|---|---|:-:|---|---|
-| 1 | *"Toda arquitectura en Azure se lee como una frase"* | Tesis | — | Hay una estructura común a **todas** las arquitecturas; aprenderla vale más que memorizar diagramas | [§3](#3-por-qué-funciona-shannon-1948), [11](11-diez-arquitecturas-como-frases.md) |
+| 1 | *"Toda arquitectura en Azure se lee como una frase"* | Tesis | — | Hay una estructura común a **todas** las arquitecturas; aprenderla vale más que memorizar diagramas | [§3](#3-por-qué-funciona-shannon-1948), [11](11-trece-arquitecturas-como-frases.md) |
 | 2 | *"alguien **produce**"* | Papel | Ⓟ | Todo flujo nace de un agente con intención: un hecho, una orden, una medición o una petición | [02 · Produce](02-produce.md) |
 | 3 | *"algo **transporta**"* | Papel | Ⓑ | Entre productor y consumidor hay un medio que **no decide**, pero fija las garantías: orden, retención, entrega | [03 · Transporta](03-transporta.md) |
 | 4 | *"alguien **consume**"* | Papel | Ⓒ | Otro agente con intención recibe, decide y transforma | [04 · Consume](04-consume.md) |
@@ -177,7 +177,7 @@ entrega       = [ "Ⓑ" , canal_push ] , "Ⓢ" , persona ;
 frase_compuesta = frase , { "→" , frase } ;
 ```
 
-Tres consecuencias de esta gramática, todas visibles en las [trece arquitecturas](11-diez-arquitecturas-como-frases.md):
+Tres consecuencias de esta gramática, todas visibles en las [trece arquitecturas](11-trece-arquitecturas-como-frases.md):
 
 | Fenómeno lingüístico | En la arquitectura | Ejemplo |
 |---|---|---|
@@ -200,7 +200,7 @@ Del enunciado se derivan siete reglas que este atlas usa como criterio de diseñ
 | 4 | **Ley del commit único** | Un Ⓟ que también escribe en Ⓓ no puede hacer dos *commits* atómicos | *Transactional Outbox* o *change feed*: un solo *commit*, un *relay* | [02](02-produce.md), [05](05-guarda.md) |
 | 5 | **Ley de la envoltura** | Ⓧ no es una caja: es una propiedad de **cada flecha** | Cada flecha del diagrama debe responder: ¿con qué identidad?, ¿por qué red?, ¿con qué `traceparent`? | [07](07-identidad.md), [08](08-red.md), [09](09-observabilidad.md) |
 | 6 | **Ley de la posición** | El papel lo da la posición en la frase, no el producto | No preguntes "¿qué es Service Bus?" sino "¿qué hace Service Bus **aquí**?" | [10](10-un-servicio-muchos-papeles.md) |
-| 7 | **Ley del encadenamiento** | El Ⓒ de una frase puede ser el Ⓟ de la siguiente | Propaga identidad de correlación y `traceparent` al encadenar, o la historia se corta | [09](09-observabilidad.md), [11](11-diez-arquitecturas-como-frases.md) |
+| 7 | **Ley del encadenamiento** | El Ⓒ de una frase puede ser el Ⓟ de la siguiente | Propaga identidad de correlación y `traceparent` al encadenar, o la historia se corta | [09](09-observabilidad.md), [11](11-trece-arquitecturas-como-frases.md) |
 
 ---
 

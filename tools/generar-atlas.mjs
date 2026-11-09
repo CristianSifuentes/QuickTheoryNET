@@ -12,7 +12,7 @@
  *   assets/atlas-tabla-periodica.svg        ← 45 servicios con su valencia
  *   assets/atlas-matriz.svg                 ← servicio × arquitectura: el papel de cada uno
  *   docs/10-un-servicio-muchos-papeles.md   ← solo el bloque entre marcadores
- *   docs/11-diez-arquitecturas-como-frases.md
+ *   docs/11-trece-arquitecturas-como-frases.md
  *   docs/12-brokers-quien-escribe-quien-lee.md
  *   docs/13-guia-de-decision.md
  *   docs/15-catalogo-a-z.md
@@ -436,7 +436,7 @@ function brokersMd() {
     if (S[b.id]?.tip) s += `\n> [!TIP]\n> ${S[b.id].tip}\n`;
     s += '\n---\n';
   });
-  s += `\n[← 11 · ${NARQ} arquitecturas](11-diez-arquitecturas-como-frases.md) · [Índice](../README.md) · [13 · Guía de decisión →](13-guia-de-decision.md)\n`;
+  s += `\n[← 11 · ${NARQ} arquitecturas](11-trece-arquitecturas-como-frases.md) · [Índice](../README.md) · [13 · Guía de decisión →](13-guia-de-decision.md)\n`;
   return s;
 }
 
@@ -460,7 +460,7 @@ function decisionMd() {
   s += `| Resultado | Por qué | Cadena típica | Arquitectura | Trampa |\n|---|---|---|---|---|\n`;
   for (const [id, r] of Object.entries(RES)) {
     const arq = arqPorId(r.a);
-    s += `| **${linkSvc(id)}** | ${md(r.why)} | ${r.ch.map(([sid, rol]) => `${CIRC[rol]} ${nombre(sid)}`).join(' → ')} | [${arq.short}](11-diez-arquitecturas-como-frases.md#${anclaArq(arq)}) | ${md(r.avoid)} |\n`;
+    s += `| **${linkSvc(id)}** | ${md(r.why)} | ${r.ch.map(([sid, rol]) => `${CIRC[rol]} ${nombre(sid)}`).join(' → ')} | [${arq.short}](11-trece-arquitecturas-como-frases.md#${anclaArq(arq)}) | ${md(r.avoid)} |\n`;
   }
   s += `\n> [!IMPORTANT]\n> Observa las cadenas: el mismo servicio aparece con glifos distintos según la respuesta. `;
   s += `En la cadena de SignalR, Event Grid es Ⓑ y SignalR también es Ⓑ; en la de Cosmos DB, el propio Cosmos DB es Ⓓ y el change feed lo convierte en fuente. La decisión no elige "un servicio": elige **un papel para cada servicio**.\n`;
@@ -511,7 +511,7 @@ escribir('assets/atlas-banner.svg', banner());
 escribir('assets/atlas-frase.svg', frase());
 escribir('assets/atlas-tabla-periodica.svg', tablaPeriodica());
 escribir('assets/atlas-matriz.svg', matrizSvg());
-escribir('docs/11-diez-arquitecturas-como-frases.md', arquitecturasMd());
+escribir('docs/11-trece-arquitecturas-como-frases.md', arquitecturasMd());
 escribir('docs/12-brokers-quien-escribe-quien-lee.md', brokersMd());
 escribir('docs/13-guia-de-decision.md', decisionMd());
 escribir('docs/15-catalogo-a-z.md', catalogoMd());
