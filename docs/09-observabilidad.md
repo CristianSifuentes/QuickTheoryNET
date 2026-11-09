@@ -26,7 +26,7 @@
 | **Métricas** | ¿Cómo va el sistema **en conjunto**? | Agregada por tiempo | Azure Monitor Metrics (plataforma) + métricas propias |
 | **Registros** | ¿Qué dijo el código en ese momento? | Por evento | Log Analytics (`traces`, `exceptions`, registros de diagnóstico) |
 
-Application Insights / Monitor es el único servicio Ⓧ que aparece en **las 10 arquitecturas** del atlas, y en la de *streaming* también es **Ⓟ**:
+Application Insights / Monitor es el único servicio Ⓧ que aparece en **las 13 arquitecturas** del atlas, y en la de *streaming* también es **Ⓟ**:
 sus *diagnostic settings* envían registros a Event Hubs. La envoltura también produce.
 
 ---

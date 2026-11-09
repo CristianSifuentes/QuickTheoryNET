@@ -31,7 +31,7 @@
 | **Pub/sub efímero** | Grito en el pasillo | Redis pub/sub | Aviso instantáneo a todas las réplicas | Nada si nadie escucha |
 
 > [!NOTE]
-> Según el atlas, los transportadores más usados son Event Grid (Ⓑ en 6 de las 10 arquitecturas) y Service Bus (5). Los dos aparecen además en otros
+> Según el atlas, los transportadores más usados son Event Grid (Ⓑ en 6 de las 13 arquitecturas) y Service Bus (5). Los dos aparecen además en otros
 > papeles: Event Grid como **productor** (cuando reenvía hacia una cola) y Service Bus como **consumidor** de Event Grid. Ver [10](10-un-servicio-muchos-papeles.md).
 
 ---

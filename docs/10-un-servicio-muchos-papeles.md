@@ -5,13 +5,13 @@
 > **Ley 6 (de la posición):** el papel lo da la **posición en la frase**, no el producto.
 
 En español, *vino* es sustantivo en *"el vino tinto"* y verbo en *"vino ayer"*. Nadie pregunta qué categoría gramatical "es" la palabra *vino*: se mira
-qué hace **en esa oración**. Con los servicios de Azure pasa lo mismo, y este capítulo lo **demuestra con los datos del atlas**: de los 45 servicios,
-**20 adoptan más de un papel** en las 10 arquitecturas.
+qué hace **en esa oración**. Con los servicios de Azure pasa lo mismo, y este capítulo lo **demuestra con los datos del atlas**: de los 53 servicios,
+**22 adoptan más de un papel** en las 13 arquitecturas.
 
 ## Contenido
 
-1. [La demostración: valencia de 45 servicios](#1-la-demostración-valencia-de-45-servicios)
-2. [Las ocho conversiones de papel](#2-las-ocho-conversiones-de-papel)
+1. [La demostración: valencia de 53 servicios](#1-la-demostración-valencia-de-53-servicios)
+2. [Las nueve conversiones de papel](#2-las-nueve-conversiones-de-papel)
 3. [Tablas de conjugación](#3-tablas-de-conjugación)
 4. [Los monosémicos: servicios de un solo papel](#4-los-monosémicos-servicios-de-un-solo-papel)
 5. [Consecuencias de diseño](#5-consecuencias-de-diseño)
@@ -19,30 +19,30 @@ qué hace **en esa oración**. Con los servicios de Azure pasa lo mismo, y este 
 
 ---
 
-## 1. La demostración: valencia de 45 servicios
+## 1. La demostración: valencia de 53 servicios
 
 En química, la **valencia** de un elemento indica de cuántas maneras puede combinarse. Aquí, la valencia de un servicio es **cuántos papeles distintos**
-adopta en las 10 arquitecturas del atlas. La lámina la muestra como una tabla periódica:
+adopta en las 13 arquitecturas del atlas. La lámina la muestra como una tabla periódica:
 
 <p align="center">
-  <a href="../assets/atlas-tabla-periodica.svg"><img src="../assets/atlas-tabla-periodica.svg" alt="Tabla periódica de papeles: 45 servicios con su valencia" width="100%"></a>
+  <a href="../assets/atlas-tabla-periodica.svg"><img src="../assets/atlas-tabla-periodica.svg" alt="Tabla periódica de papeles: 53 servicios con su valencia" width="100%"></a>
 </p>
 
 | Valencia | Servicios | Proporción |
 |:-:|:-:|:-:|
-| 2 papeles | **20** | 44 % |
-| 1 papel | 25 | 56 % |
-| **Total** | **45** | 169 apariciones en 10 arquitecturas |
+| 2 papeles | **22** | 42 % |
+| 1 papel | 31 | 58 % |
+| **Total** | **53** | 215 apariciones en 13 arquitecturas |
 
 > [!IMPORTANT]
-> La afirmación del enunciado no es retórica: casi **la mitad** de los servicios del atlas cambian de papel. Y los que más lo hacen son justamente
-> los más usados: Event Grid (en 8 arquitecturas), Azure Functions y Azure SQL (en 9 cada uno), Blob Storage y Cosmos DB (en 7).
+> La afirmación del enunciado no es retórica: más de **cuatro de cada diez** servicios del atlas cambian de papel. Y los que más lo hacen son justamente
+> los más usados: Azure SQL (en 11 arquitecturas), Azure Functions y Blob Storage (en 10), Cosmos DB (en 9) y Event Grid (en 8).
 
 ---
 
-## 2. Las ocho conversiones de papel
+## 2. Las nueve conversiones de papel
 
-Los 20 servicios polisémicos no cambian de papel al azar. Hay **ocho conversiones**, y cada una tiene un mecanismo concreto en Azure:
+Los 22 servicios polisémicos no cambian de papel al azar. Hay **nueve conversiones**, y cada una tiene un mecanismo concreto en Azure:
 
 ```mermaid
 flowchart LR
@@ -60,6 +60,7 @@ flowchart LR
     B <-->|"1 · la memoria avisa"| D
     P <-->|"1 · el cliente pregunta y recibe"| S
     X <-->|"4 · la envoltura habla"| P
+    C <-->|"2 · el motor también sirve"| D
     classDef P fill:#042F2E,stroke:#2DD4BF,color:#F8FAFC,stroke-width:3px
     classDef B fill:#1E1B4B,stroke:#A78BFA,color:#F8FAFC,stroke-width:3px
     classDef C fill:#3B1D0A,stroke:#FB923C,color:#F8FAFC,stroke-width:3px
@@ -78,10 +79,12 @@ flowchart LR
 | 6 | Ⓑ ↔ Ⓓ | **La memoria avisa** | Pub/sub efímero sobre el mismo almacén de cache | Azure Managed Redis |
 | 7 | Ⓟ ↔ Ⓢ | **El cliente pregunta y recibe** | La misma pantalla envía comandos y recibe *push* | Clientes (Portal, PowerPack, móvil) |
 | 8 | Ⓧ ↔ Ⓟ | **La envoltura habla** | Eventos de sistema: `SecretNearExpiry`, `KeyValueModified`, `ImagePushed`; *diagnostic settings* a Event Hubs | Key Vault, App Configuration, Container Registry, Application Insights / Monitor |
+| 9 | Ⓒ ↔ Ⓓ | **El motor también sirve** | El mismo servicio procesa y después guarda el resultado que otros leen: *data warehouse*, registro de modelos | Synapse Analytics, Azure Machine Learning |
 
 > [!TIP]
 > La conversión **4** es la más importante en el día a día: es la [ley del encadenamiento](01-la-frase.md#6-las-siete-leyes-de-la-frase). La conversión **1**
-> es la que resuelve el doble *commit*. La **8** es la que más sorprende: la envoltura, que "no es una caja", también puede iniciar frases.
+> es la que resuelve el doble *commit*. La **8** es la que más sorprende: la envoltura, que "no es una caja", también puede iniciar frases. La **9** aparece
+> con las arquitecturas de datos e IA: los motores analíticos y de *machine learning* consumen y, a la vez, son el almacén del que otros leen.
 
 ---
 
@@ -113,14 +116,14 @@ del servicio (los datos de la vista interactiva).
 
 | Papel | Arquitectura | Qué hace allí |
 |:-:|---|---|
-| Ⓒ | 9 de 10 arquitecturas | `EventGridTrigger`, `ServiceBusTrigger`, `EventHubTrigger` por lotes, `CosmosDBTrigger`, reglas de IoT, actividades de saga |
+| Ⓒ | 10 de 13 arquitecturas | `EventGridTrigger`, `ServiceBusTrigger`, `EventHubTrigger` por lotes, `CosmosDBTrigger`, reglas de IoT, actividades de saga |
 | Ⓟ | Mensajería y colas | **Emisor** por *binding* de salida |
 
 ### Blob Storage / ADLS · Ⓟ Ⓓ
 
 | Papel | Arquitectura | Qué hace allí |
 |:-:|---|---|
-| Ⓓ | Streaming · Microservicios · Saga · IoT · Monolito | Capture y *checkpoints*, audios, historial de Durable, *cold path*, archivos |
+| Ⓓ | Streaming · Microservicios · Saga · IoT · Monolito · Big Data · IA · Híbrida | Capture y *checkpoints*, audios, historial de Durable, *cold path*, archivos, lago medallion, documentos para RAG, respaldo |
 | Ⓓ | Event-driven reactivo | *Dead-letter* de Event Grid |
 | Ⓟ | Event-driven reactivo · Serverless | **Fuente**: `BlobCreated` cuando se sube un archivo |
 
@@ -131,8 +134,8 @@ del servicio (los datos de la vista interactiva).
 
 | Papel | Arquitectura | Qué hace allí |
 |:-:|---|---|
-| Ⓓ | 9 de 10 arquitecturas | Máquina de estados, Inbox + Outbox + saga, agregados, `WorkflowContext`, estado actual, réplica `ReadOnly` |
-| Ⓟ | Serverless | **Disparador**: Change Tracking alimenta un `SqlTrigger` |
+| Ⓓ | 10 de 13 arquitecturas | Máquina de estados, Inbox + Outbox + saga, agregados, `WorkflowContext`, estado actual, réplica `ReadOnly` |
+| Ⓟ | Serverless · Big Data | **Disparador**: Change Tracking alimenta un `SqlTrigger`; CDC hacia el lago |
 
 ### SignalR Service · Ⓑ Ⓢ
 
@@ -148,6 +151,16 @@ del servicio (los datos de la vista interactiva).
 | Ⓟ | Event-driven · Microservicios · Serverless · Tiempo real · Monolito · Saga | Emite los eventos de cada llamada (`IncomingCall`…) |
 | Ⓒ | Saga | **Participante**: ejecuta la acción externa (*transfer*, *play*) que ordena el orquestador |
 
+### Synapse Analytics · Ⓒ Ⓓ
+
+| Papel | Arquitectura | Qué hace allí |
+|:-:|---|---|
+| Ⓒ | Big Data | **Procesa**: Spark y SQL pools transforman el lago |
+| Ⓓ | Big Data | **Sirve**: el *data warehouse* que lee Power BI |
+
+> Un solo servicio ocupa dos carriles de la **misma** frase: es la conversión *"el motor también sirve"*. Azure Machine Learning hace lo mismo en IA:
+> infiere desde sus *endpoints* (Ⓒ) y guarda el registro de modelos (Ⓓ).
+
 ### Azure Managed Redis · Ⓑ Ⓓ
 
 | Papel | Arquitectura | Qué hace allí |
@@ -159,17 +172,17 @@ del servicio (los datos de la vista interactiva).
 
 ## 4. Los monosémicos: servicios de un solo papel
 
-25 servicios mantienen un único papel en todo el atlas. No es casualidad: su **contrato es estrecho**.
+31 servicios mantienen un único papel en todo el atlas. No es casualidad: su **contrato es estrecho**.
 
 | Servicio | Papel único | En cuántas arquitecturas | Por qué no cambia |
 |---|:-:|:-:|---|
-| AKS | Ⓒ | 6 | Es cómputo puro: lo que *produce* lo produce tu código, que se dibuja aparte |
-| Event Hubs | Ⓑ | 3 | Es un log y nada más: ni decide ni se muestra |
-| Managed / Workload Identity | Ⓧ | 8 | No emite eventos propios: solo autentica |
-| Container Apps, App Service | Ⓒ | 3 cada uno | Cómputo que aloja a "alguien" |
+| AKS | Ⓒ | 7 | Es cómputo puro: lo que *produce* lo produce tu código, que se dibuja aparte |
+| Event Hubs | Ⓑ | 4 | Es un log y nada más: ni decide ni se muestra |
+| Managed / Workload Identity | Ⓧ | 10 | No emite eventos propios: solo autentica |
+| Container Apps, App Service | Ⓒ | 4 cada uno | Cómputo que aloja a "alguien" |
 | Durable Functions | Ⓒ | 2 | El orquestador: consume resultados y decide |
-| Power BI | Ⓢ | 2 | Solo pantalla |
-| Data Explorer | Ⓓ | 2 | Solo almacén analítico |
+| Power BI | Ⓢ | 3 | Solo pantalla |
+| Data Explorer | Ⓓ | 3 | Solo almacén analítico |
 
 > [!NOTE]
 > Monosémico **en este atlas** no significa monosémico siempre. AKS aloja productores; Event Hubs puede ser *handler* de Event Grid
@@ -207,56 +220,64 @@ La misma matriz, en texto. Cada celda es el papel (o papeles) del servicio en es
 <!-- matriz:inicio -->
 <!-- Archivo generado por tools/generar-atlas.mjs a partir de index.html. No lo edites a mano: edita index.html y ejecuta `npm run atlas`. -->
 
-| Servicio | Event-driven | Colas | Streaming | Microservicios | Serverless | CQRS / ES | Saga | Tiempo real | IoT | Monolito | Valencia |
-|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| [App Insights / Monitor](15-catalogo-a-z.md#app-insights--monitor) | Ⓧ | Ⓧ | ⓅⓍ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | **2** |
-| [Azure Functions](15-catalogo-a-z.md#azure-functions) | Ⓒ | ⓅⒸ | Ⓒ | · | Ⓒ | Ⓒ | Ⓒ | Ⓒ | Ⓒ | Ⓒ | **2** |
-| [Azure SQL](15-catalogo-a-z.md#azure-sql) | Ⓓ | Ⓓ | Ⓓ | Ⓓ | ⓅⒹ | Ⓓ | Ⓓ | Ⓓ | · | Ⓓ | **2** |
-| [Event Grid](15-catalogo-a-z.md#event-grid) | Ⓑ | Ⓟ | · | Ⓑ | Ⓑ | Ⓑ | Ⓑ | Ⓟ | · | Ⓑ | **2** |
-| [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls) | ⓅⒹ | · | Ⓓ | Ⓓ | ⓅⒹ | · | Ⓓ | · | Ⓓ | Ⓓ | **2** |
-| [Cosmos DB](15-catalogo-a-z.md#cosmos-db) | Ⓓ | · | Ⓓ | Ⓓ | ⓅⒹ | Ⓓ | Ⓓ | · | Ⓓ | · | **2** |
-| [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil) | · | · | · | Ⓟ | Ⓟ | Ⓟ | Ⓟ | Ⓢ | · | Ⓟ | **2** |
-| [Communication Services](15-catalogo-a-z.md#communication-services) | Ⓟ | · | · | Ⓟ | Ⓟ | · | ⓅⒸ | Ⓟ | · | Ⓟ | **2** |
-| [Service Bus](15-catalogo-a-z.md#service-bus) | Ⓒ | Ⓑ | · | Ⓑ | Ⓑ | Ⓑ | Ⓑ | · | · | · | **2** |
-| [Azure Managed Redis](15-catalogo-a-z.md#azure-managed-redis) | · | Ⓓ | · | ⒷⒹ | · | Ⓓ | · | Ⓓ | · | Ⓓ | **2** |
-| [Key Vault](15-catalogo-a-z.md#key-vault) | Ⓟ | · | · | Ⓧ | Ⓧ | · | · | · | Ⓧ | Ⓧ | **2** |
-| [API Management](15-catalogo-a-z.md#api-management) | · | · | Ⓟ | Ⓑ | Ⓑ | Ⓟ | · | · | · | · | **2** |
-| [Logic Apps](15-catalogo-a-z.md#logic-apps) | Ⓒ | Ⓟ | · | · | Ⓒ | · | Ⓒ | · | · | · | **2** |
-| [Storage Queue](15-catalogo-a-z.md#storage-queue) | Ⓒ | Ⓑ | · | · | Ⓑ | · | · | · | · | Ⓑ | **2** |
-| [Tu servicio .NET](15-catalogo-a-z.md#tu-servicio-net) | Ⓟ | Ⓟ | Ⓟ | · | · | · | · | Ⓒ | · | · | **2** |
-| [SignalR Service](15-catalogo-a-z.md#signalr-service) | · | · | Ⓢ | · | Ⓢ | · | · | Ⓑ | · | · | **2** |
-| [App Configuration](15-catalogo-a-z.md#app-configuration) | Ⓟ | · | · | Ⓧ | · | · | · | · | · | · | **2** |
-| [Container Registry](15-catalogo-a-z.md#container-registry) | Ⓟ | · | · | Ⓧ | · | · | · | · | · | · | **2** |
-| [IoT Hub](15-catalogo-a-z.md#iot-hub) | · | · | Ⓟ | · | · | · | · | · | Ⓑ | · | **2** |
-| [Web PubSub](15-catalogo-a-z.md#web-pubsub) | · | · | · | · | · | · | · | Ⓑ | Ⓢ | · | **2** |
-| [Managed / Workload Identity](15-catalogo-a-z.md#managed--workload-identity) | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | · | · | Ⓧ | **1** |
-| [AKS](15-catalogo-a-z.md#aks) | Ⓒ | Ⓒ | Ⓒ | Ⓒ | · | Ⓒ | Ⓒ | · | · | · | **1** |
-| [App Service](15-catalogo-a-z.md#app-service) | Ⓒ | Ⓒ | · | · | · | · | · | · | · | Ⓒ | **1** |
-| [Container Apps](15-catalogo-a-z.md#container-apps) | · | Ⓒ | · | Ⓒ | Ⓒ | · | · | · | · | · | **1** |
-| [Event Hubs](15-catalogo-a-z.md#event-hubs) | · | · | Ⓑ | · | Ⓑ | · | · | · | Ⓑ | · | **1** |
-| [Private Endpoint + DNS](15-catalogo-a-z.md#private-endpoint--dns) | · | Ⓧ | Ⓧ | Ⓧ | · | · | · | · | · | · | **1** |
-| [Application Gateway](15-catalogo-a-z.md#application-gateway) | · | · | · | Ⓑ | · | · | · | · | · | Ⓑ | **1** |
-| [Azure DevOps](15-catalogo-a-z.md#azure-devops) | · | · | · | Ⓧ | · | · | · | · | · | Ⓧ | **1** |
-| [Data Explorer / Eventhouse](15-catalogo-a-z.md#data-explorer--eventhouse) | · | · | Ⓓ | · | · | · | · | · | Ⓓ | · | **1** |
-| [Durable Functions](15-catalogo-a-z.md#durable-functions) | · | · | · | · | Ⓒ | · | Ⓒ | · | · | · | **1** |
-| [Entra ID](15-catalogo-a-z.md#entra-id) | Ⓧ | · | · | · | · | · | · | Ⓧ | · | · | **1** |
-| [Event Grid namespaces](15-catalogo-a-z.md#event-grid-namespaces) | · | · | · | · | · | · | · | Ⓑ | Ⓑ | · | **1** |
-| [Fabric Real-Time Intelligence](15-catalogo-a-z.md#fabric-real-time-intelligence) | · | · | Ⓒ | · | · | · | · | · | Ⓒ | · | **1** |
-| [Front Door](15-catalogo-a-z.md#front-door) | · | · | · | Ⓑ | · | · | · | · | · | Ⓑ | **1** |
-| [KEDA](15-catalogo-a-z.md#keda) | · | Ⓒ | · | Ⓒ | · | · | · | · | · | · | **1** |
-| [Power BI](15-catalogo-a-z.md#power-bi) | · | · | Ⓢ | · | · | · | · | · | Ⓢ | · | **1** |
-| [Stream Analytics](15-catalogo-a-z.md#stream-analytics) | · | · | Ⓒ | · | · | · | · | · | Ⓒ | · | **1** |
-| [AI Search](15-catalogo-a-z.md#ai-search) | · | · | · | · | · | Ⓓ | · | · | · | · | **1** |
-| [Dapr](15-catalogo-a-z.md#dapr) | · | · | · | Ⓒ | · | · | · | · | · | · | **1** |
-| [Databricks](15-catalogo-a-z.md#databricks) | · | · | Ⓒ | · | · | · | · | · | · | · | **1** |
-| [Dispositivos / IoT Edge](15-catalogo-a-z.md#dispositivos--iot-edge) | · | · | · | · | · | · | · | · | Ⓟ | · | **1** |
-| [Microsoft Graph](15-catalogo-a-z.md#microsoft-graph) | · | · | Ⓟ | · | · | · | · | · | · | · | **1** |
-| [Notification Hubs](15-catalogo-a-z.md#notification-hubs) | · | · | · | · | · | · | · | Ⓑ | · | · | **1** |
-| [PostgreSQL Flexible](15-catalogo-a-z.md#postgresql-flexible) | · | · | · | Ⓓ | · | · | · | · | · | · | **1** |
-| [VNet + NSG](15-catalogo-a-z.md#vnet--nsg) | · | · | · | Ⓧ | · | · | · | · | · | · | **1** |
+| Servicio | Event-driven | Colas | Streaming | Microservicios | Serverless | CQRS / ES | Saga | Tiempo real | IoT | Monolito | Big Data | IA / MLOps | Híbrida | Valencia |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| [App Insights / Monitor](15-catalogo-a-z.md#app-insights--monitor) | Ⓧ | Ⓧ | ⓅⓍ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | **2** |
+| [Azure SQL](15-catalogo-a-z.md#azure-sql) | Ⓓ | Ⓓ | Ⓓ | Ⓓ | ⓅⒹ | Ⓓ | Ⓓ | Ⓓ | · | Ⓓ | Ⓟ | · | Ⓓ | **2** |
+| [Azure Functions](15-catalogo-a-z.md#azure-functions) | Ⓒ | ⓅⒸ | Ⓒ | · | Ⓒ | Ⓒ | Ⓒ | Ⓒ | Ⓒ | Ⓒ | · | · | Ⓒ | **2** |
+| [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls) | ⓅⒹ | · | Ⓓ | Ⓓ | ⓅⒹ | · | Ⓓ | · | Ⓓ | Ⓓ | Ⓓ | Ⓓ | Ⓓ | **2** |
+| [Cosmos DB](15-catalogo-a-z.md#cosmos-db) | Ⓓ | · | Ⓓ | Ⓓ | ⓅⒹ | Ⓓ | Ⓓ | · | Ⓓ | · | Ⓟ | Ⓓ | · | **2** |
+| [Event Grid](15-catalogo-a-z.md#event-grid) | Ⓑ | Ⓟ | · | Ⓑ | Ⓑ | Ⓑ | Ⓑ | Ⓟ | · | Ⓑ | · | · | · | **2** |
+| [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil) | · | · | · | Ⓟ | Ⓟ | Ⓟ | Ⓟ | Ⓢ | · | Ⓟ | · | ⓅⓈ | · | **2** |
+| [Key Vault](15-catalogo-a-z.md#key-vault) | Ⓟ | · | · | Ⓧ | Ⓧ | · | · | · | Ⓧ | Ⓧ | · | Ⓧ | Ⓧ | **2** |
+| [Communication Services](15-catalogo-a-z.md#communication-services) | Ⓟ | · | · | Ⓟ | Ⓟ | · | ⓅⒸ | Ⓟ | · | Ⓟ | · | · | · | **2** |
+| [Service Bus](15-catalogo-a-z.md#service-bus) | Ⓒ | Ⓑ | · | Ⓑ | Ⓑ | Ⓑ | Ⓑ | · | · | · | · | · | · | **2** |
+| [API Management](15-catalogo-a-z.md#api-management) | · | · | Ⓟ | Ⓑ | Ⓑ | Ⓟ | · | · | · | · | · | Ⓑ | · | **2** |
+| [Azure Managed Redis](15-catalogo-a-z.md#azure-managed-redis) | · | Ⓓ | · | ⒷⒹ | · | Ⓓ | · | Ⓓ | · | Ⓓ | · | · | · | **2** |
+| [Tu servicio .NET](15-catalogo-a-z.md#tu-servicio-net) | Ⓟ | Ⓟ | Ⓟ | · | · | · | · | Ⓒ | · | · | · | Ⓟ | · | **2** |
+| [Logic Apps](15-catalogo-a-z.md#logic-apps) | Ⓒ | Ⓟ | · | · | Ⓒ | · | Ⓒ | · | · | · | · | · | · | **2** |
+| [Storage Queue](15-catalogo-a-z.md#storage-queue) | Ⓒ | Ⓑ | · | · | Ⓑ | · | · | · | · | Ⓑ | · | · | · | **2** |
+| [IoT Hub](15-catalogo-a-z.md#iot-hub) | · | · | Ⓟ | · | · | · | · | · | Ⓑ | · | Ⓟ | · | · | **2** |
+| [SignalR Service](15-catalogo-a-z.md#signalr-service) | · | · | Ⓢ | · | Ⓢ | · | · | Ⓑ | · | · | · | · | · | **2** |
+| [App Configuration](15-catalogo-a-z.md#app-configuration) | Ⓟ | · | · | Ⓧ | · | · | · | · | · | · | · | · | · | **2** |
+| [Container Registry](15-catalogo-a-z.md#container-registry) | Ⓟ | · | · | Ⓧ | · | · | · | · | · | · | · | · | · | **2** |
+| [Web PubSub](15-catalogo-a-z.md#web-pubsub) | · | · | · | · | · | · | · | Ⓑ | Ⓢ | · | · | · | · | **2** |
+| [Azure Machine Learning](15-catalogo-a-z.md#azure-machine-learning) | · | · | · | · | · | · | · | · | · | · | · | ⒸⒹ | · | **2** |
+| [Synapse Analytics](15-catalogo-a-z.md#synapse-analytics) | · | · | · | · | · | · | · | · | · | · | ⒸⒹ | · | · | **2** |
+| [Managed / Workload Identity](15-catalogo-a-z.md#managed--workload-identity) | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | Ⓧ | · | · | Ⓧ | Ⓧ | Ⓧ | · | **1** |
+| [AKS](15-catalogo-a-z.md#aks) | Ⓒ | Ⓒ | Ⓒ | Ⓒ | · | Ⓒ | Ⓒ | · | · | · | · | · | Ⓒ | **1** |
+| [Entra ID](15-catalogo-a-z.md#entra-id) | Ⓧ | · | · | · | · | · | · | Ⓧ | · | · | Ⓧ | Ⓧ | Ⓧ | **1** |
+| [Private Endpoint + DNS](15-catalogo-a-z.md#private-endpoint--dns) | · | Ⓧ | Ⓧ | Ⓧ | · | · | · | · | · | · | Ⓧ | Ⓧ | · | **1** |
+| [App Service](15-catalogo-a-z.md#app-service) | Ⓒ | Ⓒ | · | · | · | · | · | · | · | Ⓒ | · | · | Ⓒ | **1** |
+| [Container Apps](15-catalogo-a-z.md#container-apps) | · | Ⓒ | · | Ⓒ | Ⓒ | · | · | · | · | · | · | Ⓒ | · | **1** |
+| [Event Hubs](15-catalogo-a-z.md#event-hubs) | · | · | Ⓑ | · | Ⓑ | · | · | · | Ⓑ | · | Ⓑ | · | · | **1** |
+| [Data Explorer / Eventhouse](15-catalogo-a-z.md#data-explorer--eventhouse) | · | · | Ⓓ | · | · | · | · | · | Ⓓ | · | Ⓓ | · | · | **1** |
+| [Fabric Real-Time Intelligence](15-catalogo-a-z.md#fabric-real-time-intelligence) | · | · | Ⓒ | · | · | · | · | · | Ⓒ | · | Ⓒ | · | · | **1** |
+| [Power BI](15-catalogo-a-z.md#power-bi) | · | · | Ⓢ | · | · | · | · | · | Ⓢ | · | Ⓢ | · | · | **1** |
+| [AI Search](15-catalogo-a-z.md#ai-search) | · | · | · | · | · | Ⓓ | · | · | · | · | · | Ⓓ | · | **1** |
+| [Application Gateway](15-catalogo-a-z.md#application-gateway) | · | · | · | Ⓑ | · | · | · | · | · | Ⓑ | · | · | · | **1** |
+| [Azure DevOps](15-catalogo-a-z.md#azure-devops) | · | · | · | Ⓧ | · | · | · | · | · | Ⓧ | · | · | · | **1** |
+| [Centro de datos local / otra nube](15-catalogo-a-z.md#centro-de-datos-local--otra-nube) | · | · | · | · | · | · | · | · | · | · | Ⓟ | · | Ⓟ | **1** |
+| [Databricks](15-catalogo-a-z.md#databricks) | · | · | Ⓒ | · | · | · | · | · | · | · | Ⓒ | · | · | **1** |
+| [Durable Functions](15-catalogo-a-z.md#durable-functions) | · | · | · | · | Ⓒ | · | Ⓒ | · | · | · | · | · | · | **1** |
+| [Event Grid namespaces](15-catalogo-a-z.md#event-grid-namespaces) | · | · | · | · | · | · | · | Ⓑ | Ⓑ | · | · | · | · | **1** |
+| [Front Door](15-catalogo-a-z.md#front-door) | · | · | · | Ⓑ | · | · | · | · | · | Ⓑ | · | · | · | **1** |
+| [KEDA](15-catalogo-a-z.md#keda) | · | Ⓒ | · | Ⓒ | · | · | · | · | · | · | · | · | · | **1** |
+| [Stream Analytics](15-catalogo-a-z.md#stream-analytics) | · | · | Ⓒ | · | · | · | · | · | Ⓒ | · | · | · | · | **1** |
+| [VNet + NSG](15-catalogo-a-z.md#vnet--nsg) | · | · | · | Ⓧ | · | · | · | · | · | · | · | · | Ⓧ | **1** |
+| [Azure Arc](15-catalogo-a-z.md#azure-arc) | · | · | · | · | · | · | · | · | · | · | · | · | Ⓧ | **1** |
+| [Azure Local](15-catalogo-a-z.md#azure-local) | · | · | · | · | · | · | · | · | · | · | · | · | Ⓟ | **1** |
+| [Azure OpenAI (Microsoft Foundry)](15-catalogo-a-z.md#azure-openai-microsoft-foundry) | · | · | · | · | · | · | · | · | · | · | · | Ⓒ | · | **1** |
+| [Dapr](15-catalogo-a-z.md#dapr) | · | · | · | Ⓒ | · | · | · | · | · | · | · | · | · | **1** |
+| [Data Factory](15-catalogo-a-z.md#data-factory) | · | · | · | · | · | · | · | · | · | · | Ⓑ | · | · | **1** |
+| [Dispositivos / IoT Edge](15-catalogo-a-z.md#dispositivos--iot-edge) | · | · | · | · | · | · | · | · | Ⓟ | · | · | · | · | **1** |
+| [ExpressRoute / VPN Gateway](15-catalogo-a-z.md#expressroute--vpn-gateway) | · | · | · | · | · | · | · | · | · | · | · | · | Ⓑ | **1** |
+| [Microsoft Graph](15-catalogo-a-z.md#microsoft-graph) | · | · | Ⓟ | · | · | · | · | · | · | · | · | · | · | **1** |
+| [Notification Hubs](15-catalogo-a-z.md#notification-hubs) | · | · | · | · | · | · | · | Ⓑ | · | · | · | · | · | **1** |
+| [PostgreSQL Flexible](15-catalogo-a-z.md#postgresql-flexible) | · | · | · | Ⓓ | · | · | · | · | · | · | · | · | · | **1** |
 
 <!-- matriz:fin -->
 
 ---
 
-[← 09 · Observabilidad](09-observabilidad.md) · [Índice](../README.md) · [11 · Diez arquitecturas →](11-diez-arquitecturas-como-frases.md)
+[← 09 · Observabilidad](09-observabilidad.md) · [Índice](../README.md) · [11 · Trece arquitecturas →](11-diez-arquitecturas-como-frases.md)

@@ -38,8 +38,8 @@ No todo lo que se guarda es "la base de datos". Distinguir la **clase** de estad
 
 ## 2. El mapa de almacenes del atlas
 
-Según la [matriz de papeles](10-un-servicio-muchos-papeles.md), los almacenes más frecuentes son **Azure SQL** (Ⓓ en 9 de las 10 arquitecturas),
-**Cosmos DB** y **Blob Storage** (7 cada uno) y **Azure Managed Redis** (5).
+Según la [matriz de papeles](10-un-servicio-muchos-papeles.md), los almacenes más frecuentes son **Azure SQL** y **Blob Storage**
+(Ⓓ en 10 de las 13 arquitecturas cada uno), **Cosmos DB** (8) y **Azure Managed Redis** (5).
 
 ```mermaid
 flowchart LR

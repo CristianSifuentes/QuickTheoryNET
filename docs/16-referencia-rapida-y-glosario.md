@@ -25,7 +25,7 @@ Todo el atlas en tablas, para tener a mano en una revisión de diseño o la noch
 | **"Alguien" o "algo"** | Alguien | Algo | Alguien | Algo | Algo | Todo |
 | **Obligación** | `id` estable, clave de orden, un solo *commit* | Cumplir su contrato | Idempotencia, confirmar después del efecto | Consistencia y concurrencia declaradas | Tolerar pérdida | Estar en cada flecha |
 | **Ley** | Del commit único | Del verbo | Del verbo | De la memoria | De la última milla | De la envoltura |
-| **Más frecuente en el atlas** | Communication Services | Event Grid | Azure Functions | Azure SQL | SignalR, Power BI | App Insights / Monitor |
+| **Más frecuente en el atlas** | Communication Services y clientes | Event Grid | Azure Functions | Azure SQL y Blob Storage | Power BI | App Insights / Monitor |
 | **Capítulo** | [02](02-produce.md) | [03](03-transporta.md) | [04](04-consume.md) | [05](05-guarda.md) | [06](06-entrega.md) | [07](07-identidad.md) · [08](08-red.md) · [09](09-observabilidad.md) |
 
 ---

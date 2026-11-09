@@ -223,7 +223,7 @@ flowchart LR
 ```
 
 > [!NOTE]
-> Fíjate en el papel de Key Vault en este diagrama: es **Ⓟ**. En la matriz del atlas aparece como Ⓧ en cuatro arquitecturas y como Ⓟ en la *event-driven*.
+> Fíjate en el papel de Key Vault en este diagrama: es **Ⓟ**. En la matriz del atlas aparece como Ⓧ en seis arquitecturas y como Ⓟ en la *event-driven*.
 > Lo mismo ocurre con App Configuration (`KeyValueModified`) y Container Registry (`ImagePushed`): la envoltura también habla.
 
 | Práctica | Detalle |

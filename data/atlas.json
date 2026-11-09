@@ -1,17 +1,17 @@
 {
   "edicion": "noviembre 2026",
   "cifras": {
-    "servicios": 45,
-    "arquitecturas": 10,
+    "servicios": 53,
+    "arquitecturas": 13,
     "brokers": 10,
-    "familias": 12,
-    "polisemicos": 20,
-    "apariciones": 169,
+    "familias": 14,
+    "polisemicos": 22,
+    "apariciones": 215,
     "tracer": {
       "usa": 13,
       "parcial": 2,
       "objetivo": 9,
-      "no": 21
+      "no": 29
     }
   },
   "roles": {
@@ -326,7 +326,7 @@
         "B"
       ],
       "valencia": 2,
-      "primario": "P"
+      "primario": "B"
     },
     "frontdoor": {
       "n": "Front Door",
@@ -587,6 +587,122 @@
       "valencia": 2,
       "primario": "P"
     },
+    "synapse": {
+      "n": "Synapse Analytics",
+      "cat": "Analítica",
+      "sp": "no",
+      "d": "Data warehouse SQL y Spark sobre el lago, con pipelines integrados.",
+      "c": "ADLS Gen2, pipelines de Data Factory y streams de Event Hubs.",
+      "p": "Modelos analíticos para Power BI.",
+      "k": "Pools SQL dedicados y serverless · Spark pools · integración con Power BI y Purview.",
+      "tip": "Sigue disponible, pero para proyectos nuevos Microsoft orienta hacia Microsoft Fabric: OneLake, Data Warehouse y Spark en un solo SaaS.",
+      "papeles": [
+        "C",
+        "D"
+      ],
+      "valencia": 2,
+      "primario": "C"
+    },
+    "adf": {
+      "n": "Data Factory",
+      "cat": "Integración",
+      "sp": "no",
+      "d": "ETL/ELT gestionado: copia y orquestación de datos entre más de 90 conectores.",
+      "c": "Bases locales (vía integration runtime), SaaS, bases de Azure y archivos.",
+      "p": "ADLS Gen2, Synapse, SQL.",
+      "k": "Pipelines programados o por evento (BlobCreated) · integration runtime autoalojado para datos on-premises.",
+      "tip": "Mueve y orquesta; la transformación pesada se la deja a Databricks o Synapse.",
+      "papeles": [
+        "B"
+      ],
+      "valencia": 1,
+      "primario": "B"
+    },
+    "aoai": {
+      "n": "Azure OpenAI (Microsoft Foundry)",
+      "cat": "IA",
+      "sp": "no",
+      "d": "Modelos de OpenAI (GPT) como servicio gestionado de Azure, dentro de Microsoft Foundry junto a modelos de otros proveedores.",
+      "c": "Prompts de chat, embeddings y llamadas a herramientas desde tu API.",
+      "p": "Respuestas (también en streaming) y vectores de embeddings.",
+      "k": "Cuotas en tokens por minuto (TPM) · despliegues estándar, globales o con capacidad aprovisionada · filtros de contenido.",
+      "net": "Azure.AI.OpenAI",
+      "rbac": "Cognitive Services OpenAI User",
+      "tip": "Autentícate con Entra ID, no con API keys, y pon API Management delante como AI gateway para repartir cuotas por consumidor.",
+      "papeles": [
+        "C"
+      ],
+      "valencia": 1,
+      "primario": "C"
+    },
+    "aml": {
+      "n": "Azure Machine Learning",
+      "cat": "IA",
+      "sp": "no",
+      "d": "Plataforma de MLOps: entrenamiento, registro de modelos, pipelines y endpoints de inferencia.",
+      "c": "Datos versionados del lago (ADLS) y código de entrenamiento.",
+      "p": "Endpoints online y batch; eventos ModelRegistered y RunCompleted a Event Grid.",
+      "k": "Clústeres con GPU · registro de modelos · MLflow · despliegue azul/verde en endpoints administrados.",
+      "tip": "MLOps es CI/CD para modelos: el registro de modelos cumple el papel que Container Registry cumple para las imágenes.",
+      "papeles": [
+        "C",
+        "D"
+      ],
+      "valencia": 2,
+      "primario": "C"
+    },
+    "onprem": {
+      "n": "Centro de datos local / otra nube",
+      "cat": "Fuentes",
+      "sp": "no",
+      "d": "Servidores, Kubernetes y bases de datos fuera de Azure.",
+      "p": "Datos y eventos hacia Azure por ExpressRoute o VPN.",
+      "c": "Políticas, extensiones y actualizaciones vía Azure Arc.",
+      "papeles": [
+        "P"
+      ],
+      "valencia": 1,
+      "primario": "P"
+    },
+    "azlocal": {
+      "n": "Azure Local",
+      "cat": "Híbrido",
+      "sp": "no",
+      "d": "Infraestructura hiperconvergente en tu centro de datos, gestionada desde Azure (antes Azure Stack HCI).",
+      "k": "Máquinas virtuales y AKS en las instalaciones · puede operar desconectado.",
+      "tip": "La familia Azure Stack hoy es Azure Local y Azure Stack Hub; ambas se gobiernan con Azure Arc.",
+      "papeles": [
+        "P"
+      ],
+      "valencia": 1,
+      "primario": "P"
+    },
+    "arc": {
+      "n": "Azure Arc",
+      "cat": "Híbrido",
+      "sp": "no",
+      "d": "Proyecta servidores, clústeres de Kubernetes y bases de datos de cualquier lugar como recursos de Azure Resource Manager.",
+      "k": "Azure Policy, RBAC, Defender for Cloud y Azure Monitor sobre recursos fuera de Azure.",
+      "tip": "Arc no mueve cargas: las hace gobernables. Es el plano de control de Azure extendido a donde estén tus máquinas.",
+      "papeles": [
+        "X"
+      ],
+      "valencia": 1,
+      "primario": "X"
+    },
+    "expressroute": {
+      "n": "ExpressRoute / VPN Gateway",
+      "cat": "Red",
+      "sp": "no",
+      "d": "Conectividad privada entre tu centro de datos y Azure: circuito dedicado (ExpressRoute) o túnel IPsec (VPN).",
+      "k": "ExpressRoute no viaja por Internet pública · VPN sí, cifrada · ancho de banda y latencia predecibles con ExpressRoute.",
+      "tip": "En producción híbrida: ExpressRoute como enlace principal y VPN site-to-site como respaldo.",
+      "papeles": [
+        "B"
+      ],
+      "valencia": 1,
+      "primario": "B"
+    },
     "entra": {
       "n": "Entra ID",
       "cat": "Identidad",
@@ -754,6 +870,15 @@
       ],
       "monolith": [
         "D"
+      ],
+      "bigdata": [
+        "D"
+      ],
+      "ia": [
+        "D"
+      ],
+      "hybrid": [
+        "D"
       ]
     },
     "kv": {
@@ -770,6 +895,12 @@
         "X"
       ],
       "monolith": [
+        "X"
+      ],
+      "ia": [
+        "X"
+      ],
+      "hybrid": [
         "X"
       ]
     },
@@ -801,6 +932,9 @@
       ],
       "realtime": [
         "C"
+      ],
+      "ia": [
+        "P"
       ]
     },
     "eventgrid": {
@@ -857,6 +991,9 @@
       ],
       "monolith": [
         "C"
+      ],
+      "hybrid": [
+        "C"
       ]
     },
     "appservice": {
@@ -867,6 +1004,9 @@
         "C"
       ],
       "monolith": [
+        "C"
+      ],
+      "hybrid": [
         "C"
       ]
     },
@@ -887,6 +1027,9 @@
         "C"
       ],
       "saga": [
+        "C"
+      ],
+      "hybrid": [
         "C"
       ]
     },
@@ -966,6 +1109,12 @@
       ],
       "monolith": [
         "D"
+      ],
+      "bigdata": [
+        "P"
+      ],
+      "hybrid": [
+        "D"
       ]
     },
     "cosmos": {
@@ -989,6 +1138,12 @@
         "D"
       ],
       "iot": [
+        "D"
+      ],
+      "bigdata": [
+        "P"
+      ],
+      "ia": [
         "D"
       ]
     },
@@ -1016,6 +1171,12 @@
       ],
       "monolith": [
         "X"
+      ],
+      "bigdata": [
+        "X"
+      ],
+      "ia": [
+        "X"
       ]
     },
     "entra": {
@@ -1023,6 +1184,15 @@
         "X"
       ],
       "realtime": [
+        "X"
+      ],
+      "bigdata": [
+        "X"
+      ],
+      "ia": [
+        "X"
+      ],
+      "hybrid": [
         "X"
       ]
     },
@@ -1057,6 +1227,15 @@
       ],
       "monolith": [
         "X"
+      ],
+      "bigdata": [
+        "X"
+      ],
+      "ia": [
+        "X"
+      ],
+      "hybrid": [
+        "X"
       ]
     },
     "keda": {
@@ -1075,6 +1254,9 @@
         "C"
       ],
       "serverless": [
+        "C"
+      ],
+      "ia": [
         "C"
       ]
     },
@@ -1105,6 +1287,12 @@
       ],
       "micro": [
         "X"
+      ],
+      "bigdata": [
+        "X"
+      ],
+      "ia": [
+        "X"
       ]
     },
     "graph": {
@@ -1118,6 +1306,9 @@
       ],
       "iot": [
         "B"
+      ],
+      "bigdata": [
+        "P"
       ]
     },
     "apim": {
@@ -1132,6 +1323,9 @@
       ],
       "cqrs": [
         "P"
+      ],
+      "ia": [
+        "B"
       ]
     },
     "eventhubs": {
@@ -1142,6 +1336,9 @@
         "B"
       ],
       "iot": [
+        "B"
+      ],
+      "bigdata": [
         "B"
       ]
     },
@@ -1159,10 +1356,16 @@
       ],
       "iot": [
         "C"
+      ],
+      "bigdata": [
+        "C"
       ]
     },
     "databricks": {
       "stream": [
+        "C"
+      ],
+      "bigdata": [
         "C"
       ]
     },
@@ -1172,6 +1375,9 @@
       ],
       "iot": [
         "D"
+      ],
+      "bigdata": [
+        "D"
       ]
     },
     "powerbi": {
@@ -1179,6 +1385,9 @@
         "S"
       ],
       "iot": [
+        "S"
+      ],
+      "bigdata": [
         "S"
       ]
     },
@@ -1211,6 +1420,10 @@
       ],
       "monolith": [
         "P"
+      ],
+      "ia": [
+        "P",
+        "S"
       ]
     },
     "frontdoor": {
@@ -1242,6 +1455,9 @@
     "vnet": {
       "micro": [
         "X"
+      ],
+      "hybrid": [
+        "X"
       ]
     },
     "devops": {
@@ -1262,6 +1478,9 @@
     },
     "aisearch": {
       "cqrs": [
+        "D"
+      ],
+      "ia": [
         "D"
       ]
     },
@@ -1289,6 +1508,51 @@
     "devices": {
       "iot": [
         "P"
+      ]
+    },
+    "onprem": {
+      "bigdata": [
+        "P"
+      ],
+      "hybrid": [
+        "P"
+      ]
+    },
+    "adf": {
+      "bigdata": [
+        "B"
+      ]
+    },
+    "synapse": {
+      "bigdata": [
+        "C",
+        "D"
+      ]
+    },
+    "aoai": {
+      "ia": [
+        "C"
+      ]
+    },
+    "aml": {
+      "ia": [
+        "C",
+        "D"
+      ]
+    },
+    "azlocal": {
+      "hybrid": [
+        "P"
+      ]
+    },
+    "expressroute": {
+      "hybrid": [
+        "B"
+      ]
+    },
+    "arc": {
+      "hybrid": [
+        "X"
       ]
     }
   },
@@ -1800,7 +2064,8 @@
         "API Gateway / BFF",
         "REST hacia afuera, gRPC entre servicios (balanceo L7)",
         "Health probes live/ready + PDB + zonas",
-        "Strangler fig para migrar desde el monolito"
+        "Strangler fig para migrar desde el monolito",
+        "Circuit breaker y reintentos con backoff en las llamadas síncronas"
       ],
       "anti": [
         "Base compartida entre servicios: monolito distribuido",
@@ -1808,7 +2073,24 @@
         "Estado en memoria: static SemaphoreSlim, IMemoryCache, BackgroundService duplicado"
       ],
       "tracer": "Es la sección 3 del documento: \"TRACER en AKS\" con App Gateway + WAF, Workload Identity, Private Endpoints, KEDA y routing-svc por gRPC.",
-      "ph": "Antes de escalar horizontalmente busco todo lo static, Singleton con estado o IMemoryCache, y lo saco a SQL, Redis o sesiones de Service Bus."
+      "ph": "Antes de escalar horizontalmente busco todo lo static, Singleton con estado o IMemoryCache, y lo saco a SQL, Redis o sesiones de Service Bus.",
+      "cmp": [
+        [
+          "Azure",
+          "AKS, Container Apps",
+          "Integración con las herramientas de desarrollo de Microsoft (Visual Studio, GitHub, Azure DevOps)"
+        ],
+        [
+          "AWS",
+          "Amazon EKS, Amazon ECS, AWS Fargate",
+          "Contenedores sin gestionar servidores con Fargate"
+        ],
+        [
+          "Google Cloud",
+          "GKE (Google Kubernetes Engine)",
+          "El motor de Kubernetes más maduro: Kubernetes nació en Google"
+        ]
+      ]
     },
     {
       "id": "serverless",
@@ -1947,7 +2229,24 @@
         "Crear HttpClient o clientes de SDK por invocación"
       ],
       "tracer": "EventGridAzureFunction (isolated worker) con Clean Architecture: Domain, Application, Infrastructure y el host.",
-      "ph": "Una Function es productor y consumidor a la vez: el trigger la alimenta y el binding de salida publica."
+      "ph": "Una Function es productor y consumidor a la vez: el trigger la alimenta y el binding de salida publica.",
+      "cmp": [
+        [
+          "Azure",
+          "Azure Functions, Logic Apps",
+          "Sinergia con aplicaciones .NET y flujos de trabajo low-code con Logic Apps"
+        ],
+        [
+          "AWS",
+          "AWS Lambda, API Gateway, DynamoDB",
+          "Pionero y líder del mercado serverless"
+        ],
+        [
+          "Google Cloud",
+          "Cloud Run functions (antes Cloud Functions), Cloud Run",
+          "Contenedores sin servidor con escalado automático instantáneo"
+        ]
+      ]
     },
     {
       "id": "cqrs",
@@ -2530,6 +2829,391 @@
       ],
       "tracer": "Así se despliega hoy: App Service (appType webApp), varios servicios y paquetes NuGet compartidos.",
       "ph": "TRACER es más un monolito modular que microservicios. Es una decisión válida mientras el estado viva fuera del proceso."
+    },
+    {
+      "id": "bigdata",
+      "short": "Big Data",
+      "n": "Big Data y analítica en la nube",
+      "sp": "no",
+      "when": "Hay que ingerir, transformar y consultar grandes volúmenes de datos de muchas fuentes para analítica e inteligencia de negocio.",
+      "lanes": [
+        {
+          "r": "P",
+          "t": "Fuentes",
+          "s": "operacionales y externas",
+          "i": [
+            [
+              "sql",
+              "CDC o exportación"
+            ],
+            [
+              "cosmos",
+              "Fabric mirroring"
+            ],
+            [
+              "onprem",
+              "sistemas locales"
+            ],
+            [
+              "iothub",
+              "telemetría"
+            ]
+          ]
+        },
+        {
+          "r": "B",
+          "t": "Ingesta",
+          "s": "lotes y streaming",
+          "i": [
+            [
+              "adf",
+              "copia y orquestación de lotes"
+            ],
+            [
+              "eventhubs",
+              "streaming con Capture"
+            ]
+          ]
+        },
+        {
+          "r": "D",
+          "t": "Data lake",
+          "s": "bronce · plata · oro",
+          "i": [
+            [
+              "blob",
+              "ADLS Gen2: arquitectura medallion"
+            ]
+          ]
+        },
+        {
+          "r": "C",
+          "t": "Procesamiento",
+          "s": "ETL / ELT",
+          "i": [
+            [
+              "databricks",
+              "Spark y Delta Lake"
+            ],
+            [
+              "synapse",
+              "Spark y SQL pools"
+            ],
+            [
+              "fabric",
+              "alternativa SaaS unificada"
+            ]
+          ]
+        },
+        {
+          "r": "D",
+          "t": "Servir",
+          "s": "modelo analítico",
+          "i": [
+            [
+              "synapse",
+              "data warehouse"
+            ],
+            [
+              "adx",
+              "series de tiempo (KQL)"
+            ]
+          ]
+        },
+        {
+          "r": "S",
+          "t": "Consumo",
+          "s": "",
+          "i": [
+            [
+              "powerbi",
+              "reportes y modelos semánticos"
+            ]
+          ]
+        }
+      ],
+      "x": [
+        "mi",
+        "entra",
+        "pe",
+        "appi"
+      ],
+      "g": [
+        "Consistencia eventual: el lago refleja la fuente con retraso (minutos en streaming, horas en lotes)",
+        "Bronce es inmutable: el dato crudo no se edita, se reprocesa",
+        "Esquema al leer en bronce, esquema al escribir en oro"
+      ],
+      "pt": [
+        "Medallion: bronce (crudo) → plata (limpio) → oro (agregado)",
+        "Formatos abiertos: Delta Lake / Parquet",
+        "Lambda (lotes + stream) frente a Kappa (solo stream con replay)",
+        "Separar cómputo y almacenamiento: el lago es la fuente, los motores son reemplazables"
+      ],
+      "anti": [
+        "Pantano de datos: lago sin catálogo ni linaje",
+        "Consultas analíticas pesadas contra la base transaccional",
+        "Copiar el mismo dato a cinco almacenes sin dueño"
+      ],
+      "tracer": "No aplica hoy. Si TRACER quisiera analítica de llamadas, el camino sería CDC o mirroring de Azure SQL hacia el lago y Power BI encima, sin cargar la base de producción.",
+      "ph": "El lago guarda, los motores consumen y Power BI entrega. En la medallion el dato crudo nunca se edita: se reprocesa.",
+      "cmp": [
+        [
+          "Azure",
+          "Data Lake Storage, Synapse Analytics, Databricks, Power BI (y Microsoft Fabric)",
+          "Integración nativa con Power BI y Databricks"
+        ],
+        [
+          "AWS",
+          "Amazon S3, Amazon Redshift, AWS Glue, EMR",
+          "S3 como estándar de facto del data lake"
+        ],
+        [
+          "Google Cloud",
+          "BigQuery, Dataflow, Pub/Sub",
+          "Su mayor fortaleza: BigQuery analiza petabytes sin gestionar servidores"
+        ]
+      ]
+    },
+    {
+      "id": "ia",
+      "short": "IA / MLOps",
+      "n": "Inteligencia artificial y MLOps",
+      "sp": "no",
+      "when": "Hay que entrenar, desplegar y operar modelos de machine learning, o construir aplicaciones de IA generativa sobre modelos fundacionales.",
+      "lanes": [
+        {
+          "r": "P",
+          "t": "Peticiones",
+          "s": "",
+          "i": [
+            [
+              "web",
+              "chat, copiloto o app"
+            ],
+            [
+              "code",
+              "tu API arma el prompt"
+            ]
+          ]
+        },
+        {
+          "r": "B",
+          "t": "AI gateway",
+          "s": "cuotas por consumidor",
+          "i": [
+            [
+              "apim",
+              "tokens por minuto, caché y reparto entre despliegues"
+            ]
+          ]
+        },
+        {
+          "r": "C",
+          "t": "Inferencia",
+          "s": "",
+          "i": [
+            [
+              "aoai",
+              "modelos GPT gestionados"
+            ],
+            [
+              "aml",
+              "endpoints de modelos propios"
+            ],
+            [
+              "aca",
+              "agentes y orquestación"
+            ]
+          ]
+        },
+        {
+          "r": "D",
+          "t": "Conocimiento y modelos",
+          "s": "RAG y registro",
+          "i": [
+            [
+              "aisearch",
+              "índice vectorial e híbrido (RAG)"
+            ],
+            [
+              "blob",
+              "documentos y datos de entrenamiento"
+            ],
+            [
+              "cosmos",
+              "historial de conversaciones"
+            ],
+            [
+              "aml",
+              "registro de modelos (MLOps)"
+            ]
+          ]
+        },
+        {
+          "r": "S",
+          "t": "Respuesta",
+          "s": "",
+          "i": [
+            [
+              "web",
+              "respuesta en streaming"
+            ]
+          ]
+        }
+      ],
+      "x": [
+        "mi",
+        "entra",
+        "kv",
+        "pe",
+        "appi"
+      ],
+      "g": [
+        "Salida no determinista: el mismo prompt puede dar respuestas distintas",
+        "Cuotas en tokens por minuto: el 429 es parte del diseño, no una excepción",
+        "Tus prompts y respuestas no se usan para entrenar los modelos base del servicio"
+      ],
+      "pt": [
+        "RAG: recuperar de AI Search y enriquecer el prompt antes que reentrenar",
+        "MLOps: entrenamiento → registro de modelos → despliegue azul/verde con evaluación",
+        "AI gateway en API Management: cuotas, reintentos y reparto entre regiones",
+        "Evaluar antes de desplegar: conjuntos de prueba con métricas de calidad y seguridad"
+      ],
+      "anti": [
+        "API keys del modelo en el cliente o en el código",
+        "Meter todo el corpus en el prompt en vez de recuperar lo relevante",
+        "Desplegar un modelo sin evaluación ni versión registrada"
+      ],
+      "tracer": "No aplica hoy. Un caso natural: resumir y clasificar llamadas con Azure OpenAI a partir de las transcripciones de ACS, como una frase encadenada tras CallEnded.",
+      "ph": "En RAG el modelo consume, AI Search guarda el conocimiento y API Management transporta con cuotas. Reentrenar es el último recurso, no el primero.",
+      "cmp": [
+        [
+          "Azure",
+          "Azure OpenAI (Microsoft Foundry), Azure Machine Learning, AI Search",
+          "Alianza estratégica con OpenAI: modelos GPT como servicio gestionado de Azure"
+        ],
+        [
+          "AWS",
+          "Amazon Bedrock (modelos de terceros y propios, como Titan), SageMaker",
+          "Muchos modelos de terceros detrás de una sola API"
+        ],
+        [
+          "Google Cloud",
+          "Vertex AI, TPU, modelos Gemini",
+          "Chips propios (TPU) y Gemini integrado en todo su stack de datos"
+        ]
+      ]
+    },
+    {
+      "id": "hybrid",
+      "short": "Híbrida",
+      "n": "Híbrida y multinube",
+      "sp": "no",
+      "when": "Parte de las cargas o de los datos debe quedarse en tu centro de datos o en otra nube, por latencia, regulación o inversión existente, y quieres gobernarlo todo como uno.",
+      "lanes": [
+        {
+          "r": "P",
+          "t": "Fuera de Azure",
+          "s": "on-premises y otras nubes",
+          "i": [
+            [
+              "onprem",
+              "servidores, Kubernetes y bases locales"
+            ],
+            [
+              "azlocal",
+              "VMs y AKS en las instalaciones"
+            ]
+          ]
+        },
+        {
+          "r": "B",
+          "t": "Conectividad privada",
+          "s": "",
+          "i": [
+            [
+              "expressroute",
+              "ExpressRoute o VPN site-to-site"
+            ]
+          ]
+        },
+        {
+          "r": "C",
+          "t": "Cargas en Azure",
+          "s": "",
+          "i": [
+            [
+              "aks",
+              "Kubernetes en la nube"
+            ],
+            [
+              "appservice",
+              "aplicaciones migradas"
+            ],
+            [
+              "functions",
+              "integraciones"
+            ]
+          ]
+        },
+        {
+          "r": "D",
+          "t": "Datos",
+          "s": "",
+          "i": [
+            [
+              "sql",
+              "réplica o migración de bases"
+            ],
+            [
+              "blob",
+              "respaldo y archivo"
+            ]
+          ]
+        }
+      ],
+      "x": [
+        "arc",
+        "entra",
+        "kv",
+        "vnet",
+        "appi"
+      ],
+      "g": [
+        "Una sola identidad: Entra ID para usuarios y, con Arc, para servidores",
+        "Un solo plano de control: Azure Resource Manager proyecta recursos externos",
+        "La latencia y el ancho de banda del enlace forman parte del diseño"
+      ],
+      "pt": [
+        "Gobierno unificado con Azure Arc: Policy, RBAC, Defender y Monitor fuera de Azure",
+        "Identidad híbrida: Active Directory sincronizado con Entra ID",
+        "Conectividad redundante: ExpressRoute con VPN de respaldo",
+        "Azure Local para lo que debe quedarse en las instalaciones"
+      ],
+      "anti": [
+        "Dos consolas, dos identidades y dos políticas para la misma empresa",
+        "Llamadas síncronas muy conversacionales a través del enlace híbrido",
+        "Un único circuito sin respaldo"
+      ],
+      "tracer": "No aplica hoy: TRACER es nativo de la nube. Sería relevante si un cliente exigiera que los audios o los datos de llamadas permanezcan en sus instalaciones.",
+      "ph": "Arc no mueve las cargas: las hace gobernables. El enlace híbrido transporta, Entra ID unifica la identidad y Azure Local mantiene en sitio lo que no puede salir.",
+      "cmp": [
+        [
+          "Azure",
+          "Azure Arc, Azure Local (familia Azure Stack), ExpressRoute, Entra ID",
+          "Líder en entornos híbridos: Arc y la identidad unificada con Active Directory / Entra ID"
+        ],
+        [
+          "AWS",
+          "AWS Outposts, AWS Direct Connect",
+          "Hardware de AWS en tus instalaciones con las mismas API"
+        ],
+        [
+          "Google Cloud",
+          "Anthos (hoy GKE Enterprise)",
+          "Kubernetes como capa común para GCP, AWS y servidores locales"
+        ]
+      ]
     }
   ],
   "brokers": [

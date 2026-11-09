@@ -2,15 +2,15 @@
 
 # 15 · Catálogo A–Z
 
-Los 45 servicios del atlas, en orden alfabético. **Papeles** son todos los que adopta en las 10 arquitecturas; **valencia** es cuántos distintos. TRACER: 🟢 TRACER lo usa hoy · 🟡 TRACER: parcial · 🔷 TRACER: arquitectura objetivo · · No está en TRACER.
+Los 53 servicios del atlas, en orden alfabético. **Papeles** son todos los que adopta en las 13 arquitecturas; **valencia** es cuántos distintos. TRACER: 🟢 TRACER lo usa hoy · 🟡 TRACER: parcial · 🔷 TRACER: arquitectura objetivo · · No está en TRACER.
 
 | Letra | Servicios |
 |---|---|
-| **A** | [AI Search](#ai-search) · [AKS](#aks) · [API Management](#api-management) · [App Configuration](#app-configuration) · [App Insights / Monitor](#app-insights--monitor) · [App Service](#app-service) · [Application Gateway](#application-gateway) · [Azure DevOps](#azure-devops) · [Azure Functions](#azure-functions) · [Azure Managed Redis](#azure-managed-redis) · [Azure SQL](#azure-sql) |
+| **A** | [AI Search](#ai-search) · [AKS](#aks) · [API Management](#api-management) · [App Configuration](#app-configuration) · [App Insights / Monitor](#app-insights--monitor) · [App Service](#app-service) · [Application Gateway](#application-gateway) · [Azure Arc](#azure-arc) · [Azure DevOps](#azure-devops) · [Azure Functions](#azure-functions) · [Azure Local](#azure-local) · [Azure Machine Learning](#azure-machine-learning) · [Azure Managed Redis](#azure-managed-redis) · [Azure OpenAI (Microsoft Foundry)](#azure-openai-microsoft-foundry) · [Azure SQL](#azure-sql) |
 | **B** | [Blob Storage / ADLS](#blob-storage--adls) |
-| **C** | [Clientes (Portal, PowerPack, móvil)](#clientes-portal-powerpack-móvil) · [Communication Services](#communication-services) · [Container Apps](#container-apps) · [Container Registry](#container-registry) · [Cosmos DB](#cosmos-db) |
-| **D** | [Dapr](#dapr) · [Data Explorer / Eventhouse](#data-explorer--eventhouse) · [Databricks](#databricks) · [Dispositivos / IoT Edge](#dispositivos--iot-edge) · [Durable Functions](#durable-functions) |
-| **E** | [Entra ID](#entra-id) · [Event Grid](#event-grid) · [Event Grid namespaces](#event-grid-namespaces) · [Event Hubs](#event-hubs) |
+| **C** | [Centro de datos local / otra nube](#centro-de-datos-local--otra-nube) · [Clientes (Portal, PowerPack, móvil)](#clientes-portal-powerpack-móvil) · [Communication Services](#communication-services) · [Container Apps](#container-apps) · [Container Registry](#container-registry) · [Cosmos DB](#cosmos-db) |
+| **D** | [Dapr](#dapr) · [Data Explorer / Eventhouse](#data-explorer--eventhouse) · [Data Factory](#data-factory) · [Databricks](#databricks) · [Dispositivos / IoT Edge](#dispositivos--iot-edge) · [Durable Functions](#durable-functions) |
+| **E** | [Entra ID](#entra-id) · [Event Grid](#event-grid) · [Event Grid namespaces](#event-grid-namespaces) · [Event Hubs](#event-hubs) · [ExpressRoute / VPN Gateway](#expressroute--vpn-gateway) |
 | **F** | [Fabric Real-Time Intelligence](#fabric-real-time-intelligence) · [Front Door](#front-door) |
 | **I** | [IoT Hub](#iot-hub) |
 | **K** | [KEDA](#keda) · [Key Vault](#key-vault) |
@@ -18,7 +18,7 @@ Los 45 servicios del atlas, en orden alfabético. **Papeles** son todos los que 
 | **M** | [Managed / Workload Identity](#managed--workload-identity) · [Microsoft Graph](#microsoft-graph) |
 | **N** | [Notification Hubs](#notification-hubs) |
 | **P** | [PostgreSQL Flexible](#postgresql-flexible) · [Power BI](#power-bi) · [Private Endpoint + DNS](#private-endpoint--dns) |
-| **S** | [Service Bus](#service-bus) · [SignalR Service](#signalr-service) · [Storage Queue](#storage-queue) · [Stream Analytics](#stream-analytics) |
+| **S** | [Service Bus](#service-bus) · [SignalR Service](#signalr-service) · [Storage Queue](#storage-queue) · [Stream Analytics](#stream-analytics) · [Synapse Analytics](#synapse-analytics) |
 | **T** | [Tu servicio .NET](#tu-servicio-net) |
 | **V** | [VNet + NSG](#vnet--nsg) |
 | **W** | [Web PubSub](#web-pubsub) |
@@ -29,16 +29,21 @@ Los 45 servicios del atlas, en orden alfabético. **Papeles** son todos los que 
 |---|---|---|:-:|:-:|---|
 | [AI Search](#ai-search) | Datos | Ⓓ | 1 | · | [05](05-guarda.md) |
 | [AKS](#aks) | Cómputo | Ⓒ | 1 | 🔷 | [04](04-consume.md) |
-| [API Management](#api-management) | Entrada | Ⓟ Ⓑ | 2 | · | [02](02-produce.md) |
+| [API Management](#api-management) | Entrada | Ⓟ Ⓑ | 2 | · | [03](03-transporta.md) |
 | [App Configuration](#app-configuration) | Identidad | Ⓟ Ⓧ | 2 | · | [02](02-produce.md) |
 | [App Insights / Monitor](#app-insights--monitor) | Observabilidad | Ⓟ Ⓧ | 2 | 🟢 | [02](02-produce.md) |
 | [App Service](#app-service) | Cómputo | Ⓒ | 1 | 🟢 | [04](04-consume.md) |
 | [Application Gateway](#application-gateway) | Entrada | Ⓑ | 1 | 🔷 | [03](03-transporta.md) |
+| [Azure Arc](#azure-arc) | Híbrido | Ⓧ | 1 | · | [07](07-identidad.md) |
 | [Azure DevOps](#azure-devops) | DevOps | Ⓧ | 1 | 🟢 | [09](09-observabilidad.md) |
 | [Azure Functions](#azure-functions) | Cómputo | Ⓟ Ⓒ | 2 | 🟢 | [04](04-consume.md) |
+| [Azure Local](#azure-local) | Híbrido | Ⓟ | 1 | · | [02](02-produce.md) |
+| [Azure Machine Learning](#azure-machine-learning) | IA | Ⓒ Ⓓ | 2 | · | [04](04-consume.md) |
 | [Azure Managed Redis](#azure-managed-redis) | Datos | Ⓑ Ⓓ | 2 | 🔷 | [05](05-guarda.md) |
+| [Azure OpenAI (Microsoft Foundry)](#azure-openai-microsoft-foundry) | IA | Ⓒ | 1 | · | [04](04-consume.md) |
 | [Azure SQL](#azure-sql) | Datos | Ⓟ Ⓓ | 2 | 🟢 | [05](05-guarda.md) |
 | [Blob Storage / ADLS](#blob-storage--adls) | Datos | Ⓟ Ⓓ | 2 | 🟢 | [05](05-guarda.md) |
+| [Centro de datos local / otra nube](#centro-de-datos-local--otra-nube) | Fuentes | Ⓟ | 1 | · | [02](02-produce.md) |
 | [Clientes (Portal, PowerPack, móvil)](#clientes-portal-powerpack-móvil) | Fuentes | Ⓟ Ⓢ | 2 | 🟢 | [02](02-produce.md) |
 | [Communication Services](#communication-services) | Fuentes | Ⓟ Ⓒ | 2 | 🟢 | [02](02-produce.md) |
 | [Container Apps](#container-apps) | Cómputo | Ⓒ | 1 | · | [04](04-consume.md) |
@@ -46,6 +51,7 @@ Los 45 servicios del atlas, en orden alfabético. **Papeles** son todos los que 
 | [Cosmos DB](#cosmos-db) | Datos | Ⓟ Ⓓ | 2 | · | [05](05-guarda.md) |
 | [Dapr](#dapr) | Integración | Ⓒ | 1 | · | [04](04-consume.md) |
 | [Data Explorer / Eventhouse](#data-explorer--eventhouse) | Analítica | Ⓓ | 1 | · | [05](05-guarda.md) |
+| [Data Factory](#data-factory) | Integración | Ⓑ | 1 | · | [03](03-transporta.md) |
 | [Databricks](#databricks) | Analítica | Ⓒ | 1 | · | [04](04-consume.md) |
 | [Dispositivos / IoT Edge](#dispositivos--iot-edge) | Fuentes | Ⓟ | 1 | · | [02](02-produce.md) |
 | [Durable Functions](#durable-functions) | Cómputo | Ⓒ | 1 | · | [04](04-consume.md) |
@@ -53,6 +59,7 @@ Los 45 servicios del atlas, en orden alfabético. **Papeles** son todos los que 
 | [Event Grid](#event-grid) | Mensajería | Ⓟ Ⓑ | 2 | 🟢 | [03](03-transporta.md) |
 | [Event Grid namespaces](#event-grid-namespaces) | Mensajería | Ⓑ | 1 | · | [03](03-transporta.md) |
 | [Event Hubs](#event-hubs) | Mensajería | Ⓑ | 1 | 🟡 | [03](03-transporta.md) |
+| [ExpressRoute / VPN Gateway](#expressroute--vpn-gateway) | Red | Ⓑ | 1 | · | [03](03-transporta.md) |
 | [Fabric Real-Time Intelligence](#fabric-real-time-intelligence) | Analítica | Ⓒ | 1 | · | [04](04-consume.md) |
 | [Front Door](#front-door) | Entrada | Ⓑ | 1 | · | [03](03-transporta.md) |
 | [IoT Hub](#iot-hub) | Mensajería | Ⓟ Ⓑ | 2 | · | [02](02-produce.md) |
@@ -69,6 +76,7 @@ Los 45 servicios del atlas, en orden alfabético. **Papeles** son todos los que 
 | [SignalR Service](#signalr-service) | Tiempo real | Ⓑ Ⓢ | 2 | 🟢 | [06](06-entrega.md) |
 | [Storage Queue](#storage-queue) | Mensajería | Ⓑ Ⓒ | 2 | · | [03](03-transporta.md) |
 | [Stream Analytics](#stream-analytics) | Analítica | Ⓒ | 1 | · | [04](04-consume.md) |
+| [Synapse Analytics](#synapse-analytics) | Analítica | Ⓒ Ⓓ | 2 | · | [04](04-consume.md) |
 | [Tu servicio .NET](#tu-servicio-net) | Fuentes | Ⓟ Ⓒ | 2 | 🟢 | [02](02-produce.md) |
 | [VNet + NSG](#vnet--nsg) | Red | Ⓧ | 1 | 🔷 | [08](08-red.md) |
 | [Web PubSub](#web-pubsub) | Tiempo real | Ⓑ Ⓢ | 2 | · | [03](03-transporta.md) |
@@ -85,7 +93,7 @@ Los 45 servicios del atlas, en orden alfabético. **Papeles** son todos los que 
 |---|---|
 | **Recibe de** | Proyecciones desde la base (indexers) o push. |
 | **Garantías y límites** | Modelo de lectura especializado para búsqueda. |
-| **Papel por arquitectura** | CQRS / ES Ⓓ |
+| **Papel por arquitectura** | CQRS / ES Ⓓ · IA / MLOps Ⓓ |
 
 > 💡 En CQRS es otro modelo de lectura más, alimentado por eventos.
 
@@ -101,14 +109,14 @@ Kubernetes administrado para microservicios en contenedores.
 | **Recibe de** | Webhooks por ingress, workers de colas y streams, gRPC interno. |
 | **Entrega o publica a** | Lo que publique tu código: Service Bus, Event Grid, Event Hubs, gRPC. |
 | **Garantías y límites** | HPA, KEDA, PodDisruptionBudget, zonas de disponibilidad, Workload Identity, health probes. |
-| **Papel por arquitectura** | Event-driven Ⓒ · Colas Ⓒ · Streaming Ⓒ · Microservicios Ⓒ · CQRS / ES Ⓒ · Saga Ⓒ |
+| **Papel por arquitectura** | Event-driven Ⓒ · Colas Ⓒ · Streaming Ⓒ · Microservicios Ⓒ · CQRS / ES Ⓒ · Saga Ⓒ · Híbrida Ⓒ |
 
 > 💡 Escalar a N pods exige estado externo: un SemaphoreSlim static solo protege un proceso.
 
 
 ### API Management
 
-**Entrada** · Ⓟ Ⓑ · valencia 2 · · No está en TRACER · capítulo [02-produce](02-produce.md)
+**Entrada** · Ⓟ Ⓑ · valencia 2 · · No está en TRACER · capítulo [03-transporta](03-transporta.md)
 
 Gateway de APIs: seguridad, cuotas, versiones y transformación.
 
@@ -117,7 +125,7 @@ Gateway de APIs: seguridad, cuotas, versiones y transformación.
 | **Recibe de** | HTTP de clientes externos (REST, GraphQL, WebSocket). |
 | **Entrega o publica a** | Llamadas al backend; política log-to-eventhub. |
 | **Garantías y límites** | Validación JWT, rate limit, caché, productos y suscripciones. |
-| **Papel por arquitectura** | Streaming Ⓟ · Microservicios Ⓑ · Serverless Ⓑ · CQRS / ES Ⓟ |
+| **Papel por arquitectura** | Streaming Ⓟ · Microservicios Ⓑ · Serverless Ⓑ · CQRS / ES Ⓟ · IA / MLOps Ⓑ |
 
 > 💡 Rate limit y validación de tokens en el borde, antes de tu API.
 
@@ -146,7 +154,7 @@ Logs, métricas, trazas distribuidas (OpenTelemetry) y alertas.
 |---|---|
 | **Recibe de** | Telemetría de todos los servicios. |
 | **Entrega o publica a** | Diagnostic settings hacia Event Hubs; alertas hacia action groups (webhook, Function, Logic App). |
-| **Papel por arquitectura** | Event-driven Ⓧ · Colas Ⓧ · Streaming ⓅⓍ · Microservicios Ⓧ · Serverless Ⓧ · CQRS / ES Ⓧ · Saga Ⓧ · Tiempo real Ⓧ · IoT Ⓧ · Monolito Ⓧ |
+| **Papel por arquitectura** | Event-driven Ⓧ · Colas Ⓧ · Streaming ⓅⓍ · Microservicios Ⓧ · Serverless Ⓧ · CQRS / ES Ⓧ · Saga Ⓧ · Tiempo real Ⓧ · IoT Ⓧ · Monolito Ⓧ · Big Data Ⓧ · IA / MLOps Ⓧ · Híbrida Ⓧ |
 
 > 💡 Propaga traceparent dentro del evento para ver el árbol Garbage → Event Grid → API → SQL.
 
@@ -162,7 +170,7 @@ PaaS para web apps y APIs; WebJobs para tareas en segundo plano.
 | **Recibe de** | HTTP y webhooks; colas vía WebJobs SDK o BackgroundService. |
 | **Entrega o publica a** | Requests salientes y publicación desde tu código. |
 | **Garantías y límites** | Deployment slots, autoescalado, VNet integration, Managed Identity. |
-| **Papel por arquitectura** | Event-driven Ⓒ · Colas Ⓒ · Monolito Ⓒ |
+| **Papel por arquitectura** | Event-driven Ⓒ · Colas Ⓒ · Monolito Ⓒ · Híbrida Ⓒ |
 
 > 💡 Escalar out funciona igual que en AKS: cualquier IMemoryCache o BackgroundService se duplica por instancia.
 
@@ -179,6 +187,20 @@ Balanceador L7 regional con WAF, dentro de la VNet; ingress de AKS.
 | **Papel por arquitectura** | Microservicios Ⓑ · Monolito Ⓑ |
 
 > 💡 En el diseño objetivo: rutas /api y /events hacia AKS.
+
+
+### Azure Arc
+
+**Híbrido** · Ⓧ · valencia 1 · · No está en TRACER · capítulo [07-identidad](07-identidad.md)
+
+Proyecta servidores, clústeres de Kubernetes y bases de datos de cualquier lugar como recursos de Azure Resource Manager.
+
+| | |
+|---|---|
+| **Garantías y límites** | Azure Policy, RBAC, Defender for Cloud y Azure Monitor sobre recursos fuera de Azure. |
+| **Papel por arquitectura** | Híbrida Ⓧ |
+
+> 💡 Arc no mueve cargas: las hace gobernables. Es el plano de control de Azure extendido a donde estén tus máquinas.
 
 
 ### Azure DevOps
@@ -205,9 +227,39 @@ Cómputo por evento con triggers y bindings.
 | **Recibe de** | Triggers: HTTP, Timer, Event Grid, Service Bus, Event Hubs, Queue, Blob, Cosmos DB change feed, SQL, Redis. |
 | **Entrega o publica a** | Bindings de salida: Service Bus, Event Hubs, Event Grid, Storage, Cosmos DB, SignalR, SQL. |
 | **Garantías y límites** | Flex Consumption, escalado por evento, cold start, isolated worker en .NET. |
-| **Papel por arquitectura** | Event-driven Ⓒ · Colas ⓅⒸ · Streaming Ⓒ · Serverless Ⓒ · CQRS / ES Ⓒ · Saga Ⓒ · Tiempo real Ⓒ · IoT Ⓒ · Monolito Ⓒ |
+| **Papel por arquitectura** | Event-driven Ⓒ · Colas ⓅⒸ · Streaming Ⓒ · Serverless Ⓒ · CQRS / ES Ⓒ · Saga Ⓒ · Tiempo real Ⓒ · IoT Ⓒ · Monolito Ⓒ · Híbrida Ⓒ |
 
 > 💡 Es productor y consumidor a la vez: consume de un trigger y produce por un binding. En TRACER: EventGridAzureFunction.
+
+
+### Azure Local
+
+**Híbrido** · Ⓟ · valencia 1 · · No está en TRACER · capítulo [02-produce](02-produce.md)
+
+Infraestructura hiperconvergente en tu centro de datos, gestionada desde Azure (antes Azure Stack HCI).
+
+| | |
+|---|---|
+| **Garantías y límites** | Máquinas virtuales y AKS en las instalaciones · puede operar desconectado. |
+| **Papel por arquitectura** | Híbrida Ⓟ |
+
+> 💡 La familia Azure Stack hoy es Azure Local y Azure Stack Hub; ambas se gobiernan con Azure Arc.
+
+
+### Azure Machine Learning
+
+**IA** · Ⓒ Ⓓ · valencia 2 · · No está en TRACER · capítulo [04-consume](04-consume.md)
+
+Plataforma de MLOps: entrenamiento, registro de modelos, pipelines y endpoints de inferencia.
+
+| | |
+|---|---|
+| **Recibe de** | Datos versionados del lago (ADLS) y código de entrenamiento. |
+| **Entrega o publica a** | Endpoints online y batch; eventos ModelRegistered y RunCompleted a Event Grid. |
+| **Garantías y límites** | Clústeres con GPU · registro de modelos · MLflow · despliegue azul/verde en endpoints administrados. |
+| **Papel por arquitectura** | IA / MLOps ⒸⒹ |
+
+> 💡 MLOps es CI/CD para modelos: el registro de modelos cumple el papel que Container Registry cumple para las imágenes.
 
 
 ### Azure Managed Redis
@@ -227,6 +279,24 @@ Cache en memoria compartida entre instancias.
 > 💡 Reemplaza al IMemoryCache por réplica. Microsoft recomienda Azure Managed Redis para despliegues nuevos.
 
 
+### Azure OpenAI (Microsoft Foundry)
+
+**IA** · Ⓒ · valencia 1 · · No está en TRACER · capítulo [04-consume](04-consume.md)
+
+Modelos de OpenAI (GPT) como servicio gestionado de Azure, dentro de Microsoft Foundry junto a modelos de otros proveedores.
+
+| | |
+|---|---|
+| **Recibe de** | Prompts de chat, embeddings y llamadas a herramientas desde tu API. |
+| **Entrega o publica a** | Respuestas (también en streaming) y vectores de embeddings. |
+| **Garantías y límites** | Cuotas en tokens por minuto (TPM) · despliegues estándar, globales o con capacidad aprovisionada · filtros de contenido. |
+| **SDK .NET** | `Azure.AI.OpenAI` |
+| **Rol RBAC** | Cognitive Services OpenAI User |
+| **Papel por arquitectura** | IA / MLOps Ⓒ |
+
+> 💡 Autentícate con Entra ID, no con API keys, y pon API Management delante como AI gateway para repartir cuotas por consumidor.
+
+
 ### Azure SQL
 
 **Datos** · Ⓟ Ⓓ · valencia 2 · 🟢 TRACER lo usa hoy · capítulo [05-guarda](05-guarda.md)
@@ -240,7 +310,7 @@ SQL Server como PaaS con HA, réplicas y backups administrados.
 | **Garantías y límites** | ACID local · zone redundancy · failover groups · réplica ApplicationIntent=ReadOnly. |
 | **SDK .NET** | `EF Core + "Authentication=Active Directory Default"` |
 | **Rol RBAC** | Usuario contenido de Entra ID |
-| **Papel por arquitectura** | Event-driven Ⓓ · Colas Ⓓ · Streaming Ⓓ · Microservicios Ⓓ · Serverless ⓅⒹ · CQRS / ES Ⓓ · Saga Ⓓ · Tiempo real Ⓓ · Monolito Ⓓ |
+| **Papel por arquitectura** | Event-driven Ⓓ · Colas Ⓓ · Streaming Ⓓ · Microservicios Ⓓ · Serverless ⓅⒹ · CQRS / ES Ⓓ · Saga Ⓓ · Tiempo real Ⓓ · Monolito Ⓓ · Big Data Ⓟ · Híbrida Ⓓ |
 
 > 💡 Lock entre pods sin infraestructura extra: sp_getapplock o UPDATE … WHERE ReservedBy IS NULL y revisar rowsAffected.
 
@@ -257,9 +327,22 @@ Almacenamiento de objetos y data lake.
 | **Entrega o publica a** | Eventos BlobCreated / BlobDeleted a Event Grid. |
 | **Garantías y límites** | Tiers hot/cool/archive · leases (sirven para leader election). |
 | **Rol RBAC** | Storage Blob Data Contributor |
-| **Papel por arquitectura** | Event-driven ⓅⒹ · Streaming Ⓓ · Microservicios Ⓓ · Serverless ⓅⒹ · Saga Ⓓ · IoT Ⓓ · Monolito Ⓓ |
+| **Papel por arquitectura** | Event-driven ⓅⒹ · Streaming Ⓓ · Microservicios Ⓓ · Serverless ⓅⒹ · Saga Ⓓ · IoT Ⓓ · Monolito Ⓓ · Big Data Ⓓ · IA / MLOps Ⓓ · Híbrida Ⓓ |
 
 > 💡 Un lease de Blob sirve como lock de líder para un BackgroundService en N réplicas.
+
+
+### Centro de datos local / otra nube
+
+**Fuentes** · Ⓟ · valencia 1 · · No está en TRACER · capítulo [02-produce](02-produce.md)
+
+Servidores, Kubernetes y bases de datos fuera de Azure.
+
+| | |
+|---|---|
+| **Recibe de** | Políticas, extensiones y actualizaciones vía Azure Arc. |
+| **Entrega o publica a** | Datos y eventos hacia Azure por ExpressRoute o VPN. |
+| **Papel por arquitectura** | Big Data Ⓟ · Híbrida Ⓟ |
 
 
 ### Clientes (Portal, PowerPack, móvil)
@@ -272,7 +355,7 @@ Navegadores, Teams y apps.
 |---|---|
 | **Recibe de** | Push de SignalR, Web PubSub o Notification Hubs. |
 | **Entrega o publica a** | Requests HTTP y comandos. |
-| **Papel por arquitectura** | Microservicios Ⓟ · Serverless Ⓟ · CQRS / ES Ⓟ · Saga Ⓟ · Tiempo real Ⓢ · Monolito Ⓟ |
+| **Papel por arquitectura** | Microservicios Ⓟ · Serverless Ⓟ · CQRS / ES Ⓟ · Saga Ⓟ · Tiempo real Ⓢ · Monolito Ⓟ · IA / MLOps ⓅⓈ |
 
 
 ### Communication Services
@@ -301,7 +384,7 @@ Contenedores serverless sobre Kubernetes, con KEDA y Dapr integrados.
 | **Recibe de** | HTTP, colas y streams; escala a cero por reglas KEDA. |
 | **Entrega o publica a** | Igual que AKS; además Jobs disparados por eventos. |
 | **Garantías y límites** | Sin operar el clúster · revisiones y split de tráfico · Dapr y KEDA nativos. |
-| **Papel por arquitectura** | Colas Ⓒ · Microservicios Ⓒ · Serverless Ⓒ |
+| **Papel por arquitectura** | Colas Ⓒ · Microservicios Ⓒ · Serverless Ⓒ · IA / MLOps Ⓒ |
 
 > 💡 Es la respuesta al "punto medio" entre App Service y AKS.
 
@@ -331,7 +414,7 @@ Base NoSQL distribuida globalmente.
 | **Recibe de** | Escrituras a escala; event store append-only. |
 | **Entrega o publica a** | Change feed ordenado por partition key → Functions, Change Feed Processor, Fabric mirroring. |
 | **Garantías y límites** | 5 niveles de consistencia · ETag para concurrencia optimista · TTL · serverless · 2 MB por ítem. |
-| **Papel por arquitectura** | Event-driven Ⓓ · Streaming Ⓓ · Microservicios Ⓓ · Serverless ⓅⒹ · CQRS / ES Ⓓ · Saga Ⓓ · IoT Ⓓ |
+| **Papel por arquitectura** | Event-driven Ⓓ · Streaming Ⓓ · Microservicios Ⓓ · Serverless ⓅⒹ · CQRS / ES Ⓓ · Saga Ⓓ · IoT Ⓓ · Big Data Ⓟ · IA / MLOps Ⓓ |
 
 > 💡 El change feed es un Outbox incorporado: cada escritura se vuelve un evento.
 
@@ -362,9 +445,25 @@ Base analítica de series de tiempo con KQL.
 |---|---|
 | **Recibe de** | Ingesta directa desde Event Hubs e IoT Hub. |
 | **Garantías y límites** | Consultas sobre miles de millones de filas en segundos. |
-| **Papel por arquitectura** | Streaming Ⓓ · IoT Ⓓ |
+| **Papel por arquitectura** | Streaming Ⓓ · IoT Ⓓ · Big Data Ⓓ |
 
 > 💡 Es el mismo KQL que usas en Application Insights.
+
+
+### Data Factory
+
+**Integración** · Ⓑ · valencia 1 · · No está en TRACER · capítulo [03-transporta](03-transporta.md)
+
+ETL/ELT gestionado: copia y orquestación de datos entre más de 90 conectores.
+
+| | |
+|---|---|
+| **Recibe de** | Bases locales (vía integration runtime), SaaS, bases de Azure y archivos. |
+| **Entrega o publica a** | ADLS Gen2, Synapse, SQL. |
+| **Garantías y límites** | Pipelines programados o por evento (BlobCreated) · integration runtime autoalojado para datos on-premises. |
+| **Papel por arquitectura** | Big Data Ⓑ |
+
+> 💡 Mueve y orquesta; la transformación pesada se la deja a Databricks o Synapse.
 
 
 ### Databricks
@@ -377,7 +476,7 @@ Spark para ETL y Structured Streaming.
 |---|---|
 | **Recibe de** | Event Hubs por protocolo Kafka. |
 | **Entrega o publica a** | Delta Lake. |
-| **Papel por arquitectura** | Streaming Ⓒ |
+| **Papel por arquitectura** | Streaming Ⓒ · Big Data Ⓒ |
 
 
 ### Dispositivos / IoT Edge
@@ -418,7 +517,7 @@ Identidad de usuarios y aplicaciones; tokens OAuth 2.0 / OIDC.
 | | |
 |---|---|
 | **Garantías y límites** | Autentica webhooks de Event Grid, clientes de SignalR y APIs. |
-| **Papel por arquitectura** | Event-driven Ⓧ · Tiempo real Ⓧ |
+| **Papel por arquitectura** | Event-driven Ⓧ · Tiempo real Ⓧ · Big Data Ⓧ · IA / MLOps Ⓧ · Híbrida Ⓧ |
 
 > 💡 Autenticación: quién eres. Autorización (RBAC): qué puedes hacer.
 
@@ -470,9 +569,23 @@ Log distribuido y particionado para ingesta masiva, compatible con Kafka.
 | **Garantías y límites** | Orden por partición · retención 1–7 días Standard y hasta 90 en Premium/Dedicated · replay por offset · 1 MB por evento. |
 | **SDK .NET** | `Azure.Messaging.EventHubs + .Processor` |
 | **Rol RBAC** | Azure Event Hubs Data Sender / Data Receiver |
-| **Papel por arquitectura** | Streaming Ⓑ · Serverless Ⓑ · IoT Ⓑ |
+| **Papel por arquitectura** | Streaming Ⓑ · Serverless Ⓑ · IoT Ⓑ · Big Data Ⓑ |
 
 > 💡 El broker no borra al leer: cada lector lleva su posición (checkpoint). Por eso no hay DLQ ni lock por mensaje.
+
+
+### ExpressRoute / VPN Gateway
+
+**Red** · Ⓑ · valencia 1 · · No está en TRACER · capítulo [03-transporta](03-transporta.md)
+
+Conectividad privada entre tu centro de datos y Azure: circuito dedicado (ExpressRoute) o túnel IPsec (VPN).
+
+| | |
+|---|---|
+| **Garantías y límites** | ExpressRoute no viaja por Internet pública · VPN sí, cifrada · ancho de banda y latencia predecibles con ExpressRoute. |
+| **Papel por arquitectura** | Híbrida Ⓑ |
+
+> 💡 En producción híbrida: ExpressRoute como enlace principal y VPN site-to-site como respaldo.
 
 
 ### Fabric Real-Time Intelligence
@@ -485,7 +598,7 @@ Eventstream, Eventhouse y Activator para streaming en Microsoft Fabric.
 |---|---|
 | **Recibe de** | Event Hubs, IoT Hub, CDC de bases, Kafka. |
 | **Entrega o publica a** | Alertas y acciones con Activator. |
-| **Papel por arquitectura** | Streaming Ⓒ · IoT Ⓒ |
+| **Papel por arquitectura** | Streaming Ⓒ · IoT Ⓒ · Big Data Ⓒ |
 
 
 ### Front Door
@@ -513,7 +626,7 @@ Gateway bidireccional para millones de dispositivos, cada uno con identidad prop
 | **Recibe de** | Telemetría device-to-cloud por MQTT, AMQP o HTTPS. |
 | **Entrega o publica a** | Ruteo al endpoint integrado (compatible con Event Hubs), Event Hubs, Service Bus, Blob y Cosmos DB; eventos de ciclo de vida a Event Grid. |
 | **Garantías y límites** | Device twins, direct methods, mensajes cloud-to-device, X.509 por dispositivo, 256 KB por mensaje. |
-| **Papel por arquitectura** | Streaming Ⓟ · IoT Ⓑ |
+| **Papel por arquitectura** | Streaming Ⓟ · IoT Ⓑ · Big Data Ⓟ |
 
 > 💡 IoT Hub = Event Hubs + gestión de dispositivos. Sin gestión de dispositivos, basta Event Grid MQTT.
 
@@ -543,7 +656,7 @@ Secretos, llaves y certificados.
 |---|---|
 | **Entrega o publica a** | Eventos a Event Grid: SecretNearExpiry, CertificateNewVersionCreated. |
 | **Rol RBAC** | Key Vault Secrets User |
-| **Papel por arquitectura** | Event-driven Ⓟ · Microservicios Ⓧ · Serverless Ⓧ · IoT Ⓧ · Monolito Ⓧ |
+| **Papel por arquitectura** | Event-driven Ⓟ · Microservicios Ⓧ · Serverless Ⓧ · IoT Ⓧ · Monolito Ⓧ · IA / MLOps Ⓧ · Híbrida Ⓧ |
 
 > 💡 Rotación automática: Key Vault emite el evento, una Function rota el secreto.
 
@@ -574,7 +687,7 @@ Identidad sin secretos para recursos y pods de AKS (federación OIDC).
 |---|---|
 | **Garantías y límites** | System-assigned (vive con el recurso) o user-assigned (reutilizable). |
 | **SDK .NET** | `new DefaultAzureCredential()` |
-| **Papel por arquitectura** | Event-driven Ⓧ · Colas Ⓧ · Streaming Ⓧ · Microservicios Ⓧ · Serverless Ⓧ · CQRS / ES Ⓧ · Saga Ⓧ · Monolito Ⓧ |
+| **Papel por arquitectura** | Event-driven Ⓧ · Colas Ⓧ · Streaming Ⓧ · Microservicios Ⓧ · Serverless Ⓧ · CQRS / ES Ⓧ · Saga Ⓧ · Monolito Ⓧ · Big Data Ⓧ · IA / MLOps Ⓧ |
 
 > 💡 Hoy TRACER usa AccessKey y connection strings: 0 usos de DefaultAzureCredential.
 
@@ -633,7 +746,7 @@ Dashboards y reportes; tiempo real desde Stream Analytics o Fabric.
 
 | | |
 |---|---|
-| **Papel por arquitectura** | Streaming Ⓢ · IoT Ⓢ |
+| **Papel por arquitectura** | Streaming Ⓢ · IoT Ⓢ · Big Data Ⓢ |
 
 
 ### Private Endpoint + DNS
@@ -644,7 +757,7 @@ IP privada en tu VNet para un PaaS; necesita la zona privatelink.*.
 
 | | |
 |---|---|
-| **Papel por arquitectura** | Colas Ⓧ · Streaming Ⓧ · Microservicios Ⓧ |
+| **Papel por arquitectura** | Colas Ⓧ · Streaming Ⓧ · Microservicios Ⓧ · Big Data Ⓧ · IA / MLOps Ⓧ |
 
 > 💡 Falla casi siempre por DNS: sin la Private DNS Zone enlazada, el pod resuelve la IP pública.
 
@@ -718,6 +831,22 @@ SQL sobre streams: ventanas, joins y agregados.
 > 💡 Consume de un broker y produce a otro: es un procesador en medio del flujo.
 
 
+### Synapse Analytics
+
+**Analítica** · Ⓒ Ⓓ · valencia 2 · · No está en TRACER · capítulo [04-consume](04-consume.md)
+
+Data warehouse SQL y Spark sobre el lago, con pipelines integrados.
+
+| | |
+|---|---|
+| **Recibe de** | ADLS Gen2, pipelines de Data Factory y streams de Event Hubs. |
+| **Entrega o publica a** | Modelos analíticos para Power BI. |
+| **Garantías y límites** | Pools SQL dedicados y serverless · Spark pools · integración con Power BI y Purview. |
+| **Papel por arquitectura** | Big Data ⒸⒹ |
+
+> 💡 Sigue disponible, pero para proyectos nuevos Microsoft orienta hacia Microsoft Fabric: OneLake, Data Warehouse y Spark en un solo SaaS.
+
+
 ### Tu servicio .NET
 
 **Fuentes** · Ⓟ Ⓒ · valencia 2 · 🟢 TRACER lo usa hoy · capítulo [02-produce](02-produce.md)
@@ -728,7 +857,7 @@ Productor o consumidor propio; corre en App Service, AKS, Container Apps o Funct
 |---|---|
 | **Recibe de** | ServiceBusProcessor, EventProcessorClient, webhook de Event Grid. |
 | **Entrega o publica a** | EventGridPublisherClient, ServiceBusSender, EventHubProducerClient, IHubContext. |
-| **Papel por arquitectura** | Event-driven Ⓟ · Colas Ⓟ · Streaming Ⓟ · Tiempo real Ⓒ |
+| **Papel por arquitectura** | Event-driven Ⓟ · Colas Ⓟ · Streaming Ⓟ · Tiempo real Ⓒ · IA / MLOps Ⓟ |
 
 > 💡 Que tu código sea productor no lo hace dueño del consumidor: publica hechos, no órdenes a un servicio concreto.
 
@@ -741,7 +870,7 @@ Red privada con subnets, NSG y Network Policies en AKS.
 
 | | |
 |---|---|
-| **Papel por arquitectura** | Microservicios Ⓧ |
+| **Papel por arquitectura** | Microservicios Ⓧ · Híbrida Ⓧ |
 
 > 💡 Subnets separadas para AKS, Private Endpoints y App Gateway.
 

@@ -1,6 +1,6 @@
 <!-- Archivo generado por tools/generar-atlas.mjs a partir de index.html. No lo edites a mano: edita index.html y ejecuta `npm run atlas`. -->
 
-# 11 · Diez arquitecturas leídas como frases
+# 11 · Trece arquitecturas leídas como frases
 
 > Cada arquitectura de este capítulo se escribe con la misma gramática: **Ⓟ produce → Ⓑ transporta → Ⓒ consume → Ⓓ guarda → Ⓢ entrega**, envuelta por Ⓧ identidad, red y observabilidad. Lo que cambia de una a otra no es la gramática: son las palabras, y el papel que cada palabra cumple.
 
@@ -20,6 +20,9 @@ Este capítulo se genera desde los datos de [`index.html`](../index.html), la mi
 | 8 | [Tiempo real hacia clientes](#8-tiempo-real-hacia-clientes) | Una persona necesita ver el cambio en segundos sin refrescar: tableros, estados, chats. | 🟢 |
 | 9 | [IoT y edge](#9-iot-y-edge) | Hay dispositivos físicos que envían datos y reciben comandos. | · |
 | 10 | [Monolito modular en PaaS](#10-monolito-modular-en-paas) | Un equipo, un dominio que todavía se mueve y ganas en simplicidad operativa. | 🟢 |
+| 11 | [Big Data y analítica en la nube](#11-big-data-y-analítica-en-la-nube) | Hay que ingerir, transformar y consultar grandes volúmenes de datos de muchas fuentes para analítica e inteligencia de negocio. | · |
+| 12 | [Inteligencia artificial y MLOps](#12-inteligencia-artificial-y-mlops) | Hay que entrenar, desplegar y operar modelos de machine learning, o construir aplicaciones de IA generativa sobre modelos fundacionales. | · |
+| 13 | [Híbrida y multinube](#13-híbrida-y-multinube) | Parte de las cargas o de los datos debe quedarse en tu centro de datos o en otra nube, por latencia, regulación o inversión existente, y quieres gobernarlo todo como uno. | · |
 
 ---
 
@@ -394,6 +397,7 @@ flowchart LR
 - REST hacia afuera, gRPC entre servicios (balanceo L7)
 - Health probes live/ready + PDB + zonas
 - Strangler fig para migrar desde el monolito
+- Circuit breaker y reintentos con backoff en las llamadas síncronas
 
 > [!CAUTION]
 > **Antipatrones:** Base compartida entre servicios: monolito distribuido · Cadenas de llamadas síncronas · Estado en memoria: static SemaphoreSlim, IMemoryCache, BackgroundService duplicado.
@@ -402,6 +406,14 @@ flowchart LR
 > **En TRACER** (🔷 TRACER: arquitectura objetivo): Es la sección 3 del documento: "TRACER en AKS" con App Gateway + WAF, Workload Identity, Private Endpoints, KEDA y routing-svc por gRPC.
 
 **Dilo en una frase de entrevista:** *"Antes de escalar horizontalmente busco todo lo static, Singleton con estado o IMemoryCache, y lo saco a SQL, Redis o sesiones de Service Bus."*
+
+**Equivalentes en otras nubes** (aproximados: los servicios no son idénticos uno a uno)
+
+| Proveedor | Servicios para esta arquitectura | Fortaleza aquí | Enfoque general |
+|---|---|---|---|
+| **Azure** | AKS, Container Apps | Integración con las herramientas de desarrollo de Microsoft (Visual Studio, GitHub, Azure DevOps) | Adopción corporativa, gobierno de TI, identidad y entornos Microsoft |
+| AWS | Amazon EKS, Amazon ECS, AWS Fargate | Contenedores sin gestionar servidores con Fargate | Mayor profundidad de catálogo, madurez en cómputo general y la comunidad más grande |
+| Google Cloud | GKE (Google Kubernetes Engine) | El motor de Kubernetes más maduro: Kubernetes nació en Google | Datos masivos, IA, redes globales y contenedores |
 
 ---
 
@@ -500,6 +512,14 @@ flowchart LR
 > **En TRACER** (🟡 TRACER: parcial): EventGridAzureFunction (isolated worker) con Clean Architecture: Domain, Application, Infrastructure y el host.
 
 **Dilo en una frase de entrevista:** *"Una Function es productor y consumidor a la vez: el trigger la alimenta y el binding de salida publica."*
+
+**Equivalentes en otras nubes** (aproximados: los servicios no son idénticos uno a uno)
+
+| Proveedor | Servicios para esta arquitectura | Fortaleza aquí | Enfoque general |
+|---|---|---|---|
+| **Azure** | Azure Functions, Logic Apps | Sinergia con aplicaciones .NET y flujos de trabajo low-code con Logic Apps | Adopción corporativa, gobierno de TI, identidad y entornos Microsoft |
+| AWS | AWS Lambda, API Gateway, DynamoDB | Pionero y líder del mercado serverless | Mayor profundidad de catálogo, madurez en cómputo general y la comunidad más grande |
+| Google Cloud | Cloud Run functions (antes Cloud Functions), Cloud Run | Contenedores sin servidor con escalado automático instantáneo | Datos masivos, IA, redes globales y contenedores |
 
 ---
 
@@ -964,6 +984,307 @@ flowchart LR
 > **En TRACER** (🟢 TRACER lo usa hoy): Así se despliega hoy: App Service (appType webApp), varios servicios y paquetes NuGet compartidos.
 
 **Dilo en una frase de entrevista:** *"TRACER es más un monolito modular que microservicios. Es una decisión válida mientras el estado viva fuera del proceso."*
+
+---
+
+## 11. Big Data y analítica en la nube
+
+**Cuándo:** Hay que ingerir, transformar y consultar grandes volúmenes de datos de muchas fuentes para analítica e inteligencia de negocio.
+
+> **La frase:** Ⓟ *Azure SQL, Cosmos DB, Centro de datos local / otra nube…* **produce** · Ⓑ *Data Factory, Event Hubs* **transporta** · Ⓒ *Databricks, Synapse Analytics, Fabric Real-Time Intelligence* **consume** · Ⓓ *Blob Storage / ADLS, Synapse Analytics, Data Explorer / Eventhouse* **guarda** · Ⓢ *Power BI* **entrega**; Ⓧ *Managed / Workload Identity, Entra ID, Private Endpoint + DNS, App Insights / Monitor* **envuelven**.
+
+```mermaid
+flowchart LR
+    subgraph L0["Ⓟ Fuentes · operacionales y externas"]
+        direction LR
+        L0_0["Azure SQL<br/><small>CDC o exportación</small>"]:::P
+        L0_1["Cosmos DB<br/><small>Fabric mirroring</small>"]:::P
+        L0_2["Centro de datos local / otra nube<br/><small>sistemas locales</small>"]:::P
+        L0_3["IoT Hub<br/><small>telemetría</small>"]:::P
+    end
+    style L0 fill:#042F2E22,stroke:#2DD4BF,stroke-width:2px
+    subgraph L1["Ⓑ Ingesta · lotes y streaming"]
+        direction LR
+        L1_0["Data Factory<br/><small>copia y orquestación de lotes</small>"]:::B
+        L1_1["Event Hubs<br/><small>streaming con Capture</small>"]:::B
+    end
+    style L1 fill:#1E1B4B22,stroke:#A78BFA,stroke-width:2px
+    subgraph L2["Ⓓ Data lake · bronce · plata · oro"]
+        direction LR
+        L2_0["Blob Storage / ADLS<br/><small>ADLS Gen2: arquitectura medallion</small>"]:::D
+    end
+    style L2 fill:#0C274422,stroke:#60A5FA,stroke-width:2px
+    subgraph L3["Ⓒ Procesamiento · ETL / ELT"]
+        direction LR
+        L3_0["Databricks<br/><small>Spark y Delta Lake</small>"]:::C
+        L3_1["Synapse Analytics<br/><small>Spark y SQL pools</small>"]:::C
+        L3_2["Fabric Real-Time Intelligence<br/><small>alternativa SaaS unificada</small>"]:::C
+    end
+    style L3 fill:#3B1D0A22,stroke:#FB923C,stroke-width:2px
+    subgraph L4["Ⓓ Servir · modelo analítico"]
+        direction LR
+        L4_0["Synapse Analytics<br/><small>data warehouse</small>"]:::D
+        L4_1["Data Explorer / Eventhouse<br/><small>series de tiempo (KQL)</small>"]:::D
+    end
+    style L4 fill:#0C274422,stroke:#60A5FA,stroke-width:2px
+    subgraph L5["Ⓢ Consumo"]
+        direction LR
+        L5_0["Power BI<br/><small>reportes y modelos semánticos</small>"]:::S
+    end
+    style L5 fill:#1A2E0522,stroke:#A3E635,stroke-width:2px
+    L0 ==> L1
+    L1 ==> L2
+    L2 ==> L3
+    L3 ==> L4
+    L4 ==> L5
+    subgraph XX["Ⓧ Envoltura: identidad · red · observabilidad"]
+        direction LR
+        X0["Managed / Workload Identity"]:::X
+        X1["Entra ID"]:::X
+        X2["Private Endpoint + DNS"]:::X
+        X3["App Insights / Monitor"]:::X
+    end
+    style XX fill:#1E293B22,stroke:#94A3B8,stroke-dasharray:6 4
+    L5 -.- XX
+    classDef P fill:#042F2E,stroke:#2DD4BF,color:#F8FAFC,stroke-width:2px
+    classDef B fill:#1E1B4B,stroke:#A78BFA,color:#F8FAFC,stroke-width:2px
+    classDef C fill:#3B1D0A,stroke:#FB923C,color:#F8FAFC,stroke-width:2px
+    classDef D fill:#0C2744,stroke:#60A5FA,color:#F8FAFC,stroke-width:2px
+    classDef S fill:#1A2E05,stroke:#A3E635,color:#F8FAFC,stroke-width:2px
+    classDef X fill:#1E293B,stroke:#94A3B8,color:#F8FAFC,stroke-width:2px
+```
+
+| Papel | Carril | Servicios y cómo participan |
+|:-:|---|---|
+| Ⓟ | **Fuentes**<br/><sub>operacionales y externas</sub> | [Azure SQL](15-catalogo-a-z.md#azure-sql): CDC o exportación · [Cosmos DB](15-catalogo-a-z.md#cosmos-db): Fabric mirroring · [Centro de datos local / otra nube](15-catalogo-a-z.md#centro-de-datos-local--otra-nube): sistemas locales · [IoT Hub](15-catalogo-a-z.md#iot-hub): telemetría |
+| Ⓑ | **Ingesta**<br/><sub>lotes y streaming</sub> | [Data Factory](15-catalogo-a-z.md#data-factory): copia y orquestación de lotes · [Event Hubs](15-catalogo-a-z.md#event-hubs): streaming con Capture |
+| Ⓓ | **Data lake**<br/><sub>bronce · plata · oro</sub> | [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls): ADLS Gen2: arquitectura medallion |
+| Ⓒ | **Procesamiento**<br/><sub>ETL / ELT</sub> | [Databricks](15-catalogo-a-z.md#databricks): Spark y Delta Lake · [Synapse Analytics](15-catalogo-a-z.md#synapse-analytics): Spark y SQL pools · [Fabric Real-Time Intelligence](15-catalogo-a-z.md#fabric-real-time-intelligence): alternativa SaaS unificada |
+| Ⓓ | **Servir**<br/><sub>modelo analítico</sub> | [Synapse Analytics](15-catalogo-a-z.md#synapse-analytics): data warehouse · [Data Explorer / Eventhouse](15-catalogo-a-z.md#data-explorer--eventhouse): series de tiempo (KQL) |
+| Ⓢ | **Consumo** | [Power BI](15-catalogo-a-z.md#power-bi): reportes y modelos semánticos |
+| Ⓧ | **Envoltura** | [Managed / Workload Identity](15-catalogo-a-z.md#managed--workload-identity) · [Entra ID](15-catalogo-a-z.md#entra-id) · [Private Endpoint + DNS](15-catalogo-a-z.md#private-endpoint--dns) · [App Insights / Monitor](15-catalogo-a-z.md#app-insights--monitor) |
+
+**Garantías que debes conocer**
+
+- Consistencia eventual: el lago refleja la fuente con retraso (minutos en streaming, horas en lotes)
+- Bronce es inmutable: el dato crudo no se edita, se reprocesa
+- Esquema al leer en bronce, esquema al escribir en oro
+
+**Patrones**
+
+- Medallion: bronce (crudo) → plata (limpio) → oro (agregado)
+- Formatos abiertos: Delta Lake / Parquet
+- Lambda (lotes + stream) frente a Kappa (solo stream con replay)
+- Separar cómputo y almacenamiento: el lago es la fuente, los motores son reemplazables
+
+> [!CAUTION]
+> **Antipatrones:** Pantano de datos: lago sin catálogo ni linaje · Consultas analíticas pesadas contra la base transaccional · Copiar el mismo dato a cinco almacenes sin dueño.
+
+> [!NOTE]
+> **En TRACER** (· No está en TRACER): No aplica hoy. Si TRACER quisiera analítica de llamadas, el camino sería CDC o mirroring de Azure SQL hacia el lago y Power BI encima, sin cargar la base de producción.
+
+**Dilo en una frase de entrevista:** *"El lago guarda, los motores consumen y Power BI entrega. En la medallion el dato crudo nunca se edita: se reprocesa."*
+
+**Equivalentes en otras nubes** (aproximados: los servicios no son idénticos uno a uno)
+
+| Proveedor | Servicios para esta arquitectura | Fortaleza aquí | Enfoque general |
+|---|---|---|---|
+| **Azure** | Data Lake Storage, Synapse Analytics, Databricks, Power BI (y Microsoft Fabric) | Integración nativa con Power BI y Databricks | Adopción corporativa, gobierno de TI, identidad y entornos Microsoft |
+| AWS | Amazon S3, Amazon Redshift, AWS Glue, EMR | S3 como estándar de facto del data lake | Mayor profundidad de catálogo, madurez en cómputo general y la comunidad más grande |
+| Google Cloud | BigQuery, Dataflow, Pub/Sub | Su mayor fortaleza: BigQuery analiza petabytes sin gestionar servidores | Datos masivos, IA, redes globales y contenedores |
+
+---
+
+## 12. Inteligencia artificial y MLOps
+
+**Cuándo:** Hay que entrenar, desplegar y operar modelos de machine learning, o construir aplicaciones de IA generativa sobre modelos fundacionales.
+
+> **La frase:** Ⓟ *Clientes (Portal, PowerPack, móvil), Tu servicio .NET* **produce** · Ⓑ *API Management* **transporta** · Ⓒ *Azure OpenAI (Microsoft Foundry), Azure Machine Learning, Container Apps* **consume** · Ⓓ *AI Search, Blob Storage / ADLS, Cosmos DB…* **guarda** · Ⓢ *Clientes (Portal, PowerPack, móvil)* **entrega**; Ⓧ *Managed / Workload Identity, Entra ID, Key Vault, Private Endpoint + DNS, App Insights / Monitor* **envuelven**.
+
+```mermaid
+flowchart LR
+    subgraph L0["Ⓟ Peticiones"]
+        direction LR
+        L0_0["Clientes (Portal, PowerPack, móvil)<br/><small>chat, copiloto o app</small>"]:::P
+        L0_1["Tu servicio .NET<br/><small>tu API arma el prompt</small>"]:::P
+    end
+    style L0 fill:#042F2E22,stroke:#2DD4BF,stroke-width:2px
+    subgraph L1["Ⓑ AI gateway · cuotas por consumidor"]
+        direction LR
+        L1_0["API Management<br/><small>tokens por minuto, caché y reparto entre despliegues</small>"]:::B
+    end
+    style L1 fill:#1E1B4B22,stroke:#A78BFA,stroke-width:2px
+    subgraph L2["Ⓒ Inferencia"]
+        direction LR
+        L2_0["Azure OpenAI (Microsoft Foundry)<br/><small>modelos GPT gestionados</small>"]:::C
+        L2_1["Azure Machine Learning<br/><small>endpoints de modelos propios</small>"]:::C
+        L2_2["Container Apps<br/><small>agentes y orquestación</small>"]:::C
+    end
+    style L2 fill:#3B1D0A22,stroke:#FB923C,stroke-width:2px
+    subgraph L3["Ⓓ Conocimiento y modelos · RAG y registro"]
+        direction LR
+        L3_0["AI Search<br/><small>índice vectorial e híbrido (RAG)</small>"]:::D
+        L3_1["Blob Storage / ADLS<br/><small>documentos y datos de entrenamiento</small>"]:::D
+        L3_2["Cosmos DB<br/><small>historial de conversaciones</small>"]:::D
+        L3_3["Azure Machine Learning<br/><small>registro de modelos (MLOps)</small>"]:::D
+    end
+    style L3 fill:#0C274422,stroke:#60A5FA,stroke-width:2px
+    subgraph L4["Ⓢ Respuesta"]
+        direction LR
+        L4_0["Clientes (Portal, PowerPack, móvil)<br/><small>respuesta en streaming</small>"]:::S
+    end
+    style L4 fill:#1A2E0522,stroke:#A3E635,stroke-width:2px
+    L0 ==> L1
+    L1 ==> L2
+    L2 ==> L3
+    L3 ==> L4
+    subgraph XX["Ⓧ Envoltura: identidad · red · observabilidad"]
+        direction LR
+        X0["Managed / Workload Identity"]:::X
+        X1["Entra ID"]:::X
+        X2["Key Vault"]:::X
+        X3["Private Endpoint + DNS"]:::X
+        X4["App Insights / Monitor"]:::X
+    end
+    style XX fill:#1E293B22,stroke:#94A3B8,stroke-dasharray:6 4
+    L4 -.- XX
+    classDef P fill:#042F2E,stroke:#2DD4BF,color:#F8FAFC,stroke-width:2px
+    classDef B fill:#1E1B4B,stroke:#A78BFA,color:#F8FAFC,stroke-width:2px
+    classDef C fill:#3B1D0A,stroke:#FB923C,color:#F8FAFC,stroke-width:2px
+    classDef D fill:#0C2744,stroke:#60A5FA,color:#F8FAFC,stroke-width:2px
+    classDef S fill:#1A2E05,stroke:#A3E635,color:#F8FAFC,stroke-width:2px
+    classDef X fill:#1E293B,stroke:#94A3B8,color:#F8FAFC,stroke-width:2px
+```
+
+| Papel | Carril | Servicios y cómo participan |
+|:-:|---|---|
+| Ⓟ | **Peticiones** | [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): chat, copiloto o app · [Tu servicio .NET](15-catalogo-a-z.md#tu-servicio-net): tu API arma el prompt |
+| Ⓑ | **AI gateway**<br/><sub>cuotas por consumidor</sub> | [API Management](15-catalogo-a-z.md#api-management): tokens por minuto, caché y reparto entre despliegues |
+| Ⓒ | **Inferencia** | [Azure OpenAI (Microsoft Foundry)](15-catalogo-a-z.md#azure-openai-microsoft-foundry): modelos GPT gestionados · [Azure Machine Learning](15-catalogo-a-z.md#azure-machine-learning): endpoints de modelos propios · [Container Apps](15-catalogo-a-z.md#container-apps): agentes y orquestación |
+| Ⓓ | **Conocimiento y modelos**<br/><sub>RAG y registro</sub> | [AI Search](15-catalogo-a-z.md#ai-search): índice vectorial e híbrido (RAG) · [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls): documentos y datos de entrenamiento · [Cosmos DB](15-catalogo-a-z.md#cosmos-db): historial de conversaciones · [Azure Machine Learning](15-catalogo-a-z.md#azure-machine-learning): registro de modelos (MLOps) |
+| Ⓢ | **Respuesta** | [Clientes (Portal, PowerPack, móvil)](15-catalogo-a-z.md#clientes-portal-powerpack-móvil): respuesta en streaming |
+| Ⓧ | **Envoltura** | [Managed / Workload Identity](15-catalogo-a-z.md#managed--workload-identity) · [Entra ID](15-catalogo-a-z.md#entra-id) · [Key Vault](15-catalogo-a-z.md#key-vault) · [Private Endpoint + DNS](15-catalogo-a-z.md#private-endpoint--dns) · [App Insights / Monitor](15-catalogo-a-z.md#app-insights--monitor) |
+
+**Garantías que debes conocer**
+
+- Salida no determinista: el mismo prompt puede dar respuestas distintas
+- Cuotas en tokens por minuto: el 429 es parte del diseño, no una excepción
+- Tus prompts y respuestas no se usan para entrenar los modelos base del servicio
+
+**Patrones**
+
+- RAG: recuperar de AI Search y enriquecer el prompt antes que reentrenar
+- MLOps: entrenamiento → registro de modelos → despliegue azul/verde con evaluación
+- AI gateway en API Management: cuotas, reintentos y reparto entre regiones
+- Evaluar antes de desplegar: conjuntos de prueba con métricas de calidad y seguridad
+
+> [!CAUTION]
+> **Antipatrones:** API keys del modelo en el cliente o en el código · Meter todo el corpus en el prompt en vez de recuperar lo relevante · Desplegar un modelo sin evaluación ni versión registrada.
+
+> [!NOTE]
+> **En TRACER** (· No está en TRACER): No aplica hoy. Un caso natural: resumir y clasificar llamadas con Azure OpenAI a partir de las transcripciones de ACS, como una frase encadenada tras CallEnded.
+
+**Dilo en una frase de entrevista:** *"En RAG el modelo consume, AI Search guarda el conocimiento y API Management transporta con cuotas. Reentrenar es el último recurso, no el primero."*
+
+**Equivalentes en otras nubes** (aproximados: los servicios no son idénticos uno a uno)
+
+| Proveedor | Servicios para esta arquitectura | Fortaleza aquí | Enfoque general |
+|---|---|---|---|
+| **Azure** | Azure OpenAI (Microsoft Foundry), Azure Machine Learning, AI Search | Alianza estratégica con OpenAI: modelos GPT como servicio gestionado de Azure | Adopción corporativa, gobierno de TI, identidad y entornos Microsoft |
+| AWS | Amazon Bedrock (modelos de terceros y propios, como Titan), SageMaker | Muchos modelos de terceros detrás de una sola API | Mayor profundidad de catálogo, madurez en cómputo general y la comunidad más grande |
+| Google Cloud | Vertex AI, TPU, modelos Gemini | Chips propios (TPU) y Gemini integrado en todo su stack de datos | Datos masivos, IA, redes globales y contenedores |
+
+---
+
+## 13. Híbrida y multinube
+
+**Cuándo:** Parte de las cargas o de los datos debe quedarse en tu centro de datos o en otra nube, por latencia, regulación o inversión existente, y quieres gobernarlo todo como uno.
+
+> **La frase:** Ⓟ *Centro de datos local / otra nube, Azure Local* **produce** · Ⓑ *ExpressRoute / VPN Gateway* **transporta** · Ⓒ *AKS, App Service, Azure Functions* **consume** · Ⓓ *Azure SQL, Blob Storage / ADLS* **guarda**; Ⓧ *Azure Arc, Entra ID, Key Vault, VNet + NSG, App Insights / Monitor* **envuelven**.
+
+```mermaid
+flowchart LR
+    subgraph L0["Ⓟ Fuera de Azure · on-premises y otras nubes"]
+        direction LR
+        L0_0["Centro de datos local / otra nube<br/><small>servidores, Kubernetes y bases locales</small>"]:::P
+        L0_1["Azure Local<br/><small>VMs y AKS en las instalaciones</small>"]:::P
+    end
+    style L0 fill:#042F2E22,stroke:#2DD4BF,stroke-width:2px
+    subgraph L1["Ⓑ Conectividad privada"]
+        direction LR
+        L1_0["ExpressRoute / VPN Gateway<br/><small>ExpressRoute o VPN site-to-site</small>"]:::B
+    end
+    style L1 fill:#1E1B4B22,stroke:#A78BFA,stroke-width:2px
+    subgraph L2["Ⓒ Cargas en Azure"]
+        direction LR
+        L2_0["AKS<br/><small>Kubernetes en la nube</small>"]:::C
+        L2_1["App Service<br/><small>aplicaciones migradas</small>"]:::C
+        L2_2["Azure Functions<br/><small>integraciones</small>"]:::C
+    end
+    style L2 fill:#3B1D0A22,stroke:#FB923C,stroke-width:2px
+    subgraph L3["Ⓓ Datos"]
+        direction LR
+        L3_0["Azure SQL<br/><small>réplica o migración de bases</small>"]:::D
+        L3_1["Blob Storage / ADLS<br/><small>respaldo y archivo</small>"]:::D
+    end
+    style L3 fill:#0C274422,stroke:#60A5FA,stroke-width:2px
+    L0 ==> L1
+    L1 ==> L2
+    L2 ==> L3
+    subgraph XX["Ⓧ Envoltura: identidad · red · observabilidad"]
+        direction LR
+        X0["Azure Arc"]:::X
+        X1["Entra ID"]:::X
+        X2["Key Vault"]:::X
+        X3["VNet + NSG"]:::X
+        X4["App Insights / Monitor"]:::X
+    end
+    style XX fill:#1E293B22,stroke:#94A3B8,stroke-dasharray:6 4
+    L3 -.- XX
+    classDef P fill:#042F2E,stroke:#2DD4BF,color:#F8FAFC,stroke-width:2px
+    classDef B fill:#1E1B4B,stroke:#A78BFA,color:#F8FAFC,stroke-width:2px
+    classDef C fill:#3B1D0A,stroke:#FB923C,color:#F8FAFC,stroke-width:2px
+    classDef D fill:#0C2744,stroke:#60A5FA,color:#F8FAFC,stroke-width:2px
+    classDef S fill:#1A2E05,stroke:#A3E635,color:#F8FAFC,stroke-width:2px
+    classDef X fill:#1E293B,stroke:#94A3B8,color:#F8FAFC,stroke-width:2px
+```
+
+| Papel | Carril | Servicios y cómo participan |
+|:-:|---|---|
+| Ⓟ | **Fuera de Azure**<br/><sub>on-premises y otras nubes</sub> | [Centro de datos local / otra nube](15-catalogo-a-z.md#centro-de-datos-local--otra-nube): servidores, Kubernetes y bases locales · [Azure Local](15-catalogo-a-z.md#azure-local): VMs y AKS en las instalaciones |
+| Ⓑ | **Conectividad privada** | [ExpressRoute / VPN Gateway](15-catalogo-a-z.md#expressroute--vpn-gateway): ExpressRoute o VPN site-to-site |
+| Ⓒ | **Cargas en Azure** | [AKS](15-catalogo-a-z.md#aks): Kubernetes en la nube · [App Service](15-catalogo-a-z.md#app-service): aplicaciones migradas · [Azure Functions](15-catalogo-a-z.md#azure-functions): integraciones |
+| Ⓓ | **Datos** | [Azure SQL](15-catalogo-a-z.md#azure-sql): réplica o migración de bases · [Blob Storage / ADLS](15-catalogo-a-z.md#blob-storage--adls): respaldo y archivo |
+| Ⓧ | **Envoltura** | [Azure Arc](15-catalogo-a-z.md#azure-arc) · [Entra ID](15-catalogo-a-z.md#entra-id) · [Key Vault](15-catalogo-a-z.md#key-vault) · [VNet + NSG](15-catalogo-a-z.md#vnet--nsg) · [App Insights / Monitor](15-catalogo-a-z.md#app-insights--monitor) |
+
+**Garantías que debes conocer**
+
+- Una sola identidad: Entra ID para usuarios y, con Arc, para servidores
+- Un solo plano de control: Azure Resource Manager proyecta recursos externos
+- La latencia y el ancho de banda del enlace forman parte del diseño
+
+**Patrones**
+
+- Gobierno unificado con Azure Arc: Policy, RBAC, Defender y Monitor fuera de Azure
+- Identidad híbrida: Active Directory sincronizado con Entra ID
+- Conectividad redundante: ExpressRoute con VPN de respaldo
+- Azure Local para lo que debe quedarse en las instalaciones
+
+> [!CAUTION]
+> **Antipatrones:** Dos consolas, dos identidades y dos políticas para la misma empresa · Llamadas síncronas muy conversacionales a través del enlace híbrido · Un único circuito sin respaldo.
+
+> [!NOTE]
+> **En TRACER** (· No está en TRACER): No aplica hoy: TRACER es nativo de la nube. Sería relevante si un cliente exigiera que los audios o los datos de llamadas permanezcan en sus instalaciones.
+
+**Dilo en una frase de entrevista:** *"Arc no mueve las cargas: las hace gobernables. El enlace híbrido transporta, Entra ID unifica la identidad y Azure Local mantiene en sitio lo que no puede salir."*
+
+**Equivalentes en otras nubes** (aproximados: los servicios no son idénticos uno a uno)
+
+| Proveedor | Servicios para esta arquitectura | Fortaleza aquí | Enfoque general |
+|---|---|---|---|
+| **Azure** | Azure Arc, Azure Local (familia Azure Stack), ExpressRoute, Entra ID | Líder en entornos híbridos: Arc y la identidad unificada con Active Directory / Entra ID | Adopción corporativa, gobierno de TI, identidad y entornos Microsoft |
+| AWS | AWS Outposts, AWS Direct Connect | Hardware de AWS en tus instalaciones con las mismas API | Mayor profundidad de catálogo, madurez en cómputo general y la comunidad más grande |
+| Google Cloud | Anthos (hoy GKE Enterprise) | Kubernetes como capa común para GCP, AWS y servidores locales | Datos masivos, IA, redes globales y contenedores |
 
 ---
 

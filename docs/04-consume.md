@@ -25,8 +25,8 @@
 | **Lector particionado** (log) | Cada réplica se queda con un subconjunto de particiones | `EventProcessorClient`, Functions `EventHubTrigger`, Stream Analytics | Hasta una réplica activa por partición y grupo | *Checkpoint* de *offset* |
 | **Trigger de datos** | Lee el cambio de un almacén | Functions `CosmosDBTrigger`, `SqlTrigger`, `BlobTrigger`; Change Feed Processor | Por partición o *lease* | *Lease* / *continuation token* |
 
-Según el atlas, los consumidores más frecuentes son **Azure Functions** (Ⓒ en 9 de las 10 arquitecturas), **AKS** (6) y Container Apps, App Service y
-Logic Apps (3 cada uno). Functions es también el ejemplo canónico de Ⓒ que se vuelve Ⓟ ([§7](#7-el-consumidor-que-también-produce)).
+Según el atlas, los consumidores más frecuentes son **Azure Functions** (Ⓒ en 10 de las 13 arquitecturas), **AKS** (7), Container Apps y App Service (4 cada uno)
+y Logic Apps (3). Functions es también el ejemplo canónico de Ⓒ que se vuelve Ⓟ ([§7](#7-el-consumidor-que-también-produce)).
 
 ---
 
@@ -288,7 +288,7 @@ flowchart LR
     classDef D fill:#0C2744,stroke:#60A5FA,color:#F8FAFC,stroke-width:2px
 ```
 
-En la vista **Matriz de roles**, Azure Functions aparece como Ⓒ en 9 arquitecturas y como Ⓟ en la de colas. Un *trigger* la alimenta y un *binding*
+En la vista **Matriz de roles**, Azure Functions aparece como Ⓒ en 10 arquitecturas y como Ⓟ en la de colas. Un *trigger* la alimenta y un *binding*
 de salida publica. Lo mismo ocurre con Logic Apps (acción *Send message*), Stream Analytics (consume de un stream y produce a otro) y tu propio servicio
 .NET. Cuando un consumidor produce, hereda **todas** las obligaciones del [capítulo 02](02-produce.md): `id` estable, clave de orden, un solo *commit*
 y `traceparent` propagado.

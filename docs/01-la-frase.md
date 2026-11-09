@@ -177,7 +177,7 @@ entrega       = [ "Ⓑ" , canal_push ] , "Ⓢ" , persona ;
 frase_compuesta = frase , { "→" , frase } ;
 ```
 
-Tres consecuencias de esta gramática, todas visibles en las [diez arquitecturas](11-diez-arquitecturas-como-frases.md):
+Tres consecuencias de esta gramática, todas visibles en las [trece arquitecturas](11-diez-arquitecturas-como-frases.md):
 
 | Fenómeno lingüístico | En la arquitectura | Ejemplo |
 |---|---|---|

@@ -36,7 +36,7 @@ function leerDatos() {
   const fin = '/* ===================== ESTADO';
   if (!html.includes(ini) || !html.includes(fin)) throw new Error('No encuentro el bloque DATOS en index.html');
   const src = html.split(ini)[1].split(fin)[0];
-  return vm.runInNewContext(`${src};({ROLES,SP,S,CATS,A,BK_KEYS,BK,DT,RES})`);
+  return vm.runInNewContext(`${src};({ROLES,SP,S,CATS,A,BK_KEYS,BK,DT,RES,PROV})`);
 }
 const D = leerDatos();
 const { ROLES, SP, S, CATS, A, BK_KEYS, BK, DT, RES } = D;
@@ -65,9 +65,11 @@ const SIMBOLO = {
   entra: 'En', mi: 'Mi', kv: 'Kv', appconfig: 'Cf', vnet: 'Vn', pe: 'Pe', appi: 'Ob', acr: 'Cr', devops: 'Ci',
 };
 SIMBOLO.storagequeue = 'Qu';
+Object.assign(SIMBOLO, { synapse: 'Sy', adf: 'Fa', aoai: 'Oa', aml: 'Ml', onprem: 'Op', azlocal: 'Lo', arc: 'Ar', expressroute: 'Er' });
 const CORTO = {
   egns: 'Event Grid namespaces', acs: 'Comm. Services', web: 'Clientes', devices: 'Dispositivos', mi: 'Managed Identity',
   pe: 'Private Endpoint', appi: 'App Insights', blob: 'Blob / ADLS', adx: 'Data Explorer', fabric: 'Fabric RTI',
+  aoai: 'Azure OpenAI', aml: 'Machine Learning', onprem: 'On-premises', expressroute: 'ExpressRoute / VPN',
   redis: 'Managed Redis', postgres: 'PostgreSQL', appgw: 'App Gateway', functions: 'Functions', durable: 'Durable Functions',
 };
 
@@ -102,6 +104,8 @@ const esc = t => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').re
 const md = t => String(t ?? '').replace(/\|/g, '\\|');
 const recorta = (t, n) => (t.length > n ? t.slice(0, n - 1) + '…' : t);
 
+const PALABRA = ['Cero','Una','Dos','Tres','Cuatro','Cinco','Seis','Siete','Ocho','Nueve','Diez','Once','Doce','Trece','Catorce','Quince','Dieciséis'];
+const NARQ = PALABRA[A.length] ?? String(A.length);
 const POLISEMICOS = Object.keys(S)
   .filter(id => PERFIL[id].roles.filter(r => r !== 'X').length >= 2 || (PERFIL[id].roles.length >= 2 && PERFIL[id].roles.includes('X')))
   .sort((a, b) => PERFIL[b].valencia - PERFIL[a].valencia || PERFIL[b].arqs - PERFIL[a].arqs);
@@ -254,8 +258,9 @@ ${poli}
 
 /* ======================================================== TABLA PERIÓDICA */
 function tablaPeriodica() {
-  const W = 1600, tw = 118, th = 128, gx = 8, gy = 10;
+  const tw = 118, th = 128, gx = 8, gy = 10;
   const cats = CATS.filter(c => Object.values(S).some(s => s.cat === c));
+  const W = Math.max(1600, cats.length * (tw + gx) + 92);
   const x0 = (W - (cats.length * tw + (cats.length - 1) * gx)) / 2, y0 = 210;
   const filas = Math.max(...cats.map(c => Object.values(S).filter(s => s.cat === c).length));
   const H = y0 + filas * (th + gy) + 190;
@@ -297,7 +302,8 @@ ${celdas}${ley}${leySp}${ejemplo}
 /* ================================================================ MATRIZ */
 function matrizSvg() {
   const filas = Object.keys(S).sort((a, b) => PERFIL[b].valencia - PERFIL[a].valencia || PERFIL[b].arqs - PERFIL[a].arqs || nombre(a).localeCompare(nombre(b)));
-  const W = 1600, lw = 280, cw = 112, rh = 25, x0 = 70, y0 = 262;
+  const lw = 280, cw = 104, rh = 25, x0 = 70, y0 = 262;
+  const W = Math.max(1600, x0 + lw + A.length * cw + 150);
   const H = y0 + filas.length * rh + 120;
   let cab = A.map((a, i) => `<g transform="translate(${x0 + lw + i * cw + cw / 2},${y0 - 14})"><text font-size="13.5" font-weight="700" fill="#E2E8F0" text-anchor="middle">${esc(a.short)}</text></g>`).join('');
   cab += `<text x="${x0 + lw + A.length * cw + 46}" y="${y0 - 14}" font-size="13.5" font-weight="700" fill="#E2E8F0" text-anchor="middle">Valencia</text>`;
@@ -349,7 +355,7 @@ function bloqueMatrizMd() {
 }
 
 function arquitecturasMd() {
-  let s = `${AVISO}\n\n# 11 · Diez arquitecturas leídas como frases\n\n`;
+  let s = `${AVISO}\n\n# 11 · ${NARQ} arquitecturas leídas como frases\n\n`;
   s += `> Cada arquitectura de este capítulo se escribe con la misma gramática: **${ORDEN_ROL.slice(0, 5).map(r => `${CIRC[r]} ${VERBO[r]}`).join(' → ')}**, `;
   s += `envuelta por ${CIRC.X} identidad, red y observabilidad. Lo que cambia de una a otra no es la gramática: son las palabras, y el papel que cada palabra cumple.\n\n`;
   s += `Este capítulo se genera desde los datos de [\`index.html\`](../index.html), la misma fuente que la vista interactiva **Arquitecturas** (\`npm start\`).\n\n`;
@@ -386,7 +392,13 @@ function arquitecturasMd() {
     s += `**Patrones**\n\n${a.pt.map(x => `- ${x}`).join('\n')}\n\n`;
     s += `> [!CAUTION]\n> **Antipatrones:** ${a.anti.join(' · ')}.\n\n`;
     s += `> [!NOTE]\n> **En TRACER** (${ICONO_SP[a.sp]} ${SP[a.sp]}): ${a.tracer}\n\n`;
-    s += `**Dilo en una frase de entrevista:** *"${a.ph}"*\n\n---\n`;
+    s += `**Dilo en una frase de entrevista:** *"${a.ph}"*\n\n`;
+    if (a.cmp) {
+      s += `**Equivalentes en otras nubes** (aproximados: los servicios no son idénticos uno a uno)\n\n| Proveedor | Servicios para esta arquitectura | Fortaleza aquí | Enfoque general |\n|---|---|---|---|\n`;
+      a.cmp.forEach(([pv, svc, f]) => { s += `| ${pv === 'Azure' ? '**Azure**' : pv} | ${md(svc)} | ${md(f)} | ${md(D.PROV?.[pv] ?? '')} |\n`; });
+      s += '\n';
+    }
+    s += '---\n';
   });
   s += `\n[← 10 · Un servicio, muchos papeles](10-un-servicio-muchos-papeles.md) · [Índice](../README.md) · [12 · Brokers →](12-brokers-quien-escribe-quien-lee.md)\n`;
   return s;
@@ -424,7 +436,7 @@ function brokersMd() {
     if (S[b.id]?.tip) s += `\n> [!TIP]\n> ${S[b.id].tip}\n`;
     s += '\n---\n';
   });
-  s += `\n[← 11 · Diez arquitecturas](11-diez-arquitecturas-como-frases.md) · [Índice](../README.md) · [13 · Guía de decisión →](13-guia-de-decision.md)\n`;
+  s += `\n[← 11 · ${NARQ} arquitecturas](11-diez-arquitecturas-como-frases.md) · [Índice](../README.md) · [13 · Guía de decisión →](13-guia-de-decision.md)\n`;
   return s;
 }
 

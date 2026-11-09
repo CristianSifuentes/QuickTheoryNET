@@ -35,7 +35,7 @@ Antes de elegir un servicio, nombra el **sustantivo**. Es la decisión que más 
 
 ## 2. Seis familias de productores en Azure
 
-Según el atlas, los productores más frecuentes son Communication Services (Ⓟ en 6 de las 10 arquitecturas), los clientes (5) y tu propio servicio .NET (3).
+Según el atlas, los productores más frecuentes son Communication Services y los clientes (Ⓟ en 6 de las 13 arquitecturas cada uno) y tu propio servicio .NET (4).
 Pero el papel Ⓟ aparece en lugares menos obvios: **recursos de Azure que emiten eventos de sistema**.
 
 ```mermaid

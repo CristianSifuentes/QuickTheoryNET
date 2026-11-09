@@ -10,24 +10,24 @@
 
 ## Contenido
 
-1. [El inventario: 24 de 45 servicios](#1-el-inventario-24-de-45-servicios)
+1. [El inventario: 24 de 53 servicios](#1-el-inventario-24-de-53-servicios)
 2. [Las frases que TRACER dice hoy](#2-las-frases-que-tracer-dice-hoy)
 3. [La frase principal: una llamada](#3-la-frase-principal-una-llamada)
 4. [Los cinco silencios de TRACER](#4-los-cinco-silencios-de-tracer)
 5. [La arquitectura objetivo: TRACER en AKS](#5-la-arquitectura-objetivo-tracer-en-aks)
 6. [Hoja de ruta por papel](#6-hoja-de-ruta-por-papel)
-7. [Diez frases para la entrevista](#7-diez-frases-para-la-entrevista)
+7. [Trece frases para la entrevista](#7-trece-frases-para-la-entrevista)
 
 ---
 
-## 1. El inventario: 24 de 45 servicios
+## 1. El inventario: 24 de 53 servicios
 
 | Estado | Servicios | # |
 |---|---|:-:|
 | 🟢 **Lo usa hoy** | Event Grid · SignalR Service · App Service · Azure Functions · Azure SQL · Blob Storage · Communication Services · Microsoft Graph · Clientes (Portal, PowerPack) · servicios .NET propios · Entra ID · Application Insights · Azure DevOps | 13 |
 | 🟡 **Parcial** | Event Hubs · Key Vault | 2 |
 | 🔷 **Arquitectura objetivo** | Service Bus · AKS · KEDA · Application Gateway · Azure Managed Redis · Managed / Workload Identity · VNet + NSG · Private Endpoint + DNS · Container Registry | 9 |
-| · **No está en TRACER** | Los 21 restantes (Cosmos DB, Durable Functions, IoT Hub, Data Explorer…) | 21 |
+| · **No está en TRACER** | Los 29 restantes (Cosmos DB, Durable Functions, IoT Hub, Data Explorer, Azure OpenAI, Azure Arc…) | 29 |
 
 Leídos por papel, los 15 servicios en uso (🟢 y 🟡) cuentan una historia clara: **muchos productores y consumidores, pocos transportes y casi ninguna envoltura**.
 
@@ -60,6 +60,9 @@ Leídos por papel, los 15 servicios en uso (🟢 y 🟡) cuentan una historia cl
 | [Colas](11-diez-arquitecturas-como-frases.md#2-mensajería-y-colas) | 🔷 | No existe hoy; el diseño objetivo pone Service Bus con sesiones en lugar del `TaskQueuer` en memoria |
 | [Microservicios en AKS](11-diez-arquitecturas-como-frases.md#4-microservicios-cloud-native-en-aks) | 🔷 | "TRACER en AKS": App Gateway + WAF, Workload Identity, Private Endpoints, KEDA y `routing-svc` por gRPC |
 | [IoT](11-diez-arquitecturas-como-frases.md#9-iot-y-edge) | · | No aplica: sirve de contraste |
+| [Big Data](11-diez-arquitecturas-como-frases.md#11-big-data-y-analítica-en-la-nube) | · | No aplica hoy; para analítica de llamadas: CDC o *mirroring* de Azure SQL al lago y Power BI encima, sin cargar producción |
+| [IA y MLOps](11-diez-arquitecturas-como-frases.md#12-inteligencia-artificial-y-mlops) | · | No aplica hoy; caso natural: resumir y clasificar llamadas con Azure OpenAI a partir de las transcripciones de ACS, tras `CallEnded` |
+| [Híbrida](11-diez-arquitecturas-como-frases.md#13-híbrida-y-multinube) | · | No aplica: TRACER es nativo de la nube; solo si un cliente exige que audios o datos queden en sus instalaciones |
 
 ---
 
@@ -93,7 +96,7 @@ flowchart LR
 Dos detalles gramaticales que este diagrama revela:
 
 - **Communication Services aparece dos veces, con dos papeles.** Al principio es Ⓟ (emite `IncomingCall`); dentro de la saga es Ⓒ (recibe la orden de
-  transferir o reproducir). Es la conversión *"el agente encadena"* del [capítulo 10](10-un-servicio-muchos-papeles.md#2-las-ocho-conversiones-de-papel).
+  transferir o reproducir). Es la conversión *"el agente encadena"* del [capítulo 10](10-un-servicio-muchos-papeles.md#2-las-nueve-conversiones-de-papel).
 - **`CallGarbageManager` es un productor interno.** El barrendero de sagas atascadas no consume nada de fuera: mira el estado y **publica** `DisconnectCall`.
   Una frase que nace de Ⓓ a través de un Ⓟ propio.
 
@@ -165,9 +168,9 @@ El orden importa: cada fase hace segura la siguiente.
 
 ---
 
-## 7. Diez frases para la entrevista
+## 7. Trece frases para la entrevista
 
-Cada arquitectura del atlas trae su frase en primera persona. Estas son las diez, listas para decir en voz alta:
+Cada arquitectura del atlas trae su frase en primera persona. Estas son las trece, listas para decir en voz alta:
 
 | Arquitectura | Frase |
 |---|---|
@@ -181,6 +184,9 @@ Cada arquitectura del atlas trae su frase en primera persona. Estas son las diez
 | Tiempo real | *"La consistencia eventual se nota aquí: el Portal ve 'agente conectado' milisegundos después. La UI se diseña para tolerarlo."* |
 | IoT | *"IoT Hub es Event Hubs más gestión de dispositivos. Si solo necesito pub/sub MQTT, uso Event Grid namespaces."* |
 | Monolito | *"TRACER es más un monolito modular que microservicios. Es una decisión válida mientras el estado viva fuera del proceso."* |
+| Big Data | *"El lago guarda, los motores consumen y Power BI entrega. En la medallion el dato crudo nunca se edita: se reprocesa."* |
+| IA y MLOps | *"En RAG el modelo consume, AI Search guarda el conocimiento y API Management transporta con cuotas. Reentrenar es el último recurso, no el primero."* |
+| Híbrida | *"Arc no mueve las cargas: las hace gobernables. El enlace híbrido transporta, Entra ID unifica la identidad y Azure Local mantiene en sitio lo que no puede salir."* |
 
 ---
 

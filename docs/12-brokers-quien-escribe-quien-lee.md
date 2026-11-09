@@ -477,4 +477,4 @@ flowchart LR
 
 ---
 
-[← 11 · Diez arquitecturas](11-diez-arquitecturas-como-frases.md) · [Índice](../README.md) · [13 · Guía de decisión →](13-guia-de-decision.md)
+[← 11 · Trece arquitecturas](11-diez-arquitecturas-como-frases.md) · [Índice](../README.md) · [13 · Guía de decisión →](13-guia-de-decision.md)
