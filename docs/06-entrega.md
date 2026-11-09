@@ -92,7 +92,7 @@ flowchart LR
     end
     R1 & R2 & R3 -->|"IHubContext"| SR{{"Ⓑ Azure SignalR Service<br/>mantiene las conexiones"}}:::B
     SR --> U1["Ⓢ LandingPage · tenant A"]:::S
-    SR --> U2["Ⓢ PowerPack · tenant A"]:::S
+    SR --> U2["Ⓢ Sleuther · tenant A"]:::S
     SR --> U3["Ⓢ LandingPage · tenant B"]:::S
     classDef B fill:#1E1B4B,stroke:#A78BFA,color:#F8FAFC,stroke-width:2px
     classDef C fill:#3B1D0A,stroke:#FB923C,color:#F8FAFC,stroke-width:2px

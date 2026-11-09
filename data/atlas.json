@@ -559,7 +559,7 @@
       "primario": "P"
     },
     "web": {
-      "n": "Clientes (LandingPage, PowerPack, móvil)",
+      "n": "Clientes (LandingPage, Sleuther, móvil)",
       "cat": "Fuentes",
       "sp": "usa",
       "d": "Navegadores, Teams y apps.",
@@ -1947,7 +1947,7 @@
           "i": [
             [
               "web",
-              "LandingPage, PowerPack"
+              "LandingPage, Sleuther"
             ],
             [
               "acs",
@@ -2562,7 +2562,7 @@
           "i": [
             [
               "web",
-              "LandingPage, PowerPack, Teams"
+              "LandingPage, Sleuther, Teams"
             ]
           ]
         },
@@ -2602,7 +2602,7 @@
         "Grupos amplios con datos sensibles",
         "Polling cada segundo"
       ],
-      "tracer": "Hub /callshub y avisos como ConfigurationChanged hacia el LandingPage y PowerPack. Es la última milla de ACS → Event Grid → API → SQL → SignalR.",
+      "tracer": "Hub /callshub y avisos como ConfigurationChanged hacia el LandingPage y Sleuther. Es la última milla de ACS → Event Grid → API → SQL → SignalR.",
       "ph": "La consistencia eventual se nota aquí: el LandingPage ve \"agente conectado\" milisegundos después. La UI se diseña para tolerarlo."
     },
     {
@@ -2732,7 +2732,7 @@
           "i": [
             [
               "web",
-              "LandingPage, PowerPack"
+              "LandingPage, Sleuther"
             ],
             [
               "acs",
@@ -3611,7 +3611,7 @@
       "out": [
         [
           "web",
-          "LandingPage, PowerPack, Teams"
+          "LandingPage, Sleuther, Teams"
         ],
         [
           "eventgrid",
@@ -3842,7 +3842,7 @@
       "q": "¿A dónde llega el aviso?",
       "o": [
         [
-          "Navegador o Teams (LandingPage, PowerPack)",
+          "Navegador o Teams (LandingPage, Sleuther)",
           "R:signalr"
         ],
         [

@@ -8,7 +8,7 @@ Los 53 servicios del atlas, en orden alfabético. **Papeles** son todos los que 
 |---|---|
 | **A** | [AI Search](#ai-search) · [AKS](#aks) · [API Management](#api-management) · [App Configuration](#app-configuration) · [App Insights / Monitor](#app-insights--monitor) · [App Service](#app-service) · [Application Gateway](#application-gateway) · [Azure Arc](#azure-arc) · [Azure DevOps](#azure-devops) · [Azure Functions](#azure-functions) · [Azure Local](#azure-local) · [Azure Machine Learning](#azure-machine-learning) · [Azure Managed Redis](#azure-managed-redis) · [Azure OpenAI (Microsoft Foundry)](#azure-openai-microsoft-foundry) · [Azure SQL](#azure-sql) |
 | **B** | [Blob Storage / ADLS](#blob-storage--adls) |
-| **C** | [Centro de datos local / otra nube](#centro-de-datos-local--otra-nube) · [Clientes (LandingPage, PowerPack, móvil)](#clientes-landingpage-powerpack-móvil) · [Communication Services](#communication-services) · [Container Apps](#container-apps) · [Container Registry](#container-registry) · [Cosmos DB](#cosmos-db) |
+| **C** | [Centro de datos local / otra nube](#centro-de-datos-local--otra-nube) · [Clientes (LandingPage, Sleuther, móvil)](#clientes-landingpage-sleuther-móvil) · [Communication Services](#communication-services) · [Container Apps](#container-apps) · [Container Registry](#container-registry) · [Cosmos DB](#cosmos-db) |
 | **D** | [Dapr](#dapr) · [Data Explorer / Eventhouse](#data-explorer--eventhouse) · [Data Factory](#data-factory) · [Databricks](#databricks) · [Dispositivos / IoT Edge](#dispositivos--iot-edge) · [Durable Functions](#durable-functions) |
 | **E** | [Entra ID](#entra-id) · [Event Grid](#event-grid) · [Event Grid namespaces](#event-grid-namespaces) · [Event Hubs](#event-hubs) · [ExpressRoute / VPN Gateway](#expressroute--vpn-gateway) |
 | **F** | [Fabric Real-Time Intelligence](#fabric-real-time-intelligence) · [Front Door](#front-door) |
@@ -44,7 +44,7 @@ Los 53 servicios del atlas, en orden alfabético. **Papeles** son todos los que 
 | [Azure SQL](#azure-sql) | Datos | Ⓟ Ⓓ | 2 | 🟢 | [05](05-guarda.md) |
 | [Blob Storage / ADLS](#blob-storage--adls) | Datos | Ⓟ Ⓓ | 2 | 🟢 | [05](05-guarda.md) |
 | [Centro de datos local / otra nube](#centro-de-datos-local--otra-nube) | Fuentes | Ⓟ | 1 | · | [02](02-produce.md) |
-| [Clientes (LandingPage, PowerPack, móvil)](#clientes-landingpage-powerpack-móvil) | Fuentes | Ⓟ Ⓢ | 2 | 🟢 | [02](02-produce.md) |
+| [Clientes (LandingPage, Sleuther, móvil)](#clientes-landingpage-sleuther-móvil) | Fuentes | Ⓟ Ⓢ | 2 | 🟢 | [02](02-produce.md) |
 | [Communication Services](#communication-services) | Fuentes | Ⓟ Ⓒ | 2 | 🟢 | [02](02-produce.md) |
 | [Container Apps](#container-apps) | Cómputo | Ⓒ | 1 | · | [04](04-consume.md) |
 | [Container Registry](#container-registry) | DevOps | Ⓟ Ⓧ | 2 | 🔷 | [02](02-produce.md) |
@@ -345,7 +345,7 @@ Servidores, Kubernetes y bases de datos fuera de Azure.
 | **Papel por arquitectura** | Big Data Ⓟ · Híbrida Ⓟ |
 
 
-### Clientes (LandingPage, PowerPack, móvil)
+### Clientes (LandingPage, Sleuther, móvil)
 
 **Fuentes** · Ⓟ Ⓢ · valencia 2 · 🟢 TRACER lo usa hoy · capítulo [02-produce](02-produce.md)
 

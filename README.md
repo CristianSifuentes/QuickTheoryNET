@@ -176,7 +176,7 @@ Los cambios de papel no son aleatorios. Hay **nueve conversiones**, cada una con
 | Ⓒ ↔ Ⓟ | El agente encadena | *Trigger* + *binding* de salida | Functions, Logic Apps, ACS, tu servicio .NET |
 | Ⓑ ↔ Ⓢ | El canal es la salida | *Push* como transporte o como última milla | SignalR, Web PubSub |
 | Ⓑ ↔ Ⓓ | La memoria avisa | Pub/sub efímero sobre la cache | Azure Managed Redis |
-| Ⓟ ↔ Ⓢ | El cliente pregunta y recibe | La misma pantalla envía comandos y recibe *push* | LandingPage, PowerPack, móvil |
+| Ⓟ ↔ Ⓢ | El cliente pregunta y recibe | La misma pantalla envía comandos y recibe *push* | LandingPage, Sleuther, móvil |
 | Ⓧ ↔ Ⓟ | La envoltura habla | `SecretNearExpiry`, `KeyValueModified`, `ImagePushed`, *diagnostic settings* | Key Vault, App Configuration, ACR, Monitor |
 | Ⓒ ↔ Ⓓ | El motor también sirve | Procesa y después guarda lo que otros leen | Synapse Analytics, Azure Machine Learning |
 

@@ -325,7 +325,7 @@ flowchart LR
     I0["Tu servicio .NET<br/><small>IHubContext / REST API</small>"]:::P --> BK
     I1["Azure Functions<br/><small>binding de salida SignalR</small>"]:::P --> BK
     BK{{"SignalR Service"}}:::B
-    BK --> O0["Clientes (LandingPage, PowerPack, móvil)<br/><small>LandingPage, PowerPack, Teams</small>"]:::C
+    BK --> O0["Clientes (LandingPage, Sleuther, móvil)<br/><small>LandingPage, Sleuther, Teams</small>"]:::C
     BK --> O1["Event Grid<br/><small>eventos de conexión</small>"]:::C
     BK --> O2["Azure Functions<br/><small>upstream en modo serverless</small>"]:::C
     classDef P fill:#042F2E,stroke:#2DD4BF,color:#F8FAFC,stroke-width:2px
