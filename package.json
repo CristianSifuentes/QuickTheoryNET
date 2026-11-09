@@ -1,0 +1,13 @@
+{
+  "name": "quicktheorynet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Repositorio para aprender Quick theory en .NET",
+  "scripts": {
+    "start": "live-server --port=8080 --open=index.html --ignore=node_modules,.git",
+    "dev": "npm start"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
