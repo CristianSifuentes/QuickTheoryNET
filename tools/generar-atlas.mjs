@@ -169,7 +169,7 @@ ${defsComunes()}${fondo(W, H)}
   </g>
   <rect x="10" y="88" width="88" height="6" rx="3" fill="${COLOR.X}" fill-opacity="0.7"/>
 </g>
-<text x="214" y="96" font-size="17" font-weight="600" letter-spacing="3" fill="#94A3B8">QUICKTHEORYNET · ATLAS</text>
+<text x="214" y="96" font-size="17" font-weight="600" letter-spacing="3" fill="#94A3B8">ATLAS-AZURE · SISTEMAS DISTRIBUIDOS</text>
 <text x="212" y="152" font-size="64" font-weight="800" fill="#F8FAFC">Atlas de servicios <tspan fill="#A78BFA">Azure</tspan></text>
 <text x="214" y="194" font-size="24" fill="#CBD5E1">Toda arquitectura se lee como una frase · ${CIFRAS.servicios} servicios · ${CIFRAS.arquitecturas} arquitecturas · ${CIFRAS.brokers} brokers · ${EDICION}</text>
 <rect x="104" y="240" width="1392" height="196" rx="30" fill="none" stroke="${COLOR.X}" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="7 7"/>
